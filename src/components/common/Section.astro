@@ -1,0 +1,31 @@
+---
+/** بخش صفحه با عنوان اختیاری و فاصله استاندارد. */
+interface Props {
+  id?: string;
+  title?: string;
+  intro?: string;
+  tone?: "default" | "surface";
+}
+const { id, title, intro, tone = "default" } = Astro.props;
+const headingId = id && title ? `${id}-title` : undefined;
+---
+
+<section id={id} class:list={["section", `section--${tone}`]} aria-labelledby={headingId}>
+  <div class="container">
+    {title && (
+      <header class="section__head">
+        <h2 id={headingId}>{title}</h2>
+        {intro && <p>{intro}</p>}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section { padding-block: var(--s-12); }
+  .section--surface { background: var(--surface); border-block: 1px solid var(--border); }
+  .section__head { margin-bottom: var(--s-8); max-width: var(--measure); }
+  .section__head p { margin-top: var(--s-3); color: var(--muted); }
+  @media (min-width: 48rem) { .section { padding-block: var(--s-16); } }
+</style>

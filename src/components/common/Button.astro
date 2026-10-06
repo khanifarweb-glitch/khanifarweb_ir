@@ -1,0 +1,33 @@
+---
+/** دکمه/لینک: اگر href داده شود <a> و در غیر این صورت <button> رندر می‌شود. */
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary";
+  type?: "button" | "submit";
+  class?: string;
+}
+const { href, variant = "primary", type = "button", class: extra = "" } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["btn", `btn--${variant}`, extra]}
+  href={href}
+  type={href ? undefined : type}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 3rem; padding: 0 var(--s-6);
+    border: 2px solid transparent; border-radius: var(--radius-sm);
+    font-weight: 600; text-decoration: none; cursor: pointer;
+    transition: background-color var(--ease), border-color var(--ease), color var(--ease);
+  }
+  .btn--primary { background: var(--accent); color: var(--on-accent); }
+  .btn--primary:hover { background: var(--accent-hover); }
+  .btn--secondary { background: transparent; color: var(--text); border-color: var(--text); }
+  .btn--secondary:hover { background: var(--text); color: var(--bg); }
+</style>

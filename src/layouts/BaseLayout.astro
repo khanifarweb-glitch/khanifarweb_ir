@@ -1,0 +1,42 @@
+---
+/**
+ * Layout پایه: هر صفحه از این استفاده می‌کند.
+ * Header و Footer در مرحله ۲ اضافه می‌شوند.
+ */
+import "@fontsource-variable/vazirmatn"; // فونت self-host (بدون Google Fonts)
+import "../styles/tokens.css";
+import "../styles/base.css";
+import SEO from "../components/seo/SEO.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+}
+
+const seo = Astro.props;
+---
+
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f9fa" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <SEO {...seo} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+  </body>
+</html>
