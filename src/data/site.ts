@@ -18,8 +18,8 @@ export const site = {
   contact: {
     phone: "09351211984",
     email: "khanifarweb@gmail.com",
-    whatsapp: "", // مثال: https://wa.me/9163442102...
-    telegram: "", // مثال: https://t.me/ahmad121khanifar
+    whatsapp: "https://wa.me/9163442102", // مثال: https://wa.me/9163442102...
+    telegram: "https://t.me/ahmad121khanifar", // مثال: https://t.me/ahmad121khanifar
   },
 
   // CTA اصلی سایت فقط یکی است
