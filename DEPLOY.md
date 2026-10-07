@@ -1,35 +1,33 @@
-# راهنمای انتشار روی Cloudflare Pages (رایگان)
+# Deploy KhanifarWeb on Cloudflare Workers
 
-## ۱. اتصال پروژه
-Workers & Pages ← Create ← Pages ← Connect to Git ← ریپوی پروژه
-- Framework preset: Astro
-- Build command: `npm run build`
-- Output directory: `dist`
-- نسخه Node از فایل `.node-version` خوانده می‌شود.
+This project uses Astro + the official Cloudflare adapter and deploys to Cloudflare Workers.
 
-پوشه `functions/` خودکار به‌عنوان Function شناسایی می‌شود (نیازی به adapter نیست).
+## Build
 
-## ۲. متغیرهای محیطی (Settings ← Variables and Secrets، نوع Secret)
-حداقل یکی از دو کانال را کامل کنید:
-- `TELEGRAM_BOT_TOKEN` و `TELEGRAM_CHAT_ID`
-- `BALE_BOT_TOKEN` و `BALE_CHAT_ID`
+```bash
+npm install
+npm run build
+```
 
-اختیاری:
-- `SITE_ORIGIN` = `https://khanifarweb.ir` (اگر از چند دامنه استفاده می‌کنید)
-- Turnstile: `TURNSTILE_SECRET_KEY` (Secret) و `PUBLIC_TURNSTILE_SITE_KEY` (Variable، فقط زمان build خوانده می‌شود).
-  پیش‌فرض خاموش است چون اسکریپت Turnstile ممکن است از بعضی اینترنت‌های ایران بالا نیاید. اگر اسپم زیاد شد روشنش کنید.
+## Local secrets
 
-بعد از تغییر متغیرها یک Deploy جدید لازم است.
+Copy `.dev.vars.example` to `.dev.vars` and fill in the values needed for local testing. Never commit `.dev.vars`.
 
-## ۳. گرفتن توکن و Chat ID
-- ساخت ربات: در Telegram با `@BotFather` یا در Bale با `@botfather` ربات بسازید و توکن را بردارید.
-- به ربات خودتان یک پیام بدهید، سپس در مرورگر باز کنید:
-  `https://api.telegram.org/bot<TOKEN>/getUpdates` (برای Bale: `https://tapi.bale.ai/bot<TOKEN>/getUpdates`)
-  مقدار `chat.id` همان Chat ID است.
+## Deploy
 
-## ۴. دامنه
-Custom domains ← `khanifarweb.ir` و `www.khanifarweb.ir`
+```bash
+npx wrangler deploy
+```
 
-## ۵. تست
-فرم `/contact/` را پر کنید؛ پیام باید در ربات برسد. تست محلی:
-`npm run build && npx wrangler pages dev dist` (با فایل `.dev.vars`)
+## Production secrets
+
+Set secrets in Cloudflare Workers with Wrangler, for example:
+
+```bash
+npx wrangler secret put TELEGRAM_BOT_TOKEN
+npx wrangler secret put TELEGRAM_CHAT_ID
+```
+
+Optional Bale and Turnstile secrets can be added the same way.
+
+The contact endpoint is implemented as an Astro API route at `/api/contact` and runs inside the same Cloudflare Worker as the website.
