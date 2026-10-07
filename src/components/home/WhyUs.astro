@@ -1,5 +1,6 @@
 ---
 import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
 
 const reasons = [
   "طراحی متناسب با نیاز واقعی کسب‌وکار",
@@ -12,14 +13,17 @@ const reasons = [
 ];
 ---
 
-<Section id="why" title="چرا KhanifarWeb؟">
+<Section id="why" eyebrow="مزیت‌ها" title="چرا KhanifarWeb؟">
   <ul class="list">
-    {reasons.map((r) => <li>{r}</li>)}
+    {reasons.map((r) => (
+      <li class="reveal"><span class="tick"><Icon name="check" size={16} /></span>{r}</li>
+    ))}
   </ul>
 </Section>
 
 <style>
-  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
-  li { padding: var(--s-4) var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); border-inline-start: 4px solid var(--accent); }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4) var(--s-8); }
+  li { display: flex; align-items: center; gap: var(--s-3); padding-block: var(--s-3); border-bottom: 1px solid var(--border); font-weight: 600; }
+  .tick { flex: none; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
   @media (min-width: 48rem) { .list { grid-template-columns: repeat(2, 1fr); } }
 </style>

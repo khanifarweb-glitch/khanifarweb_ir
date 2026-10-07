@@ -1,6 +1,7 @@
 ---
 /** فوتر: برند، شعار، پیوندهای سریع و راه‌های ارتباطی (فقط مقدارهای پرشده نمایش داده می‌شوند). */
 import { site } from "../../data/site";
+import Logo from "./Logo.astro";
 
 const { phone, email, whatsapp, telegram } = site.contact;
 const year = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date());
@@ -10,7 +11,7 @@ const hasContact = phone || email || whatsapp || telegram;
 <footer class="footer">
   <div class="container footer__grid">
     <div>
-      <p class="footer__brand ltr">{site.name}</p>
+      <Logo light />
       <p class="footer__slogan">{site.slogan}</p>
     </div>
 
@@ -37,10 +38,9 @@ const hasContact = phone || email || whatsapp || telegram;
 </footer>
 
 <style>
-  .footer { margin-top: var(--s-16); padding-block: var(--s-12) var(--s-6); background: var(--text); color: #e5e7eb; }
+  .footer { margin-top: var(--s-16); padding-block: var(--s-12) var(--s-6); background: var(--ink); color: var(--on-ink); }
   .footer__grid { display: grid; gap: var(--s-8); }
-  .footer__brand { font-weight: 800; font-size: var(--fs-lg); color: #fff; }
-  .footer__slogan { margin-top: var(--s-2); color: #d1d5db; max-width: 32ch; }
+  .footer__slogan { margin-top: var(--s-3); color: #d1d5db; max-width: 32ch; }
   .footer__title { font-size: var(--fs-base); color: #fff; margin-bottom: var(--s-3); }
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-1); }
   a { color: #d1d5db; text-decoration: none; display: inline-block; padding: var(--s-1) 0; }

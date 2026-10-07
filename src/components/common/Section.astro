@@ -1,21 +1,23 @@
 ---
-/** بخش صفحه با عنوان اختیاری و فاصله استاندارد. */
+/** بخش صفحه: عنوان، برچسب کوچک (eyebrow) و زمینه default / surface / dark. */
 interface Props {
   id?: string;
   title?: string;
   intro?: string;
-  tone?: "default" | "surface";
+  eyebrow?: string;
+  tone?: "default" | "surface" | "dark";
 }
-const { id, title, intro, tone = "default" } = Astro.props;
+const { id, title, intro, eyebrow, tone = "default" } = Astro.props;
 const headingId = id && title ? `${id}-title` : undefined;
 ---
 
 <section id={id} class:list={["section", `section--${tone}`]} aria-labelledby={headingId}>
   <div class="container">
     {title && (
-      <header class="section__head">
+      <header class="section__head reveal">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
         <h2 id={headingId}>{title}</h2>
-        {intro && <p>{intro}</p>}
+        {intro && <p class="intro">{intro}</p>}
       </header>
     )}
     <slot />
@@ -23,9 +25,13 @@ const headingId = id && title ? `${id}-title` : undefined;
 </section>
 
 <style>
-  .section { padding-block: var(--s-12); }
+  .section { padding-block: var(--s-16); }
   .section--surface { background: var(--surface); border-block: 1px solid var(--border); }
+  .section--dark { background: var(--ink); color: var(--on-ink); }
   .section__head { margin-bottom: var(--s-8); max-width: var(--measure); }
-  .section__head p { margin-top: var(--s-3); color: var(--muted); }
-  @media (min-width: 48rem) { .section { padding-block: var(--s-16); } }
+  .eyebrow { margin-bottom: var(--s-2); font-size: var(--fs-sm); font-weight: 700; color: var(--accent); }
+  .section--dark .eyebrow { color: var(--accent-on-ink); }
+  .intro { margin-top: var(--s-3); color: var(--muted); }
+  .section--dark .intro { color: var(--on-ink-muted); }
+  @media (min-width: 48rem) { .section { padding-block: var(--s-24); } .section__head { margin-bottom: var(--s-12); } }
 </style>

@@ -29,7 +29,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.slogan}`;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.seoTagline}`;
 const origin = Astro.site ?? new URL(site.url);
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, origin).href;
 const imageUrl = new URL(image, origin).href;
@@ -38,6 +38,7 @@ const imageUrl = new URL(image, origin).href;
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalUrl} />
+<meta name="author" content={site.owner} />
 <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
 <meta property="og:type" content={type} />
@@ -48,6 +49,8 @@ const imageUrl = new URL(image, origin).href;
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={imageUrl} />
 <meta property="og:image:alt" content={imageAlt ?? fullTitle} />
+{image === site.ogImage && <meta property="og:image:width" content="1200" />}
+{image === site.ogImage && <meta property="og:image:height" content="630" />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />

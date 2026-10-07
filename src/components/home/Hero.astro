@@ -1,25 +1,52 @@
 ---
 import { site } from "../../data/site";
 import Button from "../common/Button.astro";
+import Icon from "../common/Icon.astro";
+import HeroVisual from "./HeroVisual.astro";
+
+const points = ["ارتباط مستقیم با طراح", "طراحی واکنش‌گرا و سریع", "پشتیبانی بعد از تحویل"];
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="container">
-    <p class="hero__slogan">{site.slogan}</p>
-    <h1 id="hero-title">سایت شما، جایی که مشتری پیدایتان می‌کند</h1>
-    <p class="hero__lead">{site.description}</p>
-    <div class="hero__actions">
-      <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
-      <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <p class="hero__slogan">{site.slogan}</p>
+      <h1 id="hero-title">سایت شما، جایی که <span class="mark">مشتری پیدایتان می‌کند</span></h1>
+      <p class="hero__lead">{site.description}</p>
+      <div class="hero__actions">
+        <Button href={site.primaryCta.href} size="lg" arrow>{site.primaryCta.label}</Button>
+        <Button href="/portfolio/" variant="secondary" size="lg">مشاهده نمونه‌کارها</Button>
+      </div>
+      <ul class="hero__points">
+        {points.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
+      </ul>
     </div>
+    <HeroVisual />
   </div>
 </section>
 
 <style>
-  .hero { padding-block: var(--s-16) var(--s-12); }
-  .hero h1 { max-width: 20ch; }
-  .hero__slogan { display: inline-block; margin-bottom: var(--s-4); padding-inline-start: var(--s-3); border-inline-start: 3px solid var(--accent); font-weight: 600; color: var(--muted); }
-  .hero__lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-8); }
-  @media (min-width: 48rem) { .hero { padding-block: var(--s-24) var(--s-16); } }
+  .hero { position: relative; isolation: isolate; overflow: clip; padding-block: var(--s-12) var(--s-16); }
+  /* شبکه نقطه‌ای ملایم + درخشش بسیار کم رنگ */
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(40rem 22rem at 85% -5%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+      radial-gradient(#cfd6e2 1px, transparent 1px) 0 0 / 24px 24px;
+    -webkit-mask-image: linear-gradient(#000 40%, transparent);
+    mask-image: linear-gradient(#000 40%, transparent);
+  }
+  .hero__grid { display: grid; gap: var(--s-16); align-items: center; }
+  .hero__slogan { display: inline-block; margin-bottom: var(--s-4); padding: var(--s-1) var(--s-4); background: var(--accent-soft); color: var(--accent-hover); font-weight: 700; font-size: var(--fs-sm); border-radius: 999px; }
+  h1 { font-weight: 800; letter-spacing: -0.01em; max-width: 18ch; }
+  .mark { background: linear-gradient(transparent 64%, color-mix(in srgb, var(--accent) 24%, transparent) 64%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .hero__lead { margin-top: var(--s-6); max-width: 52ch; font-size: var(--fs-lg); color: var(--muted); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
+  .hero__points { list-style: none; margin: var(--s-8) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); color: var(--muted); font-size: var(--fs-sm); }
+  .hero__points li { display: inline-flex; align-items: center; gap: var(--s-2); }
+  .hero__points :global(svg) { color: var(--accent); }
+  @media (min-width: 64rem) {
+    .hero { padding-block: var(--s-24); }
+    .hero__grid { grid-template-columns: 1.15fr 0.85fr; }
+  }
 </style>

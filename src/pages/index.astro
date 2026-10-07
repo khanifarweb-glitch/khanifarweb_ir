@@ -9,25 +9,9 @@ import WhyUs from "../components/home/WhyUs.astro";
 import Process from "../components/home/Process.astro";
 import AIBlock from "../components/home/AIBlock.astro";
 import FinalCTA from "../components/home/FinalCTA.astro";
-import { site } from "../data/site";
+import { siteGraph } from "../utils/schema";
 
-const { phone, email, whatsapp, telegram } = site.contact;
-
-// Schema فقط با اطلاعات واقعی؛ فیلدهای خالی حذف می‌شوند
-const schema = [
-  { "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.url, inLanguage: "fa-IR" },
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: site.name,
-    url: site.url,
-    description: site.description,
-    founder: { "@type": "Person", name: site.owner },
-    ...(phone && { telephone: phone }),
-    ...(email && { email }),
-    ...([whatsapp, telegram].filter(Boolean).length && { sameAs: [whatsapp, telegram].filter(Boolean) }),
-  },
-];
+const schema = siteGraph();
 ---
 
 <BaseLayout>

@@ -2,6 +2,7 @@
 /** هدر: لوگوی متنی، منوی اصلی و CTA. منوی موبایل با JS کوچک (progressive enhancement). */
 import { site } from "../../data/site";
 import Button from "./Button.astro";
+import Logo from "./Logo.astro";
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => path === href || path.startsWith(href);
@@ -9,7 +10,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 
 <header class="header" data-header>
   <div class="container header__bar">
-    <a class="brand ltr" href="/" aria-label={`${site.name} - صفحه اصلی`}>{site.name}</a>
+    <a class="brand" href="/" aria-label={`${site.name} - صفحه اصلی`}><Logo /></a>
 
     <button
       class="menu-btn"
@@ -55,15 +56,16 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 </script>
 
 <style>
-  .header { background: var(--surface); border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+  .header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--border); }
   .header__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-3); }
-  .brand { font-weight: 800; font-size: var(--fs-lg); text-decoration: none; letter-spacing: -0.01em; }
+  .brand { text-decoration: none; }
   .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s-4); background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
   .nav { display: flex; flex-direction: column; gap: var(--s-4); width: 100%; }
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
   .nav a:not(.btn) { display: block; padding: var(--s-3) 0; text-decoration: none; color: var(--muted); }
   .nav a:not(.btn):hover, .nav a[aria-current="page"] { color: var(--text); }
-  .nav a[aria-current="page"] { font-weight: 600; }
+  .nav a[aria-current="page"] { font-weight: 700; }
+  @media (min-width: 64rem) { .nav a[aria-current="page"] { box-shadow: 0 2px 0 var(--accent); } }
 
   /* موبایل با JS: منو جمع‌شونده */
   @media (max-width: 63.99rem) {
@@ -74,5 +76,6 @@ const isActive = (href: string) => path === href || path.startsWith(href);
     .nav { flex-direction: row; align-items: center; width: auto; gap: var(--s-6); }
     .nav ul { flex-direction: row; gap: var(--s-6); }
     .nav a:not(.btn) { padding: var(--s-2) 0; font-size: var(--fs-sm); }
+    .nav :global(.nav__cta) { min-height: 2.5rem; padding: 0 var(--s-4); }
   }
 </style>

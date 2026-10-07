@@ -27,6 +27,7 @@ const { title, description, heading, lead, crumbs = [], image, noindex } = Astro
 </BaseLayout>
 
 <style>
-  .page-head { padding-block: var(--s-12) var(--s-8); }
+  .page-head { padding-block: var(--s-12) var(--s-8); background: linear-gradient(var(--accent-soft), transparent); border-bottom: 1px solid var(--border); margin-bottom: var(--s-4); }
+  h1 { font-weight: 800; }
   .lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
 </style>

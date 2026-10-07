@@ -9,10 +9,10 @@ const steps = [
 ];
 ---
 
-<Section id="process" title="همکاری چطور پیش می‌رود؟" intro="فرآیند ساده و شفاف است؛ از همان گفتگوی اول می‌دانید قدم بعدی چیست." tone="surface">
+<Section id="process" eyebrow="فرآیند همکاری" title="همکاری چطور پیش می‌رود؟" intro="فرآیند ساده و شفاف است؛ از همان گفتگوی اول می‌دانید قدم بعدی چیست." tone="surface">
   <ol class="steps">
     {steps.map((s) => (
-      <li>
+      <li class="reveal">
         <h3>{s.title}</h3>
         <p>{s.text}</p>
       </li>
@@ -21,9 +21,14 @@ const steps = [
 </Section>
 
 <style>
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); counter-reset: step; }
-  li { counter-increment: step; padding-top: var(--s-4); border-top: 2px solid var(--border); }
-  li::before { content: counter(step, persian); display: block; margin-bottom: var(--s-2); font-weight: 800; font-size: var(--fs-h3); color: var(--accent); }
-  p { margin-top: var(--s-2); color: var(--muted); }
-  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: step; }
+  li { counter-increment: step; position: relative; padding-inline-start: 3.75rem; padding-bottom: var(--s-8); }
+  li::before { content: counter(step, persian); position: absolute; inset-inline-start: 0; top: 0; display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 800; }
+  li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 1.2rem; top: 2.75rem; bottom: var(--s-2); width: 2px; background: var(--border); }
+  p { margin-top: var(--s-1); color: var(--muted); }
+  @media (min-width: 48rem) {
+    .steps { grid-template-columns: repeat(4, 1fr); gap: var(--s-6); }
+    li { padding-inline-start: 0; padding-top: 3.5rem; padding-bottom: 0; }
+    li:not(:last-child)::after { top: 1.2rem; bottom: auto; height: 2px; width: calc(100% - 2.75rem + var(--s-6)); inset-inline-start: 2.75rem; }
+  }
 </style>

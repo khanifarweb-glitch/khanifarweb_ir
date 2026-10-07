@@ -5,7 +5,7 @@ import Button from "../common/Button.astro";
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 ---
 
-<form class="form" data-contact-form novalidate={false} method="post" action="/api/contact">
+<form class="form" data-contact-form method="post" action="/api/contact">
   <div class="field">
     <label for="name">نام</label>
     <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" />
@@ -40,7 +40,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 
   {siteKey && <div class="cf-turnstile" data-sitekey={siteKey}></div>}
 
-  <Button type="submit">ارسال درخواست مشاوره</Button>
+  <Button type="submit" size="lg">ارسال درخواست مشاوره</Button>
   <p class="status" role="status" aria-live="polite" data-status></p>
   <noscript><p>برای ارسال فرم به جاوااسکریپت نیاز است؛ از راه‌های ارتباط مستقیم استفاده کنید.</p></noscript>
 </form>
@@ -95,7 +95,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 </script>
 
 <style>
-  .form { display: grid; gap: var(--s-6); }
+  .form { display: grid; gap: var(--s-6); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
   .field { display: grid; gap: var(--s-2); }
   label { font-weight: 600; }
   .opt { font-weight: 400; color: var(--muted); font-size: var(--fs-sm); }

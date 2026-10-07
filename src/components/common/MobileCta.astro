@@ -1,0 +1,25 @@
+---
+/** نوار CTA ثابت پایین صفحه فقط در موبایل (در صفحه تماس نمایش داده نمی‌شود). */
+import Button from "./Button.astro";
+import { site } from "../../data/site";
+
+const hidden = Astro.url.pathname.startsWith(site.primaryCta.href);
+---
+
+{!hidden && (
+  <div class="mcta">
+    <Button href={site.primaryCta.href} arrow>{site.primaryCta.label}</Button>
+  </div>
+)}
+
+<style>
+  .mcta {
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 40;
+    padding: var(--s-3) var(--s-4) calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+  }
+  .mcta :global(.btn) { width: 100%; }
+  @media (min-width: 64rem) { .mcta { display: none; } }
+</style>

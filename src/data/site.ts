@@ -8,6 +8,7 @@ export const site = {
   owner: "احمد خنیفر",
   url: "https://khanifarweb.ir",
   slogan: "هرجا مشتری هست، شما هم دیده می‌شوید",
+  seoTagline: "طراحی سایت، پشتیبانی سایت و خدمات هوش مصنوعی", // برای عنوان صفحه اصلی
   description:
     "طراحی سایت، پشتیبانی سایت و خدمات هوش مصنوعی برای کسب‌وکارهایی که می‌خواهند حرفه‌ای‌تر دیده شوند.",
   ogImage: "/og-default.png", // TODO: تصویر ۱۲۰۰×۶۳۰ را در public قرار دهید
@@ -32,4 +33,4 @@ export const site = {
     { label: "مقالات", href: "/blog/" },
     { label: "درباره من", href: "/about/" },
   ],
-} as const;
+};

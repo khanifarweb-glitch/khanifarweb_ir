@@ -5,13 +5,18 @@ import Button from "../common/Button.astro";
 
 <section class="cta" aria-labelledby="cta-title">
   <div class="container">
-    <h2 id="cta-title">آماده‌اید بیشتر دیده شوید؟</h2>
-    <p>نیازتان را بنویسید تا با هم بررسی کنیم چه راهی برای کسب‌وکار شما مناسب‌تر است.</p>
-    <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
+    <div class="panel reveal">
+      <h2 id="cta-title">آماده‌اید بیشتر دیده شوید؟</h2>
+      <p>نیازتان را بنویسید تا با هم بررسی کنیم چه راهی برای کسب‌وکار شما مناسب‌تر است.</p>
+      <Button href={site.primaryCta.href} variant="light" size="lg" arrow>{site.primaryCta.label}</Button>
+    </div>
   </div>
 </section>
 
 <style>
-  .cta { padding-block: var(--s-16); text-align: center; }
-  p { margin: var(--s-3) auto var(--s-8); max-width: 48ch; color: var(--muted); }
+  .cta { padding-block: var(--s-16) 0; }
+  .panel { padding: var(--s-12) var(--s-6); text-align: center; color: #fff; border-radius: var(--radius-lg);
+    background: radial-gradient(30rem 14rem at 100% 0, rgb(255 255 255 / 0.16), transparent 70%), var(--accent); }
+  p { margin: var(--s-3) auto var(--s-8); max-width: 48ch; color: #e0e9ff; }
+  @media (min-width: 48rem) { .panel { padding: var(--s-16) var(--s-8); } }
 </style>

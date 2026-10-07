@@ -1,12 +1,13 @@
 ---
-/** صفحه خدمت: محتوا از src/content/services/<id>.md خوانده می‌شود. */
-import { getEntry, render } from "astro:content";
+/** صفحه خدمت: محتوا از src/content/services/<id>.md؛ ستون کناری شامل CTA و لینک به خدمات دیگر. */
+import { getCollection, getEntry, render } from "astro:content";
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../common/Section.astro";
 import Prose from "../common/Prose.astro";
 import Button from "../common/Button.astro";
 import JsonLd from "../seo/JsonLd.astro";
 import { site } from "../../data/site";
+import { orgId } from "../../utils/schema";
 
 interface Props { id: "design" | "website-support" | "ai" }
 const { id } = Astro.props;
@@ -15,6 +16,7 @@ const entry = await getEntry("services", id);
 if (!entry) throw new Error(`Service "${id}" not found in src/content/services`);
 const { Content } = await render(entry);
 const { title, seoTitle, description, summary } = entry.data;
+const others = (await getCollection("services")).filter((s) => s.id !== id).sort((a, b) => a.data.order - b.data.order);
 
 const schema = {
   "@context": "https://schema.org",
@@ -22,20 +24,43 @@ const schema = {
   name: title,
   description,
   url: new URL(`/${id}/`, site.url).href,
-  provider: { "@type": "ProfessionalService", name: site.name, url: site.url },
+  provider: { "@id": orgId },
 };
 ---
 
 <PageLayout title={seoTitle ?? title} heading={title} description={description} lead={summary} crumbs={[{ label: title }]}>
   <JsonLd data={schema} />
   <Section>
-    <Prose><Content /></Prose>
-    <div class="cta">
-      <Button href={`${site.primaryCta.href}?service=${id}`}>{site.primaryCta.label}</Button>
+    <div class="layout">
+      <Prose><Content /></Prose>
+      <aside class="side">
+        <div class="box">
+          <p class="box__title">آماده شروع هستید؟</p>
+          <p class="box__text">نیازتان را کوتاه بنویسید تا با هم بررسی کنیم.</p>
+          <Button href={`${site.primaryCta.href}?service=${id}`} arrow>{site.primaryCta.label}</Button>
+        </div>
+        <nav class="others" aria-label="خدمات دیگر">
+          <p class="box__title">خدمات دیگر</p>
+          <ul>
+            {others.map((o) => <li><a href={`/${o.id}/`}>{o.data.title}</a></li>)}
+            <li><a href="/portfolio/">نمونه‌کارها</a></li>
+          </ul>
+        </nav>
+      </aside>
     </div>
   </Section>
 </PageLayout>
 
 <style>
-  .cta { margin-top: var(--s-8); }
+  .layout { display: grid; gap: var(--s-12); }
+  .box { padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+  .box__title { font-weight: 800; margin-bottom: var(--s-2); }
+  .box__text { margin-bottom: var(--s-4); color: var(--muted); }
+  .others { margin-top: var(--s-6); }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-1); }
+  .others a { display: inline-block; padding: var(--s-1) 0; color: var(--accent); }
+  @media (min-width: 64rem) {
+    .layout { grid-template-columns: 1fr 20rem; align-items: start; }
+    .side { position: sticky; top: 6rem; }
+  }
 </style>

@@ -1,0 +1,39 @@
+---
+/** تصویرسازی مفهومی «دیده‌شدن»: نتیجه جستجوی مشتری. تزئینی است (aria-hidden). */
+import Icon from "../common/Icon.astro";
+---
+
+<div class="visual" aria-hidden="true">
+  <div class="serp">
+    <div class="serp__bar"><Icon name="search" size={18} /><span>خدماتی که مشتری شما دنبالش است</span></div>
+
+    <div class="res res--you">
+      <span class="badge">سایت شما</span>
+      <div class="res__url"><span class="fav"><Icon name="eye" size={14} /></span><span class="ltr">yourbusiness.ir</span></div>
+      <p class="res__title">نام کسب‌وکار شما | خدمات، نمونه‌کار و تماس</p>
+      <p class="res__desc">همان چیزی که مشتری دنبالش است، یک قدم تا تماس.</p>
+    </div>
+
+    <div class="res res--dim"><i class="w40"></i><i class="w90"></i><i class="w65"></i></div>
+    <div class="res res--dim"><i class="w50"></i><i class="w80"></i></div>
+  </div>
+  <div class="chip"><span class="dot"></span>مشتری جدید</div>
+</div>
+
+<style>
+  .visual { position: relative; max-width: 28rem; margin-inline: auto; }
+  .serp { padding: var(--s-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); display: grid; gap: var(--s-3); }
+  .serp__bar { display: flex; align-items: center; gap: var(--s-2); padding: var(--s-3) var(--s-4); background: var(--bg); border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: var(--fs-sm); }
+  .res { padding: var(--s-4); border-radius: var(--radius-md); }
+  .res--you { position: relative; background: var(--accent-soft); border: 1.5px solid var(--accent); }
+  .badge { position: absolute; top: calc(var(--s-3) * -1); inset-inline-end: var(--s-4); padding: 0 var(--s-3); background: var(--accent); color: #fff; font-size: var(--fs-sm); font-weight: 700; border-radius: 999px; }
+  .res__url { display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-sm); color: var(--muted); }
+  .fav { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: #fff; }
+  .res__title { margin-top: var(--s-2); font-weight: 700; color: var(--accent-hover); }
+  .res__desc { margin-top: var(--s-1); font-size: var(--fs-sm); color: var(--muted); line-height: 1.7; }
+  .res--dim { display: grid; gap: var(--s-2); opacity: 0.7; }
+  .res--dim i { display: block; height: 0.55rem; border-radius: 999px; background: var(--border); }
+  .w40 { width: 40%; } .w50 { width: 50%; } .w65 { width: 65%; } .w80 { width: 80%; } .w90 { width: 90%; }
+  .chip { position: absolute; bottom: calc(var(--s-6) * -1); inset-inline-start: calc(var(--s-4) * -1); display: flex; align-items: center; gap: var(--s-2); padding: var(--s-2) var(--s-4); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; box-shadow: var(--shadow-md); font-size: var(--fs-sm); font-weight: 700; }
+  .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #16a34a; }
+</style>
