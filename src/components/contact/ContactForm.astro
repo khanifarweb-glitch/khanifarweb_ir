@@ -32,11 +32,10 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
   </div>
 
   <!-- Honeypot: برای انسان نامرئی است -->
-  <div class="hp" aria-hidden="true">
+  <div class="hp" inert>
     <label for="website">وب‌سایت</label>
     <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
-  <input type="hidden" name="ts" value="" />
 
   {siteKey && <div class="cf-turnstile" data-sitekey={siteKey}></div>}
 
@@ -53,7 +52,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
     const status = form.querySelector<HTMLElement>("[data-status]")!;
     const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
     const select = form.elements.namedItem("service") as HTMLSelectElement;
-    (form.elements.namedItem("ts") as HTMLInputElement).value = String(Date.now());
+    let t0 = performance.now(); // زمان پر کردن فرم (ضد ربات)؛ مستقل از ساعت دستگاه
 
     // انتخاب خودکار خدمت از آدرس: /contact/?service=ai
     const wanted = new URLSearchParams(location.search).get("service");
@@ -74,15 +73,17 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), elapsed: Math.round(performance.now() - t0) }),
         });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok) {
+        const data = await res.json().catch(() => null);
+        if (res.ok && data?.ok) {
           form.reset();
-          (form.elements.namedItem("ts") as HTMLInputElement).value = String(Date.now());
+          t0 = performance.now();
           show("درخواست شما ارسال شد. به‌زودی با شما تماس می‌گیرم.", false);
         } else {
-          show(data.error ?? "ارسال انجام نشد. لطفاً دوباره تلاش کنید.", true);
+          const code = data?.code ?? `HTTP ${res.status}`;
+          const base = data?.error ?? (res.status === 404 ? "سرویس فرم هنوز فعال نیست." : "ارسال انجام نشد. لطفاً دوباره تلاش کنید.");
+          show(data?.code === "validation" ? base : `${base} (کد: ${code})`, true);
         }
       } catch {
         show("ارتباط با سرور برقرار نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", true);

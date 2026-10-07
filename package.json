@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.2.0",
     "@fontsource-variable/vazirmatn": "^5.1.0",
-    "astro": "^5.1.0",
-    "@astrojs/cloudflare": "^14.3.3"
+    "astro": "^5.1.0"
   }
 }

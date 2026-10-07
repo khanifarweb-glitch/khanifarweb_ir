@@ -37,7 +37,7 @@ const imageUrl = new URL(image, origin).href;
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+{!noindex && <link rel="canonical" href={canonicalUrl} />}
 <meta name="author" content={site.owner} />
 <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
