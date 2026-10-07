@@ -16,10 +16,10 @@ export const site = {
 
   // TODO: مقادیر واقعی را وارد کنید
   contact: {
-    phone: "",
-    email: "",
-    whatsapp: "", // مثال: https://wa.me/98912...
-    telegram: "", // مثال: https://t.me/username
+    phone: "09351211984",
+    email: "khanifarweb@gmail.com",
+    whatsapp: "", // مثال: https://wa.me/9163442102...
+    telegram: "", // مثال: https://t.me/ahmad121khanifar
   },
 
   // CTA اصلی سایت فقط یکی است
