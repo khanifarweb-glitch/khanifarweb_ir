@@ -1,0 +1,24 @@
+---
+/** پیش‌نمایش نمونه‌کار در صفحه اصلی؛ تا پروژه واقعی نباشد چیزی نمایش داده نمی‌شود. */
+import { getCollection } from "astro:content";
+import Section from "../common/Section.astro";
+import Button from "../common/Button.astro";
+import ProjectCard from "../portfolio/ProjectCard.astro";
+
+const projects = (await getCollection("portfolio", (p) => !p.data.draft))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+{projects.length > 0 && (
+  <Section id="portfolio" title="نمونه‌کارها" tone="surface">
+    <div class="grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
+    <div class="more"><Button href="/portfolio/" variant="secondary">مشاهده همه نمونه‌کارها</Button></div>
+  </Section>
+)}
+
+<style>
+  .grid { display: grid; gap: var(--s-6); }
+  .more { margin-top: var(--s-8); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

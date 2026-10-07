@@ -1,0 +1,57 @@
+---
+// صفحه درباره من. اگر فایل src/assets/about/photo.(jpg|jpeg|png|webp) وجود داشته باشد، نمایش داده می‌شود.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/common/Section.astro";
+import Button from "../components/common/Button.astro";
+import { site } from "../data/site";
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/about/photo.{jpg,jpeg,png,webp}", { eager: true });
+const photo = Object.values(photos)[0]?.default;
+---
+
+<PageLayout
+  title="درباره من"
+  description={`${site.owner}، طراح و توسعه‌دهنده وب. طراحی سایت، پشتیبانی سایت و خدمات و آموزش هوش مصنوعی.`}
+  heading={`من ${site.owner} هستم`}
+  lead="طراح و توسعه‌دهنده وب؛ کمک می‌کنم کسب‌وکارها در اینترنت بهتر دیده شوند."
+  crumbs={[{ label: "درباره من" }]}
+>
+  <Section>
+    <div class="layout">
+      {photo && <Image src={photo} alt={site.owner} widths={[320, 640]} sizes="320px" class="photo" />}
+      <div class="text">
+        <h2>چه کاری انجام می‌دهم؟</h2>
+        <p>سایت طراحی و اجرا می‌کنم، از سایت‌های موجود پشتیبانی و آن‌ها را توسعه می‌دهم و خدمات و آموزش هوش مصنوعی ارائه می‌کنم.</p>
+
+        <h2>با چه ابزارهایی؟</h2>
+        <p>با HTML، CSS، JavaScript و Astro کار می‌کنم و سایت‌ها را سریع، واکنش‌گرا و مناسب سئو می‌سازم.</p>
+
+        <h2>چه کمکی می‌توانم بکنم؟</h2>
+        <ul>
+          <li>ساخت سایتی که مشتری را به تماس نزدیک‌تر کند</li>
+          <li>رفع مشکل و توسعه سایتی که الان دارید</li>
+          <li>استفاده کاربردی از هوش مصنوعی در کارهای روزمره</li>
+        </ul>
+
+        <div class="actions">
+          <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
+          <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
+        </div>
+      </div>
+    </div>
+  </Section>
+</PageLayout>
+
+<style>
+  .layout { display: grid; gap: var(--s-8); align-items: start; }
+  .photo { width: 100%; max-width: 20rem; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); }
+  .text { max-width: var(--measure); }
+  h2 { font-size: var(--fs-h3); margin: var(--s-8) 0 var(--s-2); }
+  h2:first-child { margin-top: 0; }
+  p { color: var(--muted); }
+  ul { padding-inline-start: var(--s-6); color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-8); }
+  @media (min-width: 48rem) { .layout:has(.photo) { grid-template-columns: 20rem 1fr; } }
+</style>

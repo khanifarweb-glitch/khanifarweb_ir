@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/common/Section.astro";
+import Button from "../../components/common/Button.astro";
+import ProjectCard from "../../components/portfolio/ProjectCard.astro";
+import { site } from "../../data/site";
+
+const projects = (await getCollection("portfolio", (p) => !p.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<PageLayout
+  title="نمونه‌کارها"
+  description="نمونه‌کارهای طراحی و توسعه سایت توسط KhanifarWeb."
+  lead="کیفیت مهم‌تر از تعداد است؛ فقط پروژه‌های واقعی اینجا نمایش داده می‌شوند."
+  crumbs={[{ label: "نمونه‌کارها" }]}
+>
+  <Section>
+    {projects.length > 0 ? (
+      <div class="grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
+    ) : (
+      <div class="empty">
+        <p>نمونه‌کارها به‌زودی در این بخش منتشر می‌شوند. اگر پروژه‌ای در ذهن دارید، همین حالا درباره‌اش گفتگو کنیم.</p>
+        <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
+      </div>
+    )}
+  </Section>
+</PageLayout>
+
+<style>
+  .grid { display: grid; gap: var(--s-6); }
+  .empty p { max-width: var(--measure); margin-bottom: var(--s-6); color: var(--muted); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

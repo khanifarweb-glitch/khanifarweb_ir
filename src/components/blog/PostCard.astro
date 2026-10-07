@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Card from "../common/Card.astro";
+import { formatPersianDate, toIsoDateTime } from "../../utils/date";
+
+interface Props { post: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const d = post.data;
+---
+
+<Card href={`/blog/${post.id}/`}>
+  <p class="meta">
+    <span>{d.category}</span> ·
+    <time datetime={toIsoDateTime(d.date)}>{formatPersianDate(d.date)}</time>
+  </p>
+  <h3>{d.title}</h3>
+  <p class="desc">{d.description}</p>
+</Card>
+
+<style>
+  .meta { font-size: var(--fs-sm); color: var(--muted); }
+  h3 { margin-block: var(--s-2); }
+  .desc { color: var(--muted); }
+</style>

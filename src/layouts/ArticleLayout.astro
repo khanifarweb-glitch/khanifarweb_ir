@@ -1,0 +1,80 @@
+---
+/** Layout مقاله: تاریخ شمسی، Schema نوع Article و CTA مرتبط در انتها. */
+import BaseLayout from "./BaseLayout.astro";
+import Breadcrumb from "../components/common/Breadcrumb.astro";
+import Prose from "../components/common/Prose.astro";
+import Button from "../components/common/Button.astro";
+import JsonLd from "../components/seo/JsonLd.astro";
+import { site } from "../data/site";
+import { formatPersianDate, toIsoDateTime } from "../utils/date";
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  updated?: Date;
+  category: string;
+  image?: string;
+  imageAlt?: string;
+  cta: "design" | "support" | "ai";
+}
+const { title, description, date, updated, category, image, imageAlt, cta } = Astro.props;
+
+// CTA مرتبط با موضوع مقاله
+const ctas = {
+  design: { text: "برای کسب‌وکارتان سایت می‌خواهید؟", link: "/design/", linkLabel: "درباره طراحی سایت", service: "design" },
+  support: { text: "سایت‌تان مشکل دارد یا نیاز به توسعه دارد؟", link: "/website-support/", linkLabel: "درباره پشتیبانی سایت", service: "website-support" },
+  ai: { text: "می‌خواهید هوش مصنوعی را در کارتان استفاده کنید؟", link: "/ai/", linkLabel: "درباره خدمات هوش مصنوعی", service: "ai" },
+}[cta];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: toIsoDateTime(date),
+  dateModified: toIsoDateTime(updated ?? date),
+  inLanguage: "fa-IR",
+  author: { "@type": "Person", name: site.owner },
+  publisher: { "@type": "Organization", name: site.name, url: site.url },
+  ...(image && { image: new URL(image, site.url).href }),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  type="article"
+  publishedTime={toIsoDateTime(date)}
+  modifiedTime={toIsoDateTime(updated ?? date)}
+>
+  <JsonLd slot="head" data={schema} />
+  <article class="container article">
+    <header>
+      <Breadcrumb items={[{ label: "مقالات", href: "/blog/" }, { label: title }]} />
+      <h1>{title}</h1>
+      <p class="meta">
+        {category} ·
+        <time datetime={toIsoDateTime(date)}>{formatPersianDate(date)}</time>
+      </p>
+    </header>
+    <Prose><slot /></Prose>
+    <aside class="cta" aria-label="پیشنهاد مرتبط">
+      <p>{ctas.text}</p>
+      <div class="actions">
+        <Button href={`${site.primaryCta.href}?service=${ctas.service}`}>{site.primaryCta.label}</Button>
+        <Button href={ctas.link} variant="secondary">{ctas.linkLabel}</Button>
+      </div>
+    </aside>
+  </article>
+</BaseLayout>
+
+<style>
+  .article { padding-block: var(--s-12); }
+  .meta { margin: var(--s-3) 0 var(--s-8); color: var(--muted); font-size: var(--fs-sm); }
+  .cta { max-width: var(--measure); margin-top: var(--s-12); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .cta p { font-weight: 700; margin-bottom: var(--s-4); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+</style>

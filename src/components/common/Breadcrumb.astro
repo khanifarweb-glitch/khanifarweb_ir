@@ -1,0 +1,40 @@
+---
+/** مسیر صفحه (UI) + BreadcrumbList برای موتورهای جستجو. آیتم آخر href ندارد. */
+import JsonLd from "../seo/JsonLd.astro";
+import { site } from "../../data/site";
+
+interface Item { label: string; href?: string }
+interface Props { items: Item[] }
+
+const all: Item[] = [{ label: "خانه", href: "/" }, ...Astro.props.items];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: all.map((it, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: it.label,
+    item: new URL(it.href ?? Astro.url.pathname, site.url).href,
+  })),
+};
+---
+
+<nav class="crumbs" aria-label="مسیر صفحه">
+  <ol>
+    {all.map((it, i) => (
+      <li>
+        {it.href && i < all.length - 1
+          ? <a href={it.href}>{it.label}</a>
+          : <span aria-current="page">{it.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<JsonLd data={schema} />
+
+<style>
+  .crumbs ol { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); font-size: var(--fs-sm); color: var(--muted); }
+  .crumbs li:not(:last-child)::after { content: "/"; margin-inline-start: var(--s-2); }
+  .crumbs a { color: var(--muted); }
+  .crumbs a:hover { color: var(--text); }
+</style>

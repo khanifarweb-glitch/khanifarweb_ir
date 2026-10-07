@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/common/Section.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+
+const posts = (await getCollection("blog", (p) => !p.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<PageLayout
+  title="آموزش و مقالات"
+  description="مقالات کاربردی درباره طراحی سایت، سئو، ابزارهای رایگان وب و هوش مصنوعی برای کسب‌وکارها."
+  lead="آموزش‌های کاربردی و قابل‌فهم درباره وب و هوش مصنوعی."
+  crumbs={[{ label: "مقالات" }]}
+>
+  <Section>
+    {posts.length > 0 ? (
+      <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div>
+    ) : (
+      <p class="empty">اولین مقاله‌ها به‌زودی منتشر می‌شوند.</p>
+    )}
+  </Section>
+</PageLayout>
+
+<style>
+  .grid { display: grid; gap: var(--s-6); }
+  .empty { color: var(--muted); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

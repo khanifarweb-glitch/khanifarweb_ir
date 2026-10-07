@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/common/Section.astro";
+import Button from "../components/common/Button.astro";
+---
+
+<BaseLayout title="صفحه پیدا نشد" noindex>
+  <Section>
+    <h1>صفحه‌ای که دنبالش بودید پیدا نشد</h1>
+    <p>ممکن است نشانی تغییر کرده باشد یا صفحه حذف شده باشد.</p>
+    <div class="actions"><Button href="/">بازگشت به صفحه اصلی</Button></div>
+  </Section>
+</BaseLayout>
+
+<style>
+  p { margin-top: var(--s-4); color: var(--muted); }
+  .actions { margin-top: var(--s-6); }
+</style>

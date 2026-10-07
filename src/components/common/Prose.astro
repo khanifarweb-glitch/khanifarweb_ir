@@ -1,0 +1,21 @@
+---
+/** استایل متن بلند (Markdown). عرض خوانا و فاصله‌های استاندارد. */
+---
+
+<div class="prose"><slot /></div>
+
+<style>
+  .prose { max-width: var(--measure); }
+  .prose :global(h2) { margin: var(--s-12) 0 var(--s-3); }
+  .prose :global(h3) { margin: var(--s-8) 0 var(--s-2); }
+  .prose :global(h2:first-child), .prose :global(h3:first-child) { margin-top: 0; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { margin: 0 0 var(--s-4); }
+  .prose :global(ul), .prose :global(ol) { padding-inline-start: var(--s-6); }
+  .prose :global(li) { margin-bottom: var(--s-2); }
+  .prose :global(a) { color: var(--accent); text-underline-offset: 3px; }
+  .prose :global(img) { border-radius: var(--radius-md); margin-block: var(--s-6); }
+  .prose :global(blockquote) { margin: var(--s-6) 0; padding-inline-start: var(--s-4); border-inline-start: 3px solid var(--accent); color: var(--muted); }
+  .prose :global(code) { direction: ltr; unicode-bidi: isolate; font-size: 0.9em; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0 var(--s-1); }
+  .prose :global(pre) { direction: ltr; overflow-x: auto; padding: var(--s-4); background: var(--text); color: #f3f4f6; border-radius: var(--radius-sm); }
+  .prose :global(pre code) { background: none; border: 0; padding: 0; }
+</style>

@@ -1,9 +1,10 @@
 ---
-// صفحه اصلی: ترتیب بخش‌ها طبق Design Brief. بخش نمونه‌کار پس از افزودن پروژه‌های واقعی اضافه می‌شود.
+// صفحه اصلی: ترتیب بخش‌ها طبق Design Brief. بخش نمونه‌کار فقط وقتی پروژه واقعی وجود داشته باشد نمایش داده می‌شود.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import JsonLd from "../components/seo/JsonLd.astro";
 import Hero from "../components/home/Hero.astro";
 import ServicesGrid from "../components/home/ServicesGrid.astro";
+import PortfolioPreview from "../components/home/PortfolioPreview.astro";
 import WhyUs from "../components/home/WhyUs.astro";
 import Process from "../components/home/Process.astro";
 import AIBlock from "../components/home/AIBlock.astro";
@@ -33,6 +34,7 @@ const schema = [
   <JsonLd slot="head" data={schema} />
   <Hero />
   <ServicesGrid />
+  <PortfolioPreview />
   <WhyUs />
   <Process />
   <AIBlock />

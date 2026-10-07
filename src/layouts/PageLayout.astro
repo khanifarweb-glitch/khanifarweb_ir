@@ -1,0 +1,32 @@
+---
+/** Layout صفحات داخلی: مسیر صفحه، عنوان H1 و توضیح کوتاه. */
+import BaseLayout from "./BaseLayout.astro";
+import Breadcrumb from "../components/common/Breadcrumb.astro";
+
+interface Props {
+  title: string; // عنوان تگ <title>
+  description: string;
+  heading?: string; // اگر با title فرق دارد
+  lead?: string;
+  crumbs?: { label: string; href?: string }[];
+  image?: string;
+  noindex?: boolean;
+}
+const { title, description, heading, lead, crumbs = [], image, noindex } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image} noindex={noindex}>
+  <section class="page-head">
+    <div class="container">
+      {crumbs.length > 0 && <Breadcrumb items={crumbs} />}
+      <h1>{heading ?? title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+    </div>
+  </section>
+  <slot />
+</BaseLayout>
+
+<style>
+  .page-head { padding-block: var(--s-12) var(--s-8); }
+  .lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
+</style>

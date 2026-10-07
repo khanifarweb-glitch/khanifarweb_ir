@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/common/Section.astro";
+import Prose from "../../components/common/Prose.astro";
+import Button from "../../components/common/Button.astro";
+import { site } from "../../data/site";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("portfolio", (p) => !p.data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+---
+
+<PageLayout
+  title={d.title}
+  description={d.summary}
+  lead={d.summary}
+  image={d.image.src}
+  crumbs={[{ label: "نمونه‌کارها", href: "/portfolio/" }, { label: d.title }]}
+>
+  <Section>
+    <Image src={d.image} alt={d.imageAlt} widths={[800, 1200]} sizes="(min-width: 70rem) 1120px, 100vw" class="cover" />
+    <dl class="facts">
+      <div><dt>نوع سایت</dt><dd>{d.type}</dd></div>
+      <div><dt>خدمات انجام‌شده</dt><dd>{d.services.join("، ")}</dd></div>
+    </dl>
+    <Prose><Content /></Prose>
+    <div class="actions">
+      {d.url && <Button href={d.url} variant="secondary">مشاهده پروژه</Button>}
+      <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
+    </div>
+  </Section>
+</PageLayout>
+
+<style>
+  .cover { width: 100%; border-radius: var(--radius-md); border: 1px solid var(--border); }
+  .facts { display: grid; gap: var(--s-4); margin: var(--s-6) 0 var(--s-8); }
+  dt { font-size: var(--fs-sm); color: var(--muted); }
+  dd { margin: 0; font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-8); }
+  @media (min-width: 48rem) { .facts { grid-template-columns: repeat(2, 1fr); } }
+</style>

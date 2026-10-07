@@ -1,0 +1,41 @@
+---
+/** صفحه خدمت: محتوا از src/content/services/<id>.md خوانده می‌شود. */
+import { getEntry, render } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../common/Section.astro";
+import Prose from "../common/Prose.astro";
+import Button from "../common/Button.astro";
+import JsonLd from "../seo/JsonLd.astro";
+import { site } from "../../data/site";
+
+interface Props { id: "design" | "website-support" | "ai" }
+const { id } = Astro.props;
+
+const entry = await getEntry("services", id);
+if (!entry) throw new Error(`Service "${id}" not found in src/content/services`);
+const { Content } = await render(entry);
+const { title, seoTitle, description, summary } = entry.data;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: title,
+  description,
+  url: new URL(`/${id}/`, site.url).href,
+  provider: { "@type": "ProfessionalService", name: site.name, url: site.url },
+};
+---
+
+<PageLayout title={seoTitle ?? title} heading={title} description={description} lead={summary} crumbs={[{ label: title }]}>
+  <JsonLd data={schema} />
+  <Section>
+    <Prose><Content /></Prose>
+    <div class="cta">
+      <Button href={`${site.primaryCta.href}?service=${id}`}>{site.primaryCta.label}</Button>
+    </div>
+  </Section>
+</PageLayout>
+
+<style>
+  .cta { margin-top: var(--s-8); }
+</style>
