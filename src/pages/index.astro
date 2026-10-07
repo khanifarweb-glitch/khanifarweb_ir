@@ -1,49 +1,40 @@
 ---
-// صفحه موقت برای تست Design System؛ در مرحله ۲ با صفحه اصلی واقعی جایگزین می‌شود.
+// صفحه اصلی: ترتیب بخش‌ها طبق Design Brief. بخش نمونه‌کار پس از افزودن پروژه‌های واقعی اضافه می‌شود.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Section from "../components/common/Section.astro";
-import Card from "../components/common/Card.astro";
-import Button from "../components/common/Button.astro";
 import JsonLd from "../components/seo/JsonLd.astro";
+import Hero from "../components/home/Hero.astro";
+import ServicesGrid from "../components/home/ServicesGrid.astro";
+import WhyUs from "../components/home/WhyUs.astro";
+import Process from "../components/home/Process.astro";
+import AIBlock from "../components/home/AIBlock.astro";
+import FinalCTA from "../components/home/FinalCTA.astro";
 import { site } from "../data/site";
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: site.name,
-  url: site.url,
-  inLanguage: "fa-IR",
-};
+const { phone, email, whatsapp, telegram } = site.contact;
+
+// Schema فقط با اطلاعات واقعی؛ فیلدهای خالی حذف می‌شوند
+const schema = [
+  { "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.url, inLanguage: "fa-IR" },
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: site.name,
+    url: site.url,
+    description: site.description,
+    founder: { "@type": "Person", name: site.owner },
+    ...(phone && { telephone: phone }),
+    ...(email && { email }),
+    ...([whatsapp, telegram].filter(Boolean).length && { sameAs: [whatsapp, telegram].filter(Boolean) }),
+  },
+];
 ---
 
 <BaseLayout>
   <JsonLd slot="head" data={schema} />
-
-  <Section>
-    <h1>سایت شما، جایی که مشتری پیدایتان می‌کند</h1>
-    <p class="lead">{site.description}</p>
-    <p class="slogan">{site.slogan}</p>
-    <div class="actions">
-      <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
-      <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
-    </div>
-  </Section>
-
-  <Section tone="surface" id="services" title="خدمات">
-    <div class="grid">
-      <Card><h3>طراحی سایت</h3><p>سایت‌های شخصی، خدماتی و فروشگاهی سریع، واکنش‌گرا و مناسب کسب‌وکار.</p></Card>
-      <Card><h3>پشتیبانی سایت</h3><p>رفع مشکلات، بروزرسانی، توسعه، بهینه‌سازی و نگهداری سایت.</p></Card>
-      <Card><h3>هوش مصنوعی</h3><p>خدمات، آموزش و مشاوره برای استفاده کاربردی از هوش مصنوعی.</p></Card>
-    </div>
-  </Section>
+  <Hero />
+  <ServicesGrid />
+  <WhyUs />
+  <Process />
+  <AIBlock />
+  <FinalCTA />
 </BaseLayout>
-
-<style>
-  .lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
-  .slogan { margin-top: var(--s-6); font-weight: 700; }
-  .actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-8); }
-  .grid { display: grid; gap: var(--s-6); }
-  .grid h3 { margin-bottom: var(--s-2); }
-  .grid p { color: var(--muted); }
-  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
-</style>

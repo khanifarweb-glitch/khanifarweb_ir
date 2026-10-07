@@ -1,0 +1,50 @@
+---
+/** فوتر: برند، شعار، پیوندهای سریع و راه‌های ارتباطی (فقط مقدارهای پرشده نمایش داده می‌شوند). */
+import { site } from "../../data/site";
+
+const { phone, email, whatsapp, telegram } = site.contact;
+const year = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date());
+const hasContact = phone || email || whatsapp || telegram;
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <p class="footer__brand ltr">{site.name}</p>
+      <p class="footer__slogan">{site.slogan}</p>
+    </div>
+
+    <nav aria-label="پیوندهای سریع">
+      <h2 class="footer__title">دسترسی سریع</h2>
+      <ul>
+        {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    {hasContact && (
+      <div>
+        <h2 class="footer__title">ارتباط</h2>
+        <ul>
+          {phone && <li><a class="ltr" href={`tel:${phone}`}>{phone}</a></li>}
+          {email && <li><a class="ltr" href={`mailto:${email}`}>{email}</a></li>}
+          {whatsapp && <li><a href={whatsapp} rel="noopener">واتساپ</a></li>}
+          {telegram && <li><a href={telegram} rel="noopener">تلگرام</a></li>}
+        </ul>
+      </div>
+    )}
+  </div>
+  <div class="container footer__copy">© {year} {site.owner}</div>
+</footer>
+
+<style>
+  .footer { margin-top: var(--s-16); padding-block: var(--s-12) var(--s-6); background: var(--text); color: #e5e7eb; }
+  .footer__grid { display: grid; gap: var(--s-8); }
+  .footer__brand { font-weight: 800; font-size: var(--fs-lg); color: #fff; }
+  .footer__slogan { margin-top: var(--s-2); color: #d1d5db; max-width: 32ch; }
+  .footer__title { font-size: var(--fs-base); color: #fff; margin-bottom: var(--s-3); }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-1); }
+  a { color: #d1d5db; text-decoration: none; display: inline-block; padding: var(--s-1) 0; }
+  a:hover { color: #fff; text-decoration: underline; }
+  .footer__copy { margin-top: var(--s-8); padding-top: var(--s-4); border-top: 1px solid #374151; font-size: var(--fs-sm); color: #9ca3af; }
+  @media (min-width: 48rem) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr; } }
+</style>

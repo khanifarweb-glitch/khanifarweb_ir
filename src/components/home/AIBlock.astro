@@ -1,0 +1,28 @@
+---
+import Section from "../common/Section.astro";
+import Card from "../common/Card.astro";
+import Button from "../common/Button.astro";
+
+const items = [
+  { title: "خدمات AI", text: "استفاده از هوش مصنوعی برای حل مسائل واقعی کسب‌وکار." },
+  { title: "آموزش AI", text: "آموزش ساده و کاربردی ابزارهای هوش مصنوعی." },
+  { title: "مشاوره AI", text: "بررسی فرآیندهای کاری و پیشنهاد روش‌های استفاده از AI برای افزایش سرعت و بهره‌وری." },
+];
+---
+
+<Section id="ai" title="هوش مصنوعی برای کار روزمره" intro="بدون وعده‌های بزرگ؛ فقط استفاده کاربردی که در کارتان صرفه‌جویی ایجاد کند.">
+  <div class="grid">
+    {items.map((i) => (
+      <Card><h3>{i.title}</h3><p>{i.text}</p></Card>
+    ))}
+  </div>
+  <div class="more"><Button href="/ai/" variant="secondary">خدمات هوش مصنوعی</Button></div>
+</Section>
+
+<style>
+  .grid { display: grid; gap: var(--s-6); }
+  h3 { margin-bottom: var(--s-2); }
+  p { color: var(--muted); }
+  .more { margin-top: var(--s-8); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

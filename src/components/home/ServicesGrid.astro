@@ -1,0 +1,31 @@
+---
+import Section from "../common/Section.astro";
+import Card from "../common/Card.astro";
+
+// محتوای کارت‌ها طبق Design Brief
+const services = [
+  { title: "طراحی سایت", text: "سایت‌های شخصی، خدماتی و فروشگاهی سریع، واکنش‌گرا و مناسب کسب‌وکار.", cta: "طراحی سایت", href: "/design/" },
+  { title: "پشتیبانی سایت", text: "رفع مشکلات، بروزرسانی، توسعه، بهینه‌سازی و نگهداری سایت.", cta: "درخواست پشتیبانی", href: "/website-support/" },
+  { title: "هوش مصنوعی", text: "خدمات، آموزش و مشاوره برای استفاده کاربردی از هوش مصنوعی.", cta: "خدمات هوش مصنوعی", href: "/ai/" },
+];
+---
+
+<Section id="services" title="خدمات" tone="surface">
+  <div class="grid">
+    {services.map((s) => (
+      <Card href={s.href}>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+        <span class="cta">{s.cta} ←</span>
+      </Card>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .grid { display: grid; gap: var(--s-6); }
+  h3 { margin-bottom: var(--s-2); }
+  p { color: var(--muted); }
+  .cta { display: inline-block; margin-top: var(--s-4); font-weight: 600; color: var(--accent); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

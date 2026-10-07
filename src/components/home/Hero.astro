@@ -1,0 +1,25 @@
+---
+import { site } from "../../data/site";
+import Button from "../common/Button.astro";
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <p class="hero__slogan">{site.slogan}</p>
+    <h1 id="hero-title">سایت شما، جایی که مشتری پیدایتان می‌کند</h1>
+    <p class="hero__lead">{site.description}</p>
+    <div class="hero__actions">
+      <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
+      <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: var(--s-16) var(--s-12); }
+  .hero h1 { max-width: 20ch; }
+  .hero__slogan { display: inline-block; margin-bottom: var(--s-4); padding-inline-start: var(--s-3); border-inline-start: 3px solid var(--accent); font-weight: 600; color: var(--muted); }
+  .hero__lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-8); }
+  @media (min-width: 48rem) { .hero { padding-block: var(--s-24) var(--s-16); } }
+</style>

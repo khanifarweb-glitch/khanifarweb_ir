@@ -1,0 +1,29 @@
+---
+import Section from "../common/Section.astro";
+
+const steps = [
+  { title: "گفتگو", text: "نیاز کسب‌وکار شما بررسی می‌شود." },
+  { title: "پیشنهاد", text: "راهکار و ساختار مناسب پیشنهاد می‌شود." },
+  { title: "طراحی و اجرا", text: "سایت ساخته و آماده انتشار می‌شود." },
+  { title: "پشتیبانی", text: "پس از راه‌اندازی، امکان توسعه و پشتیبانی وجود دارد." },
+];
+---
+
+<Section id="process" title="همکاری چطور پیش می‌رود؟" intro="فرآیند ساده و شفاف است؛ از همان گفتگوی اول می‌دانید قدم بعدی چیست." tone="surface">
+  <ol class="steps">
+    {steps.map((s) => (
+      <li>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); counter-reset: step; }
+  li { counter-increment: step; padding-top: var(--s-4); border-top: 2px solid var(--border); }
+  li::before { content: counter(step, persian); display: block; margin-bottom: var(--s-2); font-weight: 800; font-size: var(--fs-h3); color: var(--accent); }
+  p { margin-top: var(--s-2); color: var(--muted); }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, 1fr); } }
+</style>

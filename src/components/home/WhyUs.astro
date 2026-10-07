@@ -1,0 +1,25 @@
+---
+import Section from "../common/Section.astro";
+
+const reasons = [
+  "طراحی متناسب با نیاز واقعی کسب‌وکار",
+  "تمرکز روی تجربه کاربر",
+  "طراحی واکنش‌گرا برای همه دستگاه‌ها",
+  "توجه به سرعت و سئو",
+  "امکان پشتیبانی و توسعه بعد از تحویل",
+  "استفاده کاربردی از ابزارهای هوش مصنوعی",
+  "ارتباط مستقیم با طراح",
+];
+---
+
+<Section id="why" title="چرا KhanifarWeb؟">
+  <ul class="list">
+    {reasons.map((r) => <li>{r}</li>)}
+  </ul>
+</Section>
+
+<style>
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  li { padding: var(--s-4) var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); border-inline-start: 4px solid var(--accent); }
+  @media (min-width: 48rem) { .list { grid-template-columns: repeat(2, 1fr); } }
+</style>

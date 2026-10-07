@@ -1,0 +1,78 @@
+---
+/** هدر: لوگوی متنی، منوی اصلی و CTA. منوی موبایل با JS کوچک (progressive enhancement). */
+import { site } from "../../data/site";
+import Button from "./Button.astro";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="header" data-header>
+  <div class="container header__bar">
+    <a class="brand ltr" href="/" aria-label={`${site.name} - صفحه اصلی`}>{site.name}</a>
+
+    <button
+      class="menu-btn"
+      type="button"
+      aria-expanded="false"
+      aria-controls="main-nav"
+      data-menu-btn
+    >
+      منو
+    </button>
+
+    <nav class="nav" id="main-nav" aria-label="منوی اصلی" data-nav>
+      <ul>
+        {site.nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <Button href={site.primaryCta.href} class="nav__cta">{site.primaryCta.label}</Button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // باز و بسته شدن منوی موبایل؛ بدون JS منو همیشه نمایش داده می‌شود
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const btn = document.querySelector<HTMLButtonElement>("[data-menu-btn]");
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  if (header && btn && nav) {
+    header.dataset.js = "";
+    const set = (open: boolean) => {
+      btn.setAttribute("aria-expanded", String(open));
+      nav.toggleAttribute("data-open", open);
+    };
+    btn.addEventListener("click", () => set(btn.getAttribute("aria-expanded") !== "true"));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { set(false); btn.focus(); }
+    });
+  }
+</script>
+
+<style>
+  .header { background: var(--surface); border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+  .header__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-3); }
+  .brand { font-weight: 800; font-size: var(--fs-lg); text-decoration: none; letter-spacing: -0.01em; }
+  .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s-4); background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
+  .nav { display: flex; flex-direction: column; gap: var(--s-4); width: 100%; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .nav a:not(.btn) { display: block; padding: var(--s-3) 0; text-decoration: none; color: var(--muted); }
+  .nav a:not(.btn):hover, .nav a[aria-current="page"] { color: var(--text); }
+  .nav a[aria-current="page"] { font-weight: 600; }
+
+  /* موبایل با JS: منو جمع‌شونده */
+  @media (max-width: 63.99rem) {
+    [data-js] .menu-btn { display: inline-flex; align-items: center; }
+    [data-js] .nav:not([data-open]) { display: none; }
+  }
+  @media (min-width: 64rem) {
+    .nav { flex-direction: row; align-items: center; width: auto; gap: var(--s-6); }
+    .nav ul { flex-direction: row; gap: var(--s-6); }
+    .nav a:not(.btn) { padding: var(--s-2) 0; font-size: var(--fs-sm); }
+  }
+</style>
