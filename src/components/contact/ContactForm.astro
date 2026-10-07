@@ -1,0 +1,113 @@
+---
+/** فرم درخواست مشاوره: نام، شماره تماس، نوع خدمت، توضیح کوتاه. ارسال با fetch به /api/contact */
+import Button from "../common/Button.astro";
+
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
+---
+
+<form class="form" data-contact-form novalidate={false} method="post" action="/api/contact">
+  <div class="field">
+    <label for="name">نام</label>
+    <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" />
+  </div>
+
+  <div class="field">
+    <label for="phone">شماره تماس</label>
+    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required maxlength="20" placeholder="09123456789" />
+  </div>
+
+  <div class="field">
+    <label for="service">نوع خدمت</label>
+    <select id="service" name="service" required>
+      <option value="design">طراحی سایت</option>
+      <option value="website-support">پشتیبانی سایت</option>
+      <option value="ai">هوش مصنوعی</option>
+      <option value="other">سایر</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="message">توضیح کوتاه <span class="opt">(اختیاری)</span></label>
+    <textarea id="message" name="message" rows="4" maxlength="1000"></textarea>
+  </div>
+
+  <!-- Honeypot: برای انسان نامرئی است -->
+  <div class="hp" aria-hidden="true">
+    <label for="website">وب‌سایت</label>
+    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="ts" value="" />
+
+  {siteKey && <div class="cf-turnstile" data-sitekey={siteKey}></div>}
+
+  <Button type="submit">ارسال درخواست مشاوره</Button>
+  <p class="status" role="status" aria-live="polite" data-status></p>
+  <noscript><p>برای ارسال فرم به جاوااسکریپت نیاز است؛ از راه‌های ارتباط مستقیم استفاده کنید.</p></noscript>
+</form>
+
+{siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  if (form) {
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const select = form.elements.namedItem("service") as HTMLSelectElement;
+    (form.elements.namedItem("ts") as HTMLInputElement).value = String(Date.now());
+
+    // انتخاب خودکار خدمت از آدرس: /contact/?service=ai
+    const wanted = new URLSearchParams(location.search).get("service");
+    if (wanted && [...select.options].some((o) => o.value === wanted)) select.value = wanted;
+
+    const show = (msg: string, isError: boolean) => {
+      status.textContent = msg; // textContent: بدون خطر XSS
+      status.dataset.error = String(isError);
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "در حال ارسال...";
+      show("", false);
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          form.reset();
+          (form.elements.namedItem("ts") as HTMLInputElement).value = String(Date.now());
+          show("درخواست شما ارسال شد. به‌زودی با شما تماس می‌گیرم.", false);
+        } else {
+          show(data.error ?? "ارسال انجام نشد. لطفاً دوباره تلاش کنید.", true);
+        }
+      } catch {
+        show("ارتباط با سرور برقرار نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  }
+</script>
+
+<style>
+  .form { display: grid; gap: var(--s-6); }
+  .field { display: grid; gap: var(--s-2); }
+  label { font-weight: 600; }
+  .opt { font-weight: 400; color: var(--muted); font-size: var(--fs-sm); }
+  input, select, textarea {
+    width: 100%; min-height: 3rem; padding: var(--s-3) var(--s-4);
+    background: var(--surface); border: 1px solid #9ca3af; border-radius: var(--radius-sm);
+  }
+  textarea { resize: vertical; }
+  .hp { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .status { min-height: 1.5em; font-weight: 600; }
+  .status[data-error="false"] { color: #047857; }
+  .status[data-error="true"] { color: #b91c1c; }
+  .form :global(.btn) { justify-self: start; }
+  .form :global(.btn:disabled) { opacity: 0.6; cursor: wait; }
+</style>
