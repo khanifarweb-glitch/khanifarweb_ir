@@ -159,15 +159,16 @@ const dateTimeTehran = new Intl.DateTimeFormat(
 ).format(now);
   
   
-  const text = [
-    "📩 درخواست مشاوره جدید",
-    `نام: ${name}`,
-    `تماس: ${phone}`,
-    `خدمت: ${SERVICES[service]}`,
-    message ? `توضیح: ${message}` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
+const text = [
+  "📩 درخواست مشاوره جدید",
+  `نام: ${name}`,
+  `تماس: ${phone}`,
+  `خدمت: ${SERVICES[service]}`,
+  message ? `توضیح: ${message}` : "",
+  `🕐 تاریخ و زمان: ${dateTimeTehran}`,
+]
+.filter(Boolean)
+.join("\n");
 
   const results = await Promise.allSettled(list.map((ch) => send(ch, text)));
   if (results.some((r) => r.status === "fulfilled")) return json({ ok: true });
