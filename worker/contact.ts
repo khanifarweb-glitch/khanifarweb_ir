@@ -160,15 +160,27 @@ const dateTimeTehran = new Intl.DateTimeFormat(
   
   
 const text = [
-  "📩 درخواست مشاوره جدید",
+  "🚀 درخواست جدید | KhanifarWeb",
+  "━━━━━━━━━━━━━━━━━━",
+  "",
+  "👤 اطلاعات متقاضی",
   `نام: ${name}`,
-  `تماس: ${phone}`,
-  `خدمت: ${SERVICES[service]}`,
-  message ? `توضیح: ${message}` : "",
-  `🕐 تاریخ و زمان: ${dateTimeTehran}`,
+  `📱 تماس: ${phone}`,
+  "",
+  `🎯 خدمت موردنظر: ${SERVICES[service]}`,
+  "",
+  message ? "💬 پیام مشتری" : "",
+  message || "",
+  "",
+  `🕐 زمان ثبت درخواست: ${dateTimeTehran}`,
+  "",
+  "━━━━━━━━━━━━━━━━━━",
+  "🌐 KhanifarWeb.ir",
+  "💡 هرجا مشتری هست، شما هم دیده می‌شوید.",
 ]
 .filter(Boolean)
 .join("\n");
+  
 
   const results = await Promise.allSettled(list.map((ch) => send(ch, text)));
   if (results.some((r) => r.status === "fulfilled")) return json({ ok: true });
