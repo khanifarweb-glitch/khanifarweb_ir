@@ -142,6 +142,23 @@ async function handle({ request, env }: Ctx): Promise<Response> {
   const list = channels(env);
   if (list.length === 0) return fail("ارسال فرم هنوز پیکربندی نشده است.", 500, "not-configured");
 
+const now = new Date();
+
+const dateTimeTehran = new Intl.DateTimeFormat(
+  "fa-IR-u-ca-persian",
+  {
+    timeZone: "Asia/Tehran",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }
+).format(now);
+  
+  
   const text = [
     "📩 درخواست مشاوره جدید",
     `نام: ${name}`,
