@@ -1,3 +1,11 @@
+# اگر فرم «کد: HTTP 404» می‌دهد (چک‌لیست سریع)
+باز کنید: `https://khanifarweb.ir/api/contact`
+- **JSON دیدید** (مثل `{"ok":true,...}`) ← Function فعال است؛ فقط Secretها را ثبت کنید (پایین‌تر).
+- **صفحه ۴۰۴ دیدید** ← آخرین deploy موفق نشده یا فایل‌ها کامل آپلود نشده‌اند:
+  1. Cloudflare ← Workers & Pages ← پروژه ← **Deployments**: بالاترین ردیف باید ✅ باشد. اگر ❌ است، لاگ را باز کنید.
+  2. ریشه ریپوی GitHub باید این‌ها را داشته باشد: `wrangler.jsonc`، پوشه `worker/`، پوشه `functions/` و `package.json`.
+  3. این‌ها نباید در ریپو باشند: `src/pages/api/`، `wrangler.toml`، `wrangler.json`.
+
 # راهنمای انتشار روی Cloudflare (Workers + Static Assets، رایگان)
 
 ## ساختار مهم ریپو (ریشه ریپو، کنار package.json)
