@@ -8,7 +8,7 @@ services:
 summary: "طراحی و اجرای وب‌سایت متناسب با نیازهای مشتری."
 image: ../../assets/portfolio/customer-site2.webp
 imageAlt: "تصویر صفحه اصلی وب‌سایت طراحی‌شده برای مشتری"
-order: 1
+order: 2
 draft: false
 ---
 
