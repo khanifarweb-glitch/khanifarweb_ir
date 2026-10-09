@@ -27,7 +27,8 @@ const { title, description, heading, lead, crumbs = [], image, noindex } = Astro
 </BaseLayout>
 
 <style>
-  .page-head { padding-block: var(--s-12) var(--s-8); background: linear-gradient(var(--accent-soft), transparent); border-bottom: 1px solid var(--border); margin-bottom: var(--s-4); }
+  .page-head { position: relative; isolation: isolate; padding-block: var(--s-12) var(--s-8); background: linear-gradient(var(--accent-soft), transparent); border-bottom: 1px solid var(--border); margin-bottom: var(--s-4); }
+  .page-head::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(#cfd6e2 1px, transparent 1px) 0 0 / 22px 22px; -webkit-mask-image: linear-gradient(to left, #000, transparent 70%); mask-image: linear-gradient(to left, #000, transparent 70%); opacity: 0.6; }
   h1 { font-weight: 800; }
   .lead { margin-top: var(--s-4); max-width: var(--measure); font-size: var(--fs-lg); color: var(--muted); }
 </style>

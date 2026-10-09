@@ -1,16 +1,15 @@
 ---
 // صفحه درباره من. اگر فایل src/assets/about/photo.(jpg|jpeg|png|webp) وجود داشته باشد، نمایش داده می‌شود.
 import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/common/Section.astro";
 import Button from "../components/common/Button.astro";
 import { site } from "../data/site";
 import { hasEntries } from "../utils/content";
+import { ownerPhoto } from "../utils/photo";
 
 const hasWork = await hasEntries("portfolio");
-const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/about/photo.{jpg,jpeg,png,webp}", { eager: true });
-const photo = Object.values(photos)[0]?.default;
+const photo = ownerPhoto;
 ---
 
 <PageLayout

@@ -3,6 +3,7 @@ import { site } from "../../data/site";
 import Button from "../common/Button.astro";
 import Icon from "../common/Icon.astro";
 import HeroVisual from "./HeroVisual.astro";
+import Avatar from "../common/Avatar.astro";
 import { hasEntries } from "../../utils/content";
 
 const hasWork = await hasEntries("portfolio");
@@ -21,6 +22,10 @@ const points = ["ارتباط مستقیم با طراح", "طراحی واکن�
           ? <Button href="/portfolio/" variant="secondary" size="lg">مشاهده نمونه‌کارها</Button>
           : <Button href="#services" variant="secondary" size="lg">مشاهده خدمات</Button>}
       </div>
+      <a class="owner" href="/about/">
+        <Avatar size={48} />
+        <span><b>{site.owner}</b><small>طراح و توسعه‌دهنده وب؛ مستقیم با خودم صحبت می‌کنید</small></span>
+      </a>
       <ul class="hero__points">
         {points.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
       </ul>
@@ -36,6 +41,7 @@ const points = ["ارتباط مستقیم با طراح", "طراحی واکن�
     content: ""; position: absolute; inset: 0; z-index: -1;
     background:
       radial-gradient(40rem 22rem at 85% -5%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+      radial-gradient(28rem 14rem at 0 100%, color-mix(in srgb, var(--warm) 11%, transparent), transparent 70%),
       radial-gradient(#cfd6e2 1px, transparent 1px) 0 0 / 24px 24px;
     -webkit-mask-image: linear-gradient(#000 40%, transparent);
     mask-image: linear-gradient(#000 40%, transparent);
@@ -43,10 +49,14 @@ const points = ["ارتباط مستقیم با طراح", "طراحی واکن�
   .hero__grid { display: grid; gap: var(--s-16); align-items: center; }
   .hero__slogan { display: inline-block; margin-bottom: var(--s-4); padding: var(--s-1) var(--s-4); background: var(--accent-soft); color: var(--accent-hover); font-weight: 700; font-size: var(--fs-sm); border-radius: 999px; }
   h1 { font-weight: 800; letter-spacing: -0.01em; max-width: 18ch; }
-  .mark { background: linear-gradient(transparent 64%, color-mix(in srgb, var(--accent) 24%, transparent) 64%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .mark { background: linear-gradient(transparent 64%, color-mix(in srgb, var(--warm) 42%, transparent) 64%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .hero__lead { margin-top: var(--s-6); max-width: 52ch; font-size: var(--fs-lg); color: var(--muted); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
-  .hero__points { list-style: none; margin: var(--s-8) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); color: var(--muted); font-size: var(--fs-sm); }
+  .owner { display: inline-flex; align-items: center; gap: var(--s-3); margin-top: var(--s-8); padding: var(--s-2) var(--s-6) var(--s-2) var(--s-2); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; text-decoration: none; box-shadow: var(--shadow-sm); transition: border-color var(--ease), box-shadow var(--ease); }
+  .owner:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+  .owner span { display: grid; line-height: 1.5; }
+  .owner small { color: var(--muted); font-size: var(--fs-sm); }
+  .hero__points { list-style: none; margin: var(--s-6) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); color: var(--muted); font-size: var(--fs-sm); }
   .hero__points li { display: inline-flex; align-items: center; gap: var(--s-2); }
   .hero__points :global(svg) { color: var(--accent); }
   @media (min-width: 64rem) {

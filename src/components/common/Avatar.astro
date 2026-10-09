@@ -1,0 +1,21 @@
+---
+/** آواتار گرد: عکس بهینه‌شده (WebP کوچک) یا حرف اول نام اگر عکس نباشد. */
+import { Image } from "astro:assets";
+import { ownerPhoto } from "../../utils/photo";
+import { site } from "../../data/site";
+
+interface Props { size?: number; alt?: string; lazy?: boolean }
+const { size = 56, alt = "", lazy = false } = Astro.props;
+const initial = site.owner.trim().charAt(0);
+---
+
+{ownerPhoto ? (
+  <Image src={ownerPhoto} alt={alt} width={size * 2} height={size * 2} loading={lazy ? "lazy" : "eager"} class="avatar" style={`width:${size}px;height:${size}px`} />
+) : (
+  <span class="avatar avatar--fallback" aria-hidden="true" style={`width:${size}px;height:${size}px;font-size:${size * 0.45}px`}>{initial}</span>
+)}
+
+<style>
+  .avatar { flex: none; display: block; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--border), var(--shadow-sm); }
+  .avatar--fallback { display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 800; border-color: #fff; }
+</style>

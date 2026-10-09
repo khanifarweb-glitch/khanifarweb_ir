@@ -11,6 +11,10 @@
   --border: #e5e7eb;
   --focus: #2563eb;
   --accent-soft: #eff4ff;
+  --warm: #f59e0b; /* رنگ گرم کمکی؛ فقط برای جزئیات */
+  --warm-soft: #fff8eb;
+  --warm-border: #fde2b0;
+  --warm-ink: #92400e;
   --ink: #0b1220; /* بخش‌های تیره */
   --on-ink: #e8edf7;
   --on-ink-muted: #a5b0c6;

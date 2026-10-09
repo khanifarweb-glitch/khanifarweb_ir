@@ -1,0 +1,32 @@
+---
+import { site } from "../../data/site";
+import Avatar from "../common/Avatar.astro";
+import Button from "../common/Button.astro";
+---
+
+<section class="meet-wrap" aria-labelledby="meet-title">
+  <div class="container">
+    <div class="meet reveal">
+      <Avatar size={112} alt={site.owner} lazy />
+      <div class="meet__text">
+        <p class="meet__eyebrow">آشنایی</p>
+        <h2 id="meet-title">سلام، من {site.owner.split(" ")[0]} هستم</h2>
+        <p>طراح و توسعه‌دهنده وب. سایت می‌سازم، از سایت‌های موجود پشتیبانی می‌کنم و به کسب‌وکارها کمک می‌کنم از هوش مصنوعی در کارهای روزمره استفاده کنند. با من مستقیم صحبت می‌کنید، نه با واسطه.</p>
+        <div class="meet__actions">
+          <Button href={site.primaryCta.href} arrow>{site.primaryCta.label}</Button>
+          <Button href="/about/" variant="secondary">بیشتر درباره من</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .meet-wrap { padding-block: var(--s-16) 0; }
+  .meet { display: grid; gap: var(--s-6); justify-items: start; padding: var(--s-8) var(--s-6); background: var(--warm-soft); border: 1px solid var(--warm-border); border-radius: var(--radius-lg); }
+  .meet__eyebrow { font-size: var(--fs-sm); font-weight: 700; color: var(--warm-ink); }
+  h2 { margin: var(--s-1) 0 var(--s-3); }
+  .meet__text p:not(.meet__eyebrow) { max-width: 60ch; color: #4b4136; }
+  .meet__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-6); }
+  @media (min-width: 48rem) { .meet { grid-template-columns: auto 1fr; align-items: center; gap: var(--s-8); padding: var(--s-12) var(--s-12); } }
+</style>

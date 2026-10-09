@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/common/Section.astro";
 import ContactForm from "../components/contact/ContactForm.astro";
+import ContactLinks from "../components/contact/ContactLinks.astro";
 import { site } from "../data/site";
 
 const { phone, email, whatsapp, telegram } = site.contact;
@@ -19,13 +20,8 @@ const hasContact = phone || email || whatsapp || telegram;
       <ContactForm />
       {hasContact && (
         <aside aria-labelledby="direct-title">
-          <h2 id="direct-title">ارتباط مستقیم</h2>
-          <ul>
-            {phone && <li>تماس: <a class="ltr" href={`tel:${phone}`}>{phone}</a></li>}
-            {email && <li>ایمیل: <a class="ltr" href={`mailto:${email}`}>{email}</a></li>}
-            {whatsapp && <li><a href={whatsapp} rel="noopener">پیام در واتساپ</a></li>}
-            {telegram && <li><a href={telegram} rel="noopener">پیام در تلگرام</a></li>}
-          </ul>
+          <h2 id="direct-title">ترجیح می‌دهید مستقیم صحبت کنیم؟</h2>
+          <ContactLinks />
         </aside>
       )}
     </div>
@@ -34,8 +30,6 @@ const hasContact = phone || email || whatsapp || telegram;
 
 <style>
   .layout { display: grid; gap: var(--s-12); max-width: 56rem; }
-  aside h2 { font-size: var(--fs-h3); margin-bottom: var(--s-3); }
-  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); }
-  a { color: var(--accent); }
-  @media (min-width: 64rem) { .layout:has(aside) { grid-template-columns: 1.4fr 1fr; max-width: none; } }
+  aside h2 { font-size: var(--fs-h3); margin-bottom: var(--s-4); }
+  @media (min-width: 64rem) { .layout:has(aside) { grid-template-columns: 1.4fr 1fr; max-width: none; align-items: start; } }
 </style>
