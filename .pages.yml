@@ -1,0 +1,139 @@
+# تنظیمات Pages CMS (پنل رایگان مدیریت محتوا: app.pagescms.org)
+media:
+  - name: blog
+    label: تصاویر مقاله
+    input: src/assets/blog
+    output: ../../assets/blog
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: portfolio
+    label: تصاویر نمونه‌کار
+    input: src/assets/portfolio
+    output: ../../assets/portfolio
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+
+content:
+  - name: blog
+    label: مقالات
+    type: collection
+    path: src/content/blog
+    exclude: ["_template.md"]
+    filename:
+      template: "{primary}.md"
+      field: create # هنگام ساخت، نام فایل (آدرس مقاله) را انگلیسی و با خط تیره بنویسید
+    view:
+      fields: [title, date, category, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: عنوان
+        type: string
+        required: true
+      - name: description
+        label: توضیح متا (۱۲۰ تا ۱۶۰ حرف)
+        type: text
+        required: true
+        options:
+          maxlength: 200
+      - name: date
+        label: تاریخ انتشار
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: دسته‌بندی
+        type: string
+        required: true
+      - name: cta
+        label: دکمه انتهای مقاله مرتبط با
+        type: select
+        default: design
+        options:
+          values:
+            - name: design
+              label: طراحی سایت
+            - name: support
+              label: پشتیبانی سایت
+            - name: ai
+              label: هوش مصنوعی
+      - name: image
+        label: تصویر شاخص (اختیاری)
+        type: image
+        options:
+          media: blog
+      - name: imageAlt
+        label: توضیح تصویر (اگر تصویر دارید)
+        type: string
+      - name: draft
+        label: پیش‌نویس (تا خاموش نشود منتشر نمی‌شود)
+        type: boolean
+        default: true
+      - name: body
+        label: متن مقاله
+        type: rich-text
+        options:
+          format: markdown
+          media: blog
+
+  - name: portfolio
+    label: نمونه‌کارها
+    type: collection
+    path: src/content/portfolio
+    exclude: ["_template.md"]
+    filename:
+      template: "{primary}.md"
+      field: create
+    view:
+      fields: [title, type, draft]
+      primary: title
+    fields:
+      - name: title
+        label: نام پروژه
+        type: string
+        required: true
+      - name: type
+        label: نوع سایت (مثلاً سایت خدماتی)
+        type: string
+        required: true
+      - name: services
+        label: خدمات انجام‌شده
+        type: string
+        list: true
+        required: true
+      - name: summary
+        label: توضیح کوتاه
+        type: text
+        required: true
+      - name: image
+        label: تصویر پروژه
+        type: image
+        required: true
+        options:
+          media: portfolio
+      - name: imageAlt
+        label: توضیح تصویر
+        type: string
+        required: true
+      - name: url
+        label: آدرس پروژه (اختیاری، با https)
+        type: string
+      - name: order
+        label: ترتیب نمایش (عدد کوچک‌تر اول)
+        type: number
+        default: 1
+      - name: draft
+        label: پیش‌نویس
+        type: boolean
+        default: true
+      - name: body
+        label: شرح پروژه
+        type: rich-text
+        options:
+          format: markdown
+          media: portfolio
