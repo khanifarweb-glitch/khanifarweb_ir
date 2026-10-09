@@ -2,6 +2,13 @@
  * اطلاعات ثابت سایت. نام، شعار و راه‌های ارتباطی فقط از همین‌جا خوانده می‌شوند.
  * مقادیر خالی ("") هنوز توسط صاحب سایت تکمیل نشده‌اند؛ مقدار ساختگی نگذارید.
  */
+type Contact = { phone: string; email: string; whatsapp: string; telegram: string };
+const defaultContact: Contact = { phone: "", email: "", whatsapp: "", telegram: "" };
+
+// فایل اختیاری: src/data/contact.local.ts با «export default { phone: "...", ... }»
+const localFiles = import.meta.glob<{ default: Partial<Contact> }>("./contact.local.ts", { eager: true });
+const localContact: Partial<Contact> = Object.values(localFiles)[0]?.default ?? {};
+
 export const site = {
   name: "KhanifarWeb",
   nameFa: "خنیفروب",
@@ -14,13 +21,8 @@ export const site = {
   ogImage: "/og-default.png", // TODO: تصویر ۱۲۰۰×۶۳۰ را در public قرار دهید
   locale: "fa_IR",
 
-  // TODO: مقادیر واقعی را وارد کنید
-  contact: {
-    phone: "",
-    email: "",
-    whatsapp: "", // مثال: https://wa.me/98912...
-    telegram: "", // مثال: https://t.me/username
-  },
+  // اطلاعات تماس از فایل اختیاری src/data/contact.local.ts خوانده می‌شود (آن فایل هرگز در ZIP نیست و بازنویسی نمی‌شود)
+  contact: { ...defaultContact, ...localContact },
 
   // CTA اصلی سایت فقط یکی است
   primaryCta: { label: "درخواست مشاوره", href: "/contact/" },
