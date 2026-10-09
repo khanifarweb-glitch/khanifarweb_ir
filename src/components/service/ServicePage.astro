@@ -8,6 +8,7 @@ import Button from "../common/Button.astro";
 import JsonLd from "../seo/JsonLd.astro";
 import { site } from "../../data/site";
 import { orgId } from "../../utils/schema";
+import { hasEntries } from "../../utils/content";
 
 interface Props { id: "design" | "website-support" | "ai" }
 const { id } = Astro.props;
@@ -17,6 +18,8 @@ if (!entry) throw new Error(`Service "${id}" not found in src/content/services`)
 const { Content } = await render(entry);
 const { title, seoTitle, description, summary } = entry.data;
 const others = (await getCollection("services")).filter((s) => s.id !== id).sort((a, b) => a.data.order - b.data.order);
+
+const hasWork = await hasEntries("portfolio");
 
 const schema = {
   "@context": "https://schema.org",
@@ -43,7 +46,7 @@ const schema = {
           <p class="box__title">خدمات دیگر</p>
           <ul>
             {others.map((o) => <li><a href={`/${o.id}/`}>{o.data.title}</a></li>)}
-            <li><a href="/portfolio/">نمونه‌کارها</a></li>
+            {hasWork && <li><a href="/portfolio/">نمونه‌کارها</a></li>}
           </ul>
         </nav>
       </aside>

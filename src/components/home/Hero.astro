@@ -3,7 +3,9 @@ import { site } from "../../data/site";
 import Button from "../common/Button.astro";
 import Icon from "../common/Icon.astro";
 import HeroVisual from "./HeroVisual.astro";
+import { hasEntries } from "../../utils/content";
 
+const hasWork = await hasEntries("portfolio");
 const points = ["ارتباط مستقیم با طراح", "طراحی واکنش‌گرا و سریع", "پشتیبانی بعد از تحویل"];
 ---
 
@@ -15,7 +17,9 @@ const points = ["ارتباط مستقیم با طراح", "طراحی واکن�
       <p class="hero__lead">{site.description}</p>
       <div class="hero__actions">
         <Button href={site.primaryCta.href} size="lg" arrow>{site.primaryCta.label}</Button>
-        <Button href="/portfolio/" variant="secondary" size="lg">مشاهده نمونه‌کارها</Button>
+        {hasWork
+          ? <Button href="/portfolio/" variant="secondary" size="lg">مشاهده نمونه‌کارها</Button>
+          : <Button href="#services" variant="secondary" size="lg">مشاهده خدمات</Button>}
       </div>
       <ul class="hero__points">
         {points.map((p) => <li><Icon name="check" size={18} />{p}</li>)}

@@ -11,11 +11,14 @@
     "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.2.0",
-    "@fontsource-variable/vazirmatn": "^5.1.0",
-    "astro": "^5.1.0"
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/vazirmatn": "5.3.0",
+    "astro": "5.18.2"
   },
   "devDependencies": {
-    "wrangler": "^4.0.0"
+    "wrangler": "4.148.0"
+  },
+  "engines": {
+    "node": ">=20.3"
   }
 }

@@ -11,6 +11,7 @@ const posts = (await getCollection("blog", (p) => !p.data.draft)).sort(
 
 <PageLayout
   title="آموزش و مقالات"
+  noindex={posts.length === 0}
   description="مقالات کاربردی درباره طراحی سایت، سئو، ابزارهای رایگان وب و هوش مصنوعی برای کسب‌وکارها."
   lead="آموزش‌های کاربردی و قابل‌فهم درباره وب و هوش مصنوعی."
   crumbs={[{ label: "مقالات" }]}

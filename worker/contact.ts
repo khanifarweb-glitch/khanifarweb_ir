@@ -1,7 +1,7 @@
 /**
  * Handler فرم تماس: /api/contact (از worker/index.ts فراخوانی می‌شود)
  *  - POST: دریافت فرم «درخواست مشاوره» و ارسال به Telegram و/یا Bale (چیزی ذخیره نمی‌شود)
- *  - GET : فقط وضعیت پیکربندی (true/false) برای عیب‌یابی؛ هیچ مقدار محرمانه‌ای برنمی‌گرداند
+ *  - GET : فقط {ok, ready} برای بررسی سلامت؛ هیچ مقدار محرمانه‌ای برنمی‌گرداند
  * متغیرهای محیطی در داشبورد Cloudflare Pages تنظیم می‌شوند (راهنما: DEPLOY.md).
  */
 
@@ -88,12 +88,7 @@ const channels = (env: Env): Channel[] => {
 
 // GET /api/contact : وضعیت پیکربندی
 export const onRequestGet = ({ env }: { env: Env }): Response =>
-  json({
-    ok: true,
-    telegram: Boolean(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID),
-    bale: Boolean(env.BALE_BOT_TOKEN && env.BALE_CHAT_ID),
-    turnstile: Boolean(env.TURNSTILE_SECRET_KEY),
-  });
+  json({ ok: true, ready: channels(env).length > 0 }); // فقط آماده/ناآماده؛ جزئیات پیکربندی فاش نمی‌شود
 
 async function handle({ request, env }: Ctx): Promise<Response> {
   // ۱) محافظت CSRF: فقط درخواست JSON از همین دامنه
@@ -142,45 +137,15 @@ async function handle({ request, env }: Ctx): Promise<Response> {
   const list = channels(env);
   if (list.length === 0) return fail("ارسال فرم هنوز پیکربندی نشده است.", 500, "not-configured");
 
-const now = new Date();
-
-const dateTimeTehran = new Intl.DateTimeFormat(
-  "fa-IR-u-ca-persian",
-  {
-    timeZone: "Asia/Tehran",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  }
-).format(now);
-  
-  
-const text = [
-  "🚀 درخواست جدید | KhanifarWeb",
-  "━━━━━━━━━━━━━━━━━━",
-  "",
-  "👤 اطلاعات متقاضی",
-  `نام: ${name}`,
-  `📱 تماس: ${phone}`,
-  "",
-  `🎯 خدمت موردنظر: ${SERVICES[service]}`,
-  "",
-  message ? "💬 پیام مشتری" : "",
-  message || "",
-  "",
-  `🕐 زمان ثبت درخواست: ${dateTimeTehran}`,
-  "",
-  "━━━━━━━━━━━━━━━━━━",
-  "🌐 KhanifarWeb.ir",
-  "💡 هرجا مشتری هست، شما هم دیده می‌شوید.",
-]
-.filter(Boolean)
-.join("\n");
-  
+  const text = [
+    "📩 درخواست مشاوره جدید",
+    `نام: ${name}`,
+    `تماس: ${phone}`,
+    `خدمت: ${SERVICES[service]}`,
+    message ? `توضیح: ${message}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   const results = await Promise.allSettled(list.map((ch) => send(ch, text)));
   if (results.some((r) => r.status === "fulfilled")) return json({ ok: true });

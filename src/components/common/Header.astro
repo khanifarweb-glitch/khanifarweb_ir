@@ -1,9 +1,11 @@
 ---
 /** هدر: لوگوی متنی، منوی اصلی و CTA. منوی موبایل با JS کوچک (progressive enhancement). */
 import { site } from "../../data/site";
+import { visibleNav } from "../../utils/content";
 import Button from "./Button.astro";
 import Logo from "./Logo.astro";
 
+const nav = await visibleNav();
 const path = Astro.url.pathname;
 const isActive = (href: string) => path === href || path.startsWith(href);
 ---
@@ -24,7 +26,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 
     <nav class="nav" id="main-nav" aria-label="منوی اصلی" data-nav>
       <ul>
-        {site.nav.map((item) => (
+        {nav.map((item) => (
           <li>
             <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
               {item.label}

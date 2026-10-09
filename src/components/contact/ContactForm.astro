@@ -13,7 +13,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 
   <div class="field">
     <label for="phone">شماره تماس</label>
-    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required maxlength="20" placeholder="09123456789" />
+    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required maxlength="20" pattern="[0-9۰-۹٠-٩+\s\-()]{10,20}" title="شماره تماس را با ارقام وارد کنید" placeholder="09123456789" />
   </div>
 
   <div class="field">
@@ -61,6 +61,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
     const show = (msg: string, isError: boolean) => {
       status.textContent = msg; // textContent: بدون خطر XSS
       status.dataset.error = String(isError);
+      status.setAttribute("role", isError ? "alert" : "status"); // خطا فوراً توسط صفحه‌خوان اعلام شود
     };
 
     form.addEventListener("submit", async (e) => {

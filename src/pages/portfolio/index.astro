@@ -13,6 +13,7 @@ const projects = (await getCollection("portfolio", (p) => !p.data.draft)).sort(
 
 <PageLayout
   title="نمونه‌کارها"
+  noindex={projects.length === 0}
   description="نمونه‌کارهای طراحی و توسعه سایت توسط KhanifarWeb."
   lead="کیفیت مهم‌تر از تعداد است؛ فقط پروژه‌های واقعی اینجا نمایش داده می‌شوند."
   crumbs={[{ label: "نمونه‌کارها" }]}

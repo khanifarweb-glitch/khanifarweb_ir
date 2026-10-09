@@ -1,8 +1,10 @@
 ---
 /** فوتر: برند، شعار، پیوندهای سریع و راه‌های ارتباطی (فقط مقدارهای پرشده نمایش داده می‌شوند). */
 import { site } from "../../data/site";
+import { visibleNav } from "../../utils/content";
 import Logo from "./Logo.astro";
 
+const nav = await visibleNav();
 const { phone, email, whatsapp, telegram } = site.contact;
 const year = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date());
 const hasContact = phone || email || whatsapp || telegram;
@@ -18,7 +20,7 @@ const hasContact = phone || email || whatsapp || telegram;
     <nav aria-label="پیوندهای سریع">
       <h2 class="footer__title">دسترسی سریع</h2>
       <ul>
-        {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
       </ul>
     </nav>
 

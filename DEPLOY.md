@@ -49,3 +49,11 @@ src/ ...
 - `not-configured` → Secretها ثبت نشده‌اند.
 - `origin` → `SITE_ORIGIN` را تنظیم کنید.
 جزئیات بیشتر: Worker ← Logs (Real-time Logs).
+
+## چک‌لیست بعد از راه‌اندازی
+1. `src/data/site.ts`: تلفن، ایمیل، واتساپ و تلگرام را پر کنید (در فوتر، صفحه تماس و Schema نمایش داده می‌شوند).
+2. Cloudflare ← SSL/TLS ← Edge Certificates: **Always Use HTTPS** روشن باشد.
+3. Cloudflare ← Rules ← Redirect Rules: `www.khanifarweb.ir` را با ریدایرکت ۳۰۱ به `khanifarweb.ir` بفرستید (جلوگیری از محتوای تکراری).
+4. Cloudflare ← Security ← WAF ← Rate limiting rules (رایگان): برای مسیر `/api/contact` مثلاً ۵ درخواست در ۱۰ ثانیه برای هر IP.
+5. Google Search Console: دامنه را ثبت کنید و `https://khanifarweb.ir/sitemap-index.xml` را Submit کنید.
+6. نمونه‌کار و مقاله: با اولین فایل واقعی در `src/content/portfolio` و `src/content/blog`، لینک منو و ورود به sitemap خودکار فعال می‌شود.

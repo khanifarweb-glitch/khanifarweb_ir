@@ -6,7 +6,9 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/common/Section.astro";
 import Button from "../components/common/Button.astro";
 import { site } from "../data/site";
+import { hasEntries } from "../utils/content";
 
+const hasWork = await hasEntries("portfolio");
 const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/about/photo.{jpg,jpeg,png,webp}", { eager: true });
 const photo = Object.values(photos)[0]?.default;
 ---
@@ -37,7 +39,9 @@ const photo = Object.values(photos)[0]?.default;
 
         <div class="actions">
           <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
-          <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
+          {hasWork
+            ? <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
+            : <Button href="/design/" variant="secondary">خدمات طراحی سایت</Button>}
         </div>
       </div>
     </div>
