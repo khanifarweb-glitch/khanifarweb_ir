@@ -25,6 +25,9 @@ export const site = {
   contact: { ...defaultContact, ...localContact },
 
   // CTA اصلی سایت فقط یکی است
+  // کد تأیید مالکیت اینماد؛ در متای همه صفحه‌ها قرار می‌گیرد
+  verification: { enamad: "22269538" },
+
   primaryCta: { label: "درخواست مشاوره", href: "/contact/" },
 
   nav: [

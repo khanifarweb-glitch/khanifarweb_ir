@@ -10,5 +10,7 @@
     // درخواست‌های API قبل از فایل‌های استاتیک به Worker می‌رسند
     "run_worker_first": ["/api/*"]
   },
+  // متغیرها و Secretهای ثبت‌شده در داشبورد با هر deploy پاک نشوند
+  "keep_vars": true,
   "observability": { "enabled": true }
 }

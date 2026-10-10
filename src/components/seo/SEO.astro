@@ -39,6 +39,7 @@ const imageUrl = new URL(image, origin).href;
 <meta name="description" content={description} />
 {!noindex && <link rel="canonical" href={canonicalUrl} />}
 <meta name="author" content={site.owner} />
+{site.verification.enamad && <meta name="enamad" content={site.verification.enamad} />}
 <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
 <meta property="og:type" content={type} />
