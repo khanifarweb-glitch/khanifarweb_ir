@@ -44,4 +44,4 @@ draft: false
 
 🟠 صبا هوش
 
-[https:/t.me/saba_hosh](https:/t.me/saba_hosh)
+[کانال تلگرامی صباهوش](https:/t.me/saba_hosh)
