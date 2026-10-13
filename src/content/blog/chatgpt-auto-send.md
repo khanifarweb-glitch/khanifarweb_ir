@@ -1,11 +1,11 @@
 ---
 title: 🚨 این قابلیت ChatGPT را تنظیم کنی، بعدش خودش سرِ ساعت کارها را انجام می‌دهد!
 slug: chatgpt-auto-send
-description: از کارهای تکراری خلاص شوید.
+description: از کارهای تکراری خلاص شوید...
 date: 2026-10-13
 category: آموزش هوش مصنوعی
 cta: ai
-image: https://ai-7.ir/1385/
+image: ''
 imageAlt: خودکارسازی
 draft: false
 ---
