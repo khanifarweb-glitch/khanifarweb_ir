@@ -5,7 +5,7 @@ description: از کارهای تکراری خلاص شوید...
 date: 2026-10-13
 category: آموزش هوش مصنوعی
 cta: ai
-image: ''
+image: /images/blog/logo.PNG
 imageAlt: خودکارسازی
 draft: false
 ---
