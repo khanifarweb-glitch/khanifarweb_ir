@@ -142,3 +142,6 @@ draft: false
 59\. /visual dissection — ساختار سوژه رو بخش‌بندی می‌کنه.
 
 60\. /tinyplanet — صحنه رو به سیاره کوچیک تبدیل می‌کنه.
+
+🟠 صبا هوش
+https:/t.me/saba_hosh
