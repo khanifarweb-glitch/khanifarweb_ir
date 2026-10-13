@@ -1,0 +1,50 @@
+---
+/**
+ * قاب ثابت ۱۶:۹ برای تصویر مقاله.
+ * تصویر کامل و بدون برش (contain) نمایش داده می‌شود و
+ * فضای خالی با همان تصویر به‌صورت محو‌شده پر می‌شود.
+ */
+interface Props {
+  src: string;
+  alt?: string;
+  eager?: boolean; // برای تصویر بالای صفحه (LCP)
+}
+const { src, alt = "", eager = false } = Astro.props;
+const loading = eager ? "eager" : "lazy";
+---
+
+<div class="frame">
+  <img class="bg" src={src} alt="" aria-hidden="true" loading={loading} decoding="async" />
+  <img class="fg" src={src} alt={alt} loading={loading} decoding="async" fetchpriority={eager ? "high" : "auto"} />
+</div>
+
+<style>
+  .frame {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md, 12px);
+  }
+  /* پس‌زمینه محو‌شده از خود تصویر */
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(22px) saturate(1.15);
+    transform: scale(1.25); /* لبه‌های محو را بیرون قاب می‌برد */
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .fg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>
