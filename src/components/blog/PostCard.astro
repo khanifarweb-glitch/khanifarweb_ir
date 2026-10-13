@@ -19,7 +19,8 @@ const d = post.data;
 </Card>
 
 <style>
-  .thumb { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-sm, 8px); margin-bottom: var(--s-3); }
+  /* قاب ثابت ۱۶:۹؛ تصویر کامل و بدون برش دیده می‌شود */
+  .thumb { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; padding: var(--s-2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); margin-bottom: var(--s-3); }
   .meta { font-size: var(--fs-sm); color: var(--muted); }
   h3 { margin-block: var(--s-2); }
   .desc { color: var(--muted); }
