@@ -47,7 +47,7 @@ const blog = defineCollection({
       date: z.coerce.date(),
       updated: z.coerce.date().optional(),
       category: z.string(),
-      image: image().optional(),
+      image: z.string().optional(), // مسیر تصویر، مثل /images/blog/a.webp
       imageAlt: z.string().optional(),
       cta: z.enum(["design", "support", "ai"]).default("design"),
       draft: z.boolean().default(false),
