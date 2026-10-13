@@ -77,7 +77,8 @@ const schema = {
 <style>
   .article { padding-block: var(--s-12); }
   .meta { margin: var(--s-3) 0 var(--s-8); color: var(--muted); font-size: var(--fs-sm); }
-  .cover { display: block; width: 100%; max-width: var(--measure); height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-md); margin-bottom: var(--s-8); background: var(--surface); }
+  /* قاب ثابت ۱۶:۹؛ تصویر کامل و بدون برش دیده می‌شود */
+  .cover { display: block; width: 100%; max-width: var(--measure); height: auto; aspect-ratio: 16 / 9; object-fit: contain; padding: var(--s-3); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--s-8); }
   .cta { max-width: var(--measure); margin-top: var(--s-12); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
   .cta p { font-weight: 700; margin-bottom: var(--s-4); }
   .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
