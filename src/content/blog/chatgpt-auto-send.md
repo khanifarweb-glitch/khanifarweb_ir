@@ -42,6 +42,6 @@ draft: false
 
 همین. یک بار تنظیم می‌کنید و ChatGPT طبق برنامه جلو می‌رود.
 
-
 🟠 صبا هوش
-https:/t.me/saba_hosh
+
+[https:/t.me/saba_hosh](https:/t.me/saba_hosh)
