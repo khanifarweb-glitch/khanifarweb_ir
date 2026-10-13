@@ -60,6 +60,9 @@ const schema = {
         <time datetime={toIsoDateTime(date)}>{formatPersianDate(date)}</time>
       </p>
     </header>
+    {image && (
+      <img class="cover" src={image} alt={imageAlt ?? ""} width="1200" height="675" fetchpriority="high" decoding="async" />
+    )}
     <Prose><slot /></Prose>
     <aside class="cta" aria-label="پیشنهاد مرتبط">
       <p>{ctas.text}</p>
@@ -74,6 +77,7 @@ const schema = {
 <style>
   .article { padding-block: var(--s-12); }
   .meta { margin: var(--s-3) 0 var(--s-8); color: var(--muted); font-size: var(--fs-sm); }
+  .cover { display: block; width: 100%; max-width: var(--measure); height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-md); margin-bottom: var(--s-8); background: var(--surface); }
   .cta { max-width: var(--measure); margin-top: var(--s-12); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
   .cta p { font-weight: 700; margin-bottom: var(--s-4); }
   .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
