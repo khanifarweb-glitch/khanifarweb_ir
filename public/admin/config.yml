@@ -1,0 +1,32 @@
+# تنظیمات Sveltia CMS برای وبلاگ KhanifarWeb
+backend:
+  name: github
+  repo: khanifarweb-glitch/khanifarweb_ir
+  branch: main
+
+locale: fa
+media_folder: src/assets/blog
+public_folder: ../../assets/blog
+
+collections:
+  - name: blog
+    label: مقالات وبلاگ
+    label_singular: مقاله
+    folder: src/content/blog
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{fields.slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: عنوان, widget: string }
+      - { name: slug, label: آدرس انگلیسی (فقط حروف کوچک، عدد و خط تیره), widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'فقط حروف کوچک انگلیسی، عدد و - مجاز است'], hint: "مثال: seo-basics" }
+      - { name: description, label: توضیح کوتاه (۱۲۰ تا ۱۶۰ کاراکتر برای گوگل), widget: text }
+      - { name: date, label: تاریخ انتشار, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: category, label: دسته‌بندی, widget: string, default: آموزش }
+      - { name: cta, label: دکمه پایان مقاله, widget: select, default: design, options: [{ label: طراحی سایت, value: design }, { label: پشتیبانی سایت, value: support }, { label: هوش مصنوعی, value: ai }] }
+      - { name: image, label: تصویر شاخص, widget: image, required: false }
+      - { name: imageAlt, label: توضیح تصویر (alt), widget: string, required: false }
+      - { name: draft, label: پیش‌نویس (منتشر نشود), widget: boolean, default: false }
+      - { name: body, label: متن مقاله, widget: markdown }
