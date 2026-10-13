@@ -144,4 +144,4 @@ draft: false
 60\. /tinyplanet — صحنه رو به سیاره کوچیک تبدیل می‌کنه.
 
 🟠 صبا هوش
-https:/t.me/saba_hosh
+[https:/t.me/saba_hosh](https:/t.me/saba_hosh)
