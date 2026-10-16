@@ -4,26 +4,29 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/common/Section.astro";
 import Button from "../../components/common/Button.astro";
 import ProjectCard from "../../components/portfolio/ProjectCard.astro";
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
 
+const { lang, t } = useI18n(Astro.url);
+const site = siteFor(lang);
 const projects = (await getCollection("portfolio", (p) => !p.data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---
 
 <PageLayout
-  title="نمونه‌کارها"
+  title={t.portfolio.title}
   noindex={projects.length === 0}
-  description="نمونه‌کارهای طراحی و توسعه سایت توسط KhanifarWeb."
-  lead="کیفیت مهم‌تر از تعداد است؛ فقط پروژه‌های واقعی اینجا نمایش داده می‌شوند."
-  crumbs={[{ label: "نمونه‌کارها" }]}
+  description={t.portfolio.description}
+  lead={t.portfolio.lead}
+  crumbs={[{ label: t.portfolio.title }]}
 >
   <Section>
     {projects.length > 0 ? (
       <div class="grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
     ) : (
       <div class="empty">
-        <p>نمونه‌کارها به‌زودی در این بخش منتشر می‌شوند. اگر پروژه‌ای در ذهن دارید، همین حالا درباره‌اش گفتگو کنیم.</p>
+        <p>{t.portfolio.empty}</p>
         <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
       </div>
     )}

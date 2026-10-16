@@ -6,18 +6,24 @@ import Section from "../common/Section.astro";
 import Prose from "../common/Prose.astro";
 import Button from "../common/Button.astro";
 import JsonLd from "../seo/JsonLd.astro";
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
 import { orgId } from "../../utils/schema";
 import { hasEntries } from "../../utils/content";
 
 interface Props { id: "design" | "website-support" | "ai" }
 const { id } = Astro.props;
 
-const entry = await getEntry("services", id);
-if (!entry) throw new Error(`Service "${id}" not found in src/content/services`);
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
+
+// فایل انگلیسی هر خدمت در src/content/services/en/<id>.md است
+const entryId = lang === "en" ? `en/${id}` : id;
+const entry = await getEntry("services", entryId);
+if (!entry) throw new Error(`Service "${entryId}" not found in src/content/services`);
 const { Content } = await render(entry);
 const { title, seoTitle, description, summary } = entry.data;
-const others = (await getCollection("services")).filter((s) => s.id !== id).sort((a, b) => a.data.order - b.data.order);
+const others = (await getCollection("services")).filter((s) => s.id !== entryId && s.id.startsWith("en/") === (lang === "en")).sort((a, b) => a.data.order - b.data.order);
 
 const hasWork = await hasEntries("portfolio");
 
@@ -26,7 +32,8 @@ const schema = {
   "@type": "Service",
   name: title,
   description,
-  url: new URL(`/${id}/`, site.url).href,
+  url: new URL(lp(`/${id}/`), site.url).href,
+  inLanguage: lang === "en" ? "en-US" : "fa-IR",
   provider: { "@id": orgId },
 };
 ---
@@ -38,15 +45,15 @@ const schema = {
       <Prose><Content /></Prose>
       <aside class="side">
         <div class="box">
-          <p class="box__title">آماده شروع هستید؟</p>
-          <p class="box__text">نیازتان را کوتاه بنویسید تا با هم بررسی کنیم.</p>
+          <p class="box__title">{t.servicePage.boxTitle}</p>
+          <p class="box__text">{t.servicePage.boxText}</p>
           <Button href={`${site.primaryCta.href}?service=${id}`} arrow>{site.primaryCta.label}</Button>
         </div>
-        <nav class="others" aria-label="خدمات دیگر">
-          <p class="box__title">خدمات دیگر</p>
+        <nav class="others" aria-label={t.servicePage.others}>
+          <p class="box__title">{t.servicePage.others}</p>
           <ul>
-            {others.map((o) => <li><a href={`/${o.id}/`}>{o.data.title}</a></li>)}
-            {hasWork && <li><a href="/portfolio/">نمونه‌کارها</a></li>}
+            {others.map((o) => <li><a href={lp(`/${o.id.replace(/^en\//, "")}/`)}>{o.data.title}</a></li>)}
+            {hasWork && <li><a href={lp("/portfolio/")}>{t.servicePage.portfolio}</a></li>}
           </ul>
         </nav>
       </aside>

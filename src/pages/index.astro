@@ -11,8 +11,9 @@ import Process from "../components/home/Process.astro";
 import AIBlock from "../components/home/AIBlock.astro";
 import FinalCTA from "../components/home/FinalCTA.astro";
 import { siteGraph } from "../utils/schema";
+import { getLang } from "../i18n/ui";
 
-const schema = siteGraph();
+const schema = siteGraph(getLang(Astro.url)); // همین صفحه برای /en/ هم استفاده می‌شود
 ---
 
 <BaseLayout>

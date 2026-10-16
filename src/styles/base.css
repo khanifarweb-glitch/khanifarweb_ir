@@ -7,11 +7,18 @@
 @view-transition { navigation: auto; }
 
 html {
-  direction: rtl;
+  direction: rtl; /* فارسی؛ برای انگلیسی html[dir="ltr"] پایین‌تر جهت را برمی‌گرداند */
   scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
+
+html[dir="ltr"] { direction: ltr; }
+
+/* فلش‌ها در RTL به چپ و در LTR به راست اشاره می‌کنند (آیکون پایه به چپ است) */
+:root { --arrow-flip: 1; --glow-a: 85%; --glow-b: 0%; --glow-c: 100%; --fade-dir: to left; }
+html[dir="ltr"] { --arrow-flip: -1; --glow-a: 15%; --glow-b: 100%; --glow-c: 0%; --fade-dir: to right; }
+.icon-arrow { transform: scaleX(var(--arrow-flip)); }
 
 body {
   margin: 0;

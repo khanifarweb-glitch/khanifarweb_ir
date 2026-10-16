@@ -3,24 +3,27 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/common/Section.astro";
 import ContactForm from "../components/contact/ContactForm.astro";
 import ContactLinks from "../components/contact/ContactLinks.astro";
-import { site } from "../data/site";
+import { siteFor } from "../data/site";
+import { useI18n } from "../i18n/ui";
 
+const { lang, t } = useI18n(Astro.url);
+const site = siteFor(lang);
 const { phone, email, whatsapp, telegram } = site.contact;
 const hasContact = phone || email || whatsapp || telegram;
 ---
 
 <PageLayout
-  title="درخواست مشاوره"
-  description="برای طراحی سایت، پشتیبانی سایت یا خدمات هوش مصنوعی درخواست مشاوره بدهید. نیازتان را کوتاه بنویسید."
-  lead="نیازتان را کوتاه بنویسید تا با هم بررسی کنیم چه راهی مناسب‌تر است."
-  crumbs={[{ label: "درخواست مشاوره" }]}
+  title={t.contact.title}
+  description={t.contact.description}
+  lead={t.contact.lead}
+  crumbs={[{ label: t.contact.title }]}
 >
   <Section>
     <div class="layout">
       <ContactForm />
       {hasContact && (
         <aside aria-labelledby="direct-title">
-          <h2 id="direct-title">ترجیح می‌دهید مستقیم صحبت کنیم؟</h2>
+          <h2 id="direct-title">{t.contact.direct}</h2>
           <ContactLinks />
         </aside>
       )}

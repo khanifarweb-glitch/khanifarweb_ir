@@ -4,43 +4,45 @@ import { Image } from "astro:assets";
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/common/Section.astro";
 import Button from "../components/common/Button.astro";
-import { site } from "../data/site";
+import { siteFor } from "../data/site";
+import { fmt, useI18n } from "../i18n/ui";
 import { hasEntries } from "../utils/content";
 import { ownerPhoto } from "../utils/photo";
 
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
+const a = t.about;
 const hasWork = await hasEntries("portfolio");
 const photo = ownerPhoto;
 ---
 
 <PageLayout
-  title="درباره من"
-  description={`${site.owner}، طراح و توسعه‌دهنده وب. طراحی سایت، پشتیبانی سایت و خدمات و آموزش هوش مصنوعی.`}
-  heading={`من ${site.owner} هستم`}
-  lead="طراح و توسعه‌دهنده وب؛ کمک می‌کنم کسب‌وکارها در اینترنت بهتر دیده شوند."
-  crumbs={[{ label: "درباره من" }]}
+  title={a.title}
+  description={fmt(a.description, { owner: site.owner })}
+  heading={fmt(a.heading, { owner: site.owner })}
+  lead={a.lead}
+  crumbs={[{ label: a.title }]}
 >
   <Section>
     <div class="layout">
       {photo && <Image src={photo} alt={site.owner} widths={[320, 640]} sizes="320px" class="photo" />}
       <div class="text">
-        <h2>چه کاری انجام می‌دهم؟</h2>
-        <p>سایت طراحی و اجرا می‌کنم، از سایت‌های موجود پشتیبانی و آن‌ها را توسعه می‌دهم و خدمات و آموزش هوش مصنوعی ارائه می‌کنم.</p>
+        <h2>{a.h1}</h2>
+        <p>{a.p1}</p>
 
-        <h2>با چه ابزارهایی؟</h2>
-        <p>با HTML، CSS، JavaScript و Astro کار می‌کنم و سایت‌ها را سریع، واکنش‌گرا و مناسب سئو می‌سازم.</p>
+        <h2>{a.h2}</h2>
+        <p>{a.p2}</p>
 
-        <h2>چه کمکی می‌توانم بکنم؟</h2>
+        <h2>{a.h3}</h2>
         <ul>
-          <li>ساخت سایتی که مشتری را به تماس نزدیک‌تر کند</li>
-          <li>رفع مشکل و توسعه سایتی که الان دارید</li>
-          <li>استفاده کاربردی از هوش مصنوعی در کارهای روزمره</li>
+          {a.list.map((item) => <li>{item}</li>)}
         </ul>
 
         <div class="actions">
           <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
           {hasWork
-            ? <Button href="/portfolio/" variant="secondary">مشاهده نمونه‌کارها</Button>
-            : <Button href="/design/" variant="secondary">خدمات طراحی سایت</Button>}
+            ? <Button href={lp("/portfolio/")} variant="secondary">{a.portfolio}</Button>
+            : <Button href={lp("/design/")} variant="secondary">{a.design}</Button>}
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ import SEO from "../components/seo/SEO.astro";
 import Header from "../components/common/Header.astro";
 import Footer from "../components/common/Footer.astro";
 import MobileCta from "../components/common/MobileCta.astro";
+import { useI18n } from "../i18n/ui";
 
 interface Props {
   title?: string;
@@ -24,10 +25,11 @@ interface Props {
 }
 
 const seo = Astro.props;
+const { lang, t, dir } = useI18n(Astro.url);
 ---
 
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang={lang} dir={dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,7 +42,7 @@ const seo = Astro.props;
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <a class="skip-link" href="#main">{t.common.skip}</a>
     <Header />
     <main id="main"><slot /></main>
     <Footer />

@@ -1,12 +1,15 @@
 ---
 /** فوتر: برند، شعار، پیوندهای سریع و راه‌های ارتباطی (فقط مقدارهای پرشده نمایش داده می‌شوند). */
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n, languages } from "../../i18n/ui";
 import { visibleNav } from "../../utils/content";
 import Logo from "./Logo.astro";
 
-const nav = await visibleNav();
+const { lang, t } = useI18n(Astro.url);
+const site = siteFor(lang);
+const nav = await visibleNav(lang);
 const { phone, email, whatsapp, telegram } = site.contact;
-const year = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date());
+const year = new Intl.DateTimeFormat(lang === "fa" ? "fa-IR-u-ca-persian" : languages[lang].tag, { year: "numeric" }).format(new Date());
 const hasContact = phone || email || whatsapp || telegram;
 ---
 
@@ -17,8 +20,8 @@ const hasContact = phone || email || whatsapp || telegram;
       <p class="footer__slogan">{site.slogan}</p>
     </div>
 
-    <nav aria-label="پیوندهای سریع">
-      <h2 class="footer__title">دسترسی سریع</h2>
+    <nav aria-label={t.footer.quickAria}>
+      <h2 class="footer__title">{t.footer.quick}</h2>
       <ul>
         {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
       </ul>
@@ -26,12 +29,12 @@ const hasContact = phone || email || whatsapp || telegram;
 
     {hasContact && (
       <div>
-        <h2 class="footer__title">ارتباط</h2>
+        <h2 class="footer__title">{t.footer.contact}</h2>
         <ul>
           {phone && <li><a class="ltr" href={`tel:${phone}`}>{phone}</a></li>}
           {email && <li><a class="ltr" href={`mailto:${email}`}>{email}</a></li>}
-          {whatsapp && <li><a href={whatsapp} rel="noopener">واتساپ</a></li>}
-          {telegram && <li><a href={telegram} rel="noopener">تلگرام</a></li>}
+          {whatsapp && <li><a href={whatsapp} rel="noopener">{t.footer.whatsapp}</a></li>}
+          {telegram && <li><a href={telegram} rel="noopener">{t.footer.telegram}</a></li>}
         </ul>
       </div>
     )}

@@ -3,13 +3,16 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import Card from "../common/Card.astro";
+import { useI18n } from "../../i18n/ui";
+import { projectText } from "../../utils/content";
 
 interface Props { project: CollectionEntry<"portfolio"> }
 const { project } = Astro.props;
-const d = project.data;
+const { lang, lp } = useI18n(Astro.url);
+const d = { ...project.data, ...projectText(project, lang) };
 ---
 
-<Card href={`/portfolio/${project.id}/`}>
+<Card href={lp(`/portfolio/${project.id}/`)}>
   <Image
     src={d.image}
     alt={d.imageAlt}
