@@ -2,19 +2,18 @@
 import Section from "../common/Section.astro";
 import Card from "../common/Card.astro";
 import Icon from "../common/Icon.astro";
+import { useI18n } from "../../i18n/ui";
 
-// محتوا طبق Design Brief؛ «for» به بازدیدکننده کمک می‌کند خودش را پیدا کند
-const services = [
-  { icon: "design", for: "اگر هنوز سایت ندارید", title: "طراحی سایت", text: "سایت‌های شخصی، خدماتی و فروشگاهی سریع، واکنش‌گرا و مناسب کسب‌وکار.", cta: "طراحی سایت", href: "/design/" },
-  { icon: "support", for: "اگر سایت دارید اما مشکل دارد", title: "پشتیبانی سایت", text: "رفع مشکلات، بروزرسانی، توسعه، بهینه‌سازی و نگهداری سایت.", cta: "درخواست پشتیبانی", href: "/website-support/" },
-  { icon: "ai", for: "اگر می‌خواهید کارها سریع‌تر شود", title: "هوش مصنوعی", text: "خدمات، آموزش و مشاوره برای استفاده کاربردی از هوش مصنوعی.", cta: "خدمات هوش مصنوعی", href: "/ai/" },
-] as const;
+// محتوا طبق Design Brief؛ «for» به بازدیدکننده کمک می‌کند خودش را پیدا کند (متن‌ها در src/i18n/ui.ts)
+const { t, lp } = useI18n(Astro.url);
+const sv = t.services;
+const services = sv.items;
 ---
 
-<Section id="services" eyebrow="خدمات" title="کدام وضعیت شبیه شماست؟" intro="هر خدمت برای یک نیاز مشخص است؛ همان را انتخاب کنید." tone="surface">
+<Section id="services" eyebrow={sv.eyebrow} title={sv.title} intro={sv.intro} tone="surface">
   <div class="grid">
     {services.map((s) => (
-      <Card href={s.href} class="reveal">
+      <Card href={lp(s.href)} class="reveal">
         <span class="icon"><Icon name={s.icon} size={26} /></span>
         <p class="for">{s.for}</p>
         <h3>{s.title}</h3>
@@ -34,6 +33,6 @@ const services = [
   .text { color: var(--muted); }
   .cta { display: inline-flex; align-items: center; gap: var(--s-2); margin-top: var(--s-6); font-weight: 700; color: var(--accent); }
   .cta :global(svg) { transition: transform var(--ease); }
-  :global(.card:hover) .cta :global(svg) { transform: translateX(-4px); }
+  :global(.card:hover) .cta :global(svg) { transform: scaleX(var(--arrow-flip)) translateX(-4px); }
   @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
 </style>

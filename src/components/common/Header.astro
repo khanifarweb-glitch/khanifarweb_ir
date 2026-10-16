@@ -1,30 +1,38 @@
 ---
-/** هدر: لوگوی متنی، منوی اصلی و CTA. منوی موبایل با JS کوچک (progressive enhancement). */
-import { site } from "../../data/site";
+/** هدر: لوگوی متنی، منوی اصلی، CTA و کلید تغییر زبان. منوی موبایل با JS کوچک (progressive enhancement). */
+import { siteFor } from "../../data/site";
+import { alternateOf, languages, useI18n } from "../../i18n/ui";
 import { visibleNav } from "../../utils/content";
 import Button from "./Button.astro";
 import Logo from "./Logo.astro";
 
-const nav = await visibleNav();
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
+const nav = await visibleNav(lang);
+const alt = alternateOf(Astro.url); // همین صفحه در زبان دیگر
 const path = Astro.url.pathname;
 const isActive = (href: string) => path === href || path.startsWith(href);
 ---
 
 <header class="header" data-header>
   <div class="container header__bar">
-    <a class="brand" href="/" aria-label={`${site.name} - صفحه اصلی`}><Logo /></a>
+    <a class="brand" href={lp("/")} aria-label={`${site.name} - ${t.common.homeAria}`}><Logo /></a>
 
-    <button
-      class="menu-btn"
-      type="button"
-      aria-expanded="false"
-      aria-controls="main-nav"
-      data-menu-btn
-    >
-      منو
-    </button>
+    <div class="header__tools">
+      <!-- کلید زبان: لینک ساده به همان صفحه در زبان دیگر (بدون JS) -->
+      <a class="lang-switch" href={alt.href} hreflang={alt.other} lang={alt.other} data-lang-switch>{languages[alt.other].label}</a>
+      <button
+        class="menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        data-menu-btn
+      >
+        {t.common.menu}
+      </button>
+    </div>
 
-    <nav class="nav" id="main-nav" aria-label="منوی اصلی" data-nav>
+    <nav class="nav" id="main-nav" aria-label={t.common.mainNav} data-nav>
       <ul>
         {nav.map((item) => (
           <li>
@@ -61,6 +69,9 @@ const isActive = (href: string) => path === href || path.startsWith(href);
   .header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--border); }
   .header__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-3); }
   .brand { text-decoration: none; }
+  .header__tools { display: flex; align-items: center; gap: var(--s-2); }
+  .lang-switch { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 var(--s-4); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: var(--fs-sm); font-weight: 600; color: var(--text); text-decoration: none; transition: border-color var(--ease), color var(--ease); }
+  .lang-switch:hover { border-color: var(--accent); color: var(--accent); }
   .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s-4); background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
   .nav { display: flex; flex-direction: column; gap: var(--s-4); width: 100%; }
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
@@ -75,7 +86,9 @@ const isActive = (href: string) => path === href || path.startsWith(href);
     [data-js] .nav:not([data-open]) { display: none; }
   }
   @media (min-width: 64rem) {
-    .nav { flex-direction: row; align-items: center; width: auto; gap: var(--s-6); }
+    .nav { flex-direction: row; align-items: center; width: auto; gap: var(--s-6); order: 2; }
+    .header__tools { order: 3; }
+    .lang-switch { min-height: 2.5rem; }
     .nav ul { flex-direction: row; gap: var(--s-6); }
     .nav a:not(.btn) { padding: var(--s-2) 0; font-size: var(--fs-sm); }
     .nav :global(.nav__cta) { min-height: 2.5rem; padding: 0 var(--s-4); }

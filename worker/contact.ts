@@ -117,25 +117,26 @@ async function handle({ request, env }: Ctx): Promise<Response> {
   if (clean(data.website, 100) !== "" || elapsed < 1200) return json({ ok: true });
 
   // ۴) اعتبارسنجی ورودی
+  const en = data.lang === "en"; // زبان صفحه‌ای که فرم از آن آمده (فقط برای متن خطاها)
   const name = clean(data.name, 80);
   const phone = toLatinDigits(clean(data.phone, 20)).replace(/[\s\-()]/g, "");
   const service = clean(data.service, 30);
   const message = clean(data.message, 1000);
 
-  if (name.length < 2) return fail("لطفاً نام خود را وارد کنید.", 400, "validation");
-  if (!/^\+?\d{10,14}$/.test(phone)) return fail("شماره تماس معتبر وارد کنید.", 400, "validation");
-  if (!(service in SERVICES)) return fail("نوع خدمت را انتخاب کنید.", 400, "validation");
+  if (name.length < 2) return fail(en ? "Please enter your name." : "لطفاً نام خود را وارد کنید.", 400, "validation");
+  if (!/^\+?\d{10,14}$/.test(phone)) return fail(en ? "Please enter a valid phone number." : "شماره تماس معتبر وارد کنید.", 400, "validation");
+  if (!(service in SERVICES)) return fail(en ? "Please choose a service." : "نوع خدمت را انتخاب کنید.", 400, "validation");
 
   // ۵) Turnstile (فقط اگر کلید سمت سرور تنظیم شده باشد)
   if (env.TURNSTILE_SECRET_KEY) {
     const token = clean(data["cf-turnstile-response"], 2048);
     const ok = token && (await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, request.headers.get("CF-Connecting-IP")));
-    if (!ok) return fail("تأیید امنیتی انجام نشد. دوباره تلاش کنید.", 400, "turnstile");
+    if (!ok) return fail(en ? "Security check failed. Please try again." : "تأیید امنیتی انجام نشد. دوباره تلاش کنید.", 400, "turnstile");
   }
 
   // ۶) ارسال به کانال‌های تنظیم‌شده
   const list = channels(env);
-  if (list.length === 0) return fail("ارسال فرم هنوز پیکربندی نشده است.", 500, "not-configured");
+  if (list.length === 0) return fail(en ? "The form isn't configured yet." : "ارسال فرم هنوز پیکربندی نشده است.", 500, "not-configured");
 
   const text = [
     "📩 درخواست مشاوره جدید",
@@ -143,6 +144,7 @@ async function handle({ request, env }: Ctx): Promise<Response> {
     `تماس: ${phone}`,
     `خدمت: ${SERVICES[service]}`,
     message ? `توضیح: ${message}` : "",
+    en ? "زبان فرم: انگلیسی" : "",
   ]
     .filter(Boolean)
     .join("\n");
@@ -151,7 +153,7 @@ async function handle({ request, env }: Ctx): Promise<Response> {
   if (results.some((r) => r.status === "fulfilled")) return json({ ok: true });
 
   const code = results.map((r) => (r.status === "rejected" ? String((r.reason as Error).message) : "")).join(",");
-  return fail("ارسال انجام نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", 502, code);
+  return fail(en ? "Sending failed. Please use the direct contact options." : "ارسال انجام نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", 502, code);
 }
 
 // POST /api/contact : هر خطای پیش‌بینی‌نشده هم به‌صورت JSON برمی‌گردد (نه صفحه خطای HTML)

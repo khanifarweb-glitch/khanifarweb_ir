@@ -4,6 +4,9 @@ import { getCollection } from "astro:content";
 import Section from "../common/Section.astro";
 import Button from "../common/Button.astro";
 import ProjectCard from "../portfolio/ProjectCard.astro";
+import { useI18n } from "../../i18n/ui";
+
+const { t, lp } = useI18n(Astro.url);
 
 const projects = (await getCollection("portfolio", (p) => !p.data.draft))
   .sort((a, b) => a.data.order - b.data.order)
@@ -11,9 +14,9 @@ const projects = (await getCollection("portfolio", (p) => !p.data.draft))
 ---
 
 {projects.length > 0 && (
-  <Section id="portfolio" title="نمونه‌کارها" tone="surface">
+  <Section id="portfolio" title={t.portfolioPreview.title} tone="surface">
     <div class="grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
-    <div class="more"><Button href="/portfolio/" variant="secondary">مشاهده همه نمونه‌کارها</Button></div>
+    <div class="more"><Button href={lp("/portfolio/")} variant="secondary">{t.portfolioPreview.all}</Button></div>
   </Section>
 )}
 

@@ -2,11 +2,13 @@
 /** مسیر صفحه (UI) + BreadcrumbList برای موتورهای جستجو. آیتم آخر href ندارد. */
 import JsonLd from "../seo/JsonLd.astro";
 import { site } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
 
 interface Item { label: string; href?: string }
 interface Props { items: Item[] }
 
-const all: Item[] = [{ label: "خانه", href: "/" }, ...Astro.props.items];
+const { t, lp } = useI18n(Astro.url);
+const all: Item[] = [{ label: t.common.home, href: lp("/") }, ...Astro.props.items];
 const schema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -19,7 +21,7 @@ const schema = {
 };
 ---
 
-<nav class="crumbs" aria-label="مسیر صفحه">
+<nav class="crumbs" aria-label={t.common.breadcrumb}>
   <ol>
     {all.map((it, i) => (
       <li>

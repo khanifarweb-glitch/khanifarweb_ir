@@ -1,0 +1,12 @@
+---
+// نسخه انگلیسی صفحه نمونه‌کار؛ متن‌ها از فیلد `en` در فایل Markdown خوانده می‌شوند
+import { getCollection } from "astro:content";
+import Page from "../../portfolio/[slug].astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("portfolio", (p) => !p.data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+---
+
+<Page {...Astro.props} />

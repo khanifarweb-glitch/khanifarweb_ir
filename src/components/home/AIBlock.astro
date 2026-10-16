@@ -2,15 +2,14 @@
 import Section from "../common/Section.astro";
 import Button from "../common/Button.astro";
 import Icon from "../common/Icon.astro";
+import { useI18n } from "../../i18n/ui";
 
-const items = [
-  { title: "خدمات AI", text: "استفاده از هوش مصنوعی برای حل مسائل واقعی کسب‌وکار." },
-  { title: "آموزش AI", text: "آموزش ساده و کاربردی ابزارهای هوش مصنوعی." },
-  { title: "مشاوره AI", text: "بررسی فرآیندهای کاری و پیشنهاد روش‌های استفاده از AI برای افزایش سرعت و بهره‌وری." },
-];
+const { t, lp } = useI18n(Astro.url);
+const a = t.aiBlock;
+const items = a.items;
 ---
 
-<Section id="ai" tone="dark" eyebrow="هوش مصنوعی" title="هوش مصنوعی برای کار روزمره" intro="بدون وعده‌های بزرگ؛ فقط استفاده کاربردی که در کارتان صرفه‌جویی ایجاد کند.">
+<Section id="ai" tone="dark" eyebrow={a.eyebrow} title={a.title} intro={a.intro}>
   <div class="grid">
     {items.map((i) => (
       <div class="item reveal">
@@ -20,7 +19,7 @@ const items = [
       </div>
     ))}
   </div>
-  <div class="more"><Button href="/ai/" variant="light" arrow>خدمات هوش مصنوعی</Button></div>
+  <div class="more"><Button href={lp("/ai/")} variant="light" arrow>{a.cta}</Button></div>
 </Section>
 
 <style>
