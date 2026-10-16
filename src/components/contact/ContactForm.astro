@@ -1,47 +1,63 @@
 ---
 /** فرم درخواست مشاوره: نام، شماره تماس، نوع خدمت، توضیح کوتاه. ارسال با fetch به /api/contact */
 import Button from "../common/Button.astro";
+import { useI18n } from "../../i18n/ui";
+
+const { lang, t } = useI18n(Astro.url);
+const f = t.form;
 
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 ---
 
-<form class="form" data-contact-form method="post" action="/api/contact">
+<form
+  class="form"
+  data-contact-form
+  method="post"
+  action="/api/contact"
+  data-lang={lang}
+  data-sending={f.sending}
+  data-ok={f.ok}
+  data-err404={f.err404}
+  data-err-default={f.errDefault}
+  data-err-code={f.errCode}
+  data-err-network={f.errNetwork}
+>
   <div class="field">
-    <label for="name">نام</label>
+    <label for="name">{f.name}</label>
     <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" />
   </div>
 
   <div class="field">
-    <label for="phone">شماره تماس</label>
-    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required maxlength="20" pattern="[0-9۰-۹٠-٩+\s\-()]{10,20}" title="شماره تماس را با ارقام وارد کنید" placeholder="09123456789" />
+    <label for="phone">{f.phone}</label>
+    <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required maxlength="20" pattern="[0-9۰-۹٠-٩+\s\-()]{10,20}" title={f.phoneTitle} placeholder={f.phonePlaceholder} />
   </div>
 
   <div class="field">
-    <label for="service">نوع خدمت</label>
+    <label for="service">{f.service}</label>
     <select id="service" name="service" required>
-      <option value="design">طراحی سایت</option>
-      <option value="website-support">پشتیبانی سایت</option>
-      <option value="ai">هوش مصنوعی</option>
-      <option value="other">سایر</option>
+      <option value="design">{f.design}</option>
+      <option value="website-support">{f.support}</option>
+      <option value="ai">{f.ai}</option>
+      <option value="other">{f.other}</option>
     </select>
   </div>
 
   <div class="field">
-    <label for="message">توضیح کوتاه <span class="opt">(اختیاری)</span></label>
+    <label for="message">{f.message} <span class="opt">{f.optional}</span></label>
     <textarea id="message" name="message" rows="4" maxlength="1000"></textarea>
   </div>
 
   <!-- Honeypot: برای انسان نامرئی است -->
   <div class="hp" inert>
-    <label for="website">وب‌سایت</label>
+    <label for="website">{f.honeypot}</label>
     <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
 
   {siteKey && <div class="cf-turnstile" data-sitekey={siteKey}></div>}
 
-  <Button type="submit" size="lg">ارسال درخواست مشاوره</Button>
+  <Button type="submit" size="lg">{f.submit}</Button>
   <p class="status" role="status" aria-live="polite" data-status></p>
-  <noscript><p>برای ارسال فرم به جاوااسکریپت نیاز است؛ از راه‌های ارتباط مستقیم استفاده کنید.</p></noscript>
+  <noscript><p>{f.noscript}</p></noscript>
 </form>
 
 {siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
@@ -49,6 +65,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
 <script>
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   if (form) {
+    const msg = form.dataset; // متن‌ها (به زبان صفحه) از data-attributeهای فرم می‌آیند
     const status = form.querySelector<HTMLElement>("[data-status]")!;
     const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
     const select = form.elements.namedItem("service") as HTMLSelectElement;
@@ -68,26 +85,26 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY; // اختیاری
       e.preventDefault();
       const label = btn.textContent;
       btn.disabled = true;
-      btn.textContent = "در حال ارسال...";
+      btn.textContent = msg.sending ?? "";
       show("", false);
       try {
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), elapsed: Math.round(performance.now() - t0) }),
+          body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), lang: msg.lang, elapsed: Math.round(performance.now() - t0) }),
         });
         const data = await res.json().catch(() => null);
         if (res.ok && data?.ok) {
           form.reset();
           t0 = performance.now();
-          show("درخواست شما ارسال شد. به‌زودی با شما تماس می‌گیرم.", false);
+          show(msg.ok ?? "", false);
         } else {
           const code = data?.code ?? `HTTP ${res.status}`;
-          const base = data?.error ?? (res.status === 404 ? "سرویس فرم هنوز فعال نیست." : "ارسال انجام نشد. لطفاً دوباره تلاش کنید.");
-          show(data?.code === "validation" ? base : `${base} (کد: ${code})`, true);
+          const base = data?.error ?? (res.status === 404 ? msg.err404 : msg.errDefault);
+          show(data?.code === "validation" ? base : `${base} (${msg.errCode}: ${code})`, true);
         }
       } catch {
-        show("ارتباط با سرور برقرار نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", true);
+        show(msg.errNetwork ?? "", true);
       } finally {
         btn.disabled = false;
         btn.textContent = label;

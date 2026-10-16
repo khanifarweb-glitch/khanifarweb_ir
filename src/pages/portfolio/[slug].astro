@@ -5,15 +5,19 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/common/Section.astro";
 import Prose from "../../components/common/Prose.astro";
 import Button from "../../components/common/Button.astro";
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
+import { projectText } from "../../utils/content";
 
 export async function getStaticPaths() {
   const projects = await getCollection("portfolio", (p) => !p.data.draft);
   return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
 }
 
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
 const { project } = Astro.props;
-const d = project.data;
+const d = { ...project.data, ...projectText(project, lang) };
 const { Content } = await render(project);
 ---
 
@@ -22,17 +26,17 @@ const { Content } = await render(project);
   description={d.summary}
   lead={d.summary}
   image={d.image.src}
-  crumbs={[{ label: "نمونه‌کارها", href: "/portfolio/" }, { label: d.title }]}
+  crumbs={[{ label: t.portfolio.title, href: lp("/portfolio/") }, { label: d.title }]}
 >
   <Section>
     <Image src={d.image} alt={d.imageAlt} widths={[800, 1200]} sizes="(min-width: 70rem) 1120px, 100vw" class="cover" />
     <dl class="facts">
-      <div><dt>نوع سایت</dt><dd>{d.type}</dd></div>
-      <div><dt>خدمات انجام‌شده</dt><dd>{d.services.join("، ")}</dd></div>
+      <div><dt>{t.portfolio.type}</dt><dd>{d.type}</dd></div>
+      <div><dt>{t.portfolio.services}</dt><dd>{d.services.join(t.common.listSep)}</dd></div>
     </dl>
-    <Prose><Content /></Prose>
+    <Prose>{lang === "en" ? (d.body ? <p>{d.body}</p> : null) : <Content />}</Prose>
     <div class="actions">
-      {d.url && <Button href={d.url} variant="secondary">مشاهده پروژه</Button>}
+      {d.url && <Button href={d.url} variant="secondary">{t.portfolio.view}</Button>}
       <Button href={site.primaryCta.href}>{site.primaryCta.label}</Button>
     </div>
   </Section>

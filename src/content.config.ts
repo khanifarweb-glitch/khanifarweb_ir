@@ -34,6 +34,17 @@ const portfolio = defineCollection({
       url: z.string().url().optional(),
       order: z.number().default(0),
       draft: z.boolean().default(false),
+      // ترجمه انگلیسی (اختیاری)؛ اگر نباشد، متن فارسی نمایش داده می‌شود
+      en: z
+        .object({
+          title: z.string(),
+          type: z.string(),
+          services: z.array(z.string()),
+          summary: z.string(),
+          imageAlt: z.string(),
+          body: z.string().optional(),
+        })
+        .optional(),
     }),
 });
 

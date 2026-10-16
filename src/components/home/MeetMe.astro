@@ -1,7 +1,11 @@
 ---
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { fmt, useI18n } from "../../i18n/ui";
 import Avatar from "../common/Avatar.astro";
 import Button from "../common/Button.astro";
+
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
 ---
 
 <section class="meet-wrap" aria-labelledby="meet-title">
@@ -9,12 +13,12 @@ import Button from "../common/Button.astro";
     <div class="meet reveal">
       <Avatar size={112} alt={site.owner} lazy />
       <div class="meet__text">
-        <p class="meet__eyebrow">آشنایی</p>
-        <h2 id="meet-title">سلام، من {site.owner.split(" ")[0]} هستم</h2>
-        <p>طراح و توسعه‌دهنده وب. سایت می‌سازم، از سایت‌های موجود پشتیبانی می‌کنم و به کسب‌وکارها کمک می‌کنم از هوش مصنوعی در کارهای روزمره استفاده کنند. با من مستقیم صحبت می‌کنید، نه با واسطه.</p>
+        <p class="meet__eyebrow">{t.meet.eyebrow}</p>
+        <h2 id="meet-title">{fmt(t.meet.title, { name: site.owner.split(" ")[0] })}</h2>
+        <p>{t.meet.text}</p>
         <div class="meet__actions">
           <Button href={site.primaryCta.href} arrow>{site.primaryCta.label}</Button>
-          <Button href="/about/" variant="secondary">بیشتر درباره من</Button>
+          <Button href={lp("/about/")} variant="secondary">{t.meet.more}</Button>
         </div>
       </div>
     </div>

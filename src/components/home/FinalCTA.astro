@@ -1,13 +1,17 @@
 ---
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
+
 import Button from "../common/Button.astro";
+const { lang, t } = useI18n(Astro.url);
+const site = siteFor(lang);
 ---
 
 <section class="cta" aria-labelledby="cta-title">
   <div class="container">
     <div class="panel reveal">
-      <h2 id="cta-title">بیایید درباره سایتتان حرف بزنیم</h2>
-      <p>یک پیام کوتاه بنویسید؛ خودم بررسی می‌کنم چه راهی برای کسب‌وکار شما مناسب‌تر است.</p>
+      <h2 id="cta-title">{t.finalCta.title}</h2>
+      <p>{t.finalCta.text}</p>
       <Button href={site.primaryCta.href} variant="light" size="lg" arrow>{site.primaryCta.label}</Button>
     </div>
   </div>
@@ -16,7 +20,7 @@ import Button from "../common/Button.astro";
 <style>
   .cta { padding-block: var(--s-16) 0; }
   .panel { padding: var(--s-12) var(--s-6); text-align: center; color: #fff; border-radius: var(--radius-lg);
-    background: radial-gradient(30rem 14rem at 100% 0, rgb(255 255 255 / 0.16), transparent 70%), var(--accent); }
+    background: radial-gradient(30rem 14rem at var(--glow-c) 0, rgb(255 255 255 / 0.16), transparent 70%), var(--accent); }
   p { margin: var(--s-3) auto var(--s-8); max-width: 48ch; color: #e0e9ff; }
   @media (min-width: 48rem) { .panel { padding: var(--s-16) var(--s-8); } }
 </style>

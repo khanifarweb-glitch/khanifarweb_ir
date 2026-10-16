@@ -3,7 +3,8 @@
  * تگ‌های SEO: title، description، canonical، Open Graph و Twitter Card.
  * همه مقادیر پیش‌فرض از data/site.ts می‌آیند.
  */
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { alternateOf } from "../../i18n/ui";
 
 interface Props {
   title?: string; // اگر خالی باشد صفحه اصلی فرض می‌شود
@@ -16,6 +17,9 @@ interface Props {
   modifiedTime?: string;
   noindex?: boolean;
 }
+
+const { current: lang, other, exact, href: altHref } = alternateOf(Astro.url);
+const site = siteFor(lang);
 
 const {
   title,
@@ -33,11 +37,21 @@ const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.seo
 const origin = Astro.site ?? new URL(site.url);
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, origin).href;
 const imageUrl = new URL(image, origin).href;
+
+// نسخه‌های زبانی همین صفحه (فقط وقتی ترجمه دارد) برای hreflang
+const alts = exact
+  ? [
+      { hreflang: lang, href: canonicalUrl },
+      { hreflang: other, href: new URL(altHref, origin).href },
+      { hreflang: "x-default", href: new URL(lang === "fa" ? canonicalUrl : altHref, origin).href },
+    ]
+  : [];
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 {!noindex && <link rel="canonical" href={canonicalUrl} />}
+{!noindex && alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
 <meta name="author" content={site.owner} />
 {site.verification.enamad && <meta name="enamad" content={site.verification.enamad} />}
 <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />

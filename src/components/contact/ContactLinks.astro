@@ -2,13 +2,15 @@
 /** راه‌های ارتباط مستقیم؛ فقط مقدارهای پرشده در site.ts نمایش داده می‌شوند. */
 import Icon from "../common/Icon.astro";
 import { site } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
 
+const c = useI18n(Astro.url).t.contactLinks;
 const { phone, email, whatsapp, telegram } = site.contact;
 const items = [
-  phone && { icon: "phone", label: "تماس تلفنی", value: phone, href: `tel:${phone}`, ltr: true },
-  whatsapp && { icon: "chat", label: "واتساپ", value: "پیام در واتساپ", href: whatsapp },
-  telegram && { icon: "send", label: "تلگرام", value: "پیام در تلگرام", href: telegram },
-  email && { icon: "mail", label: "ایمیل", value: email, href: `mailto:${email}`, ltr: true },
+  phone && { icon: "phone", label: c.phone, value: phone, href: `tel:${phone}`, ltr: true },
+  whatsapp && { icon: "chat", label: c.whatsapp, value: c.whatsappValue, href: whatsapp },
+  telegram && { icon: "send", label: c.telegram, value: c.telegramValue, href: telegram },
+  email && { icon: "mail", label: c.email, value: email, href: `mailto:${email}`, ltr: true },
 ].filter(Boolean) as { icon: "phone" | "chat" | "send" | "mail"; label: string; value: string; href: string; ltr?: boolean }[];
 ---
 

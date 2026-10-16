@@ -1,19 +1,13 @@
 ---
 import Section from "../common/Section.astro";
 import Icon from "../common/Icon.astro";
+import { useI18n } from "../../i18n/ui";
 
-const reasons = [
-  "طراحی متناسب با نیاز واقعی کسب‌وکار",
-  "تمرکز روی تجربه کاربر",
-  "طراحی واکنش‌گرا برای همه دستگاه‌ها",
-  "توجه به سرعت و سئو",
-  "امکان پشتیبانی و توسعه بعد از تحویل",
-  "استفاده کاربردی از ابزارهای هوش مصنوعی",
-  "ارتباط مستقیم با طراح",
-];
+const w = useI18n(Astro.url).t.why;
+const reasons = w.reasons;
 ---
 
-<Section id="why" eyebrow="مزیت‌ها" title="چرا KhanifarWeb؟">
+<Section id="why" eyebrow={w.eyebrow} title={w.title}>
   <ul class="list">
     {reasons.map((r) => (
       <li class="reveal"><span class="tick"><Icon name="check" size={16} /></span>{r}</li>

@@ -1,8 +1,10 @@
 ---
 /** نوار CTA ثابت پایین صفحه فقط در موبایل (در صفحه تماس نمایش داده نمی‌شود). */
 import Button from "./Button.astro";
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { getLang } from "../../i18n/ui";
 
+const site = siteFor(getLang(Astro.url));
 const hidden = Astro.url.pathname.startsWith(site.primaryCta.href);
 ---
 

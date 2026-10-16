@@ -1,30 +1,34 @@
 ---
-import { site } from "../../data/site";
+import { siteFor } from "../../data/site";
+import { useI18n } from "../../i18n/ui";
+
 import Button from "../common/Button.astro";
 import Icon from "../common/Icon.astro";
 import HeroVisual from "./HeroVisual.astro";
 import Avatar from "../common/Avatar.astro";
 import { hasEntries } from "../../utils/content";
 
+const { lang, t, lp } = useI18n(Astro.url);
+const site = siteFor(lang);
 const hasWork = await hasEntries("portfolio");
-const points = ["ارتباط مستقیم با طراح", "طراحی واکنش‌گرا و سریع", "پشتیبانی بعد از تحویل"];
+const points = t.hero.points;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="container hero__grid">
     <div class="hero__text">
       <p class="hero__slogan">{site.slogan}</p>
-      <h1 id="hero-title">سایت شما، جایی که <span class="mark">مشتری پیدایتان می‌کند</span></h1>
+      <h1 id="hero-title">{t.hero.h1a} <span class="mark">{t.hero.h1mark}</span></h1>
       <p class="hero__lead">{site.description}</p>
       <div class="hero__actions">
         <Button href={site.primaryCta.href} size="lg" arrow>{site.primaryCta.label}</Button>
         {hasWork
-          ? <Button href="/portfolio/" variant="secondary" size="lg">مشاهده نمونه‌کارها</Button>
-          : <Button href="#services" variant="secondary" size="lg">مشاهده خدمات</Button>}
+          ? <Button href={lp("/portfolio/")} variant="secondary" size="lg">{t.hero.portfolio}</Button>
+          : <Button href="#services" variant="secondary" size="lg">{t.hero.services}</Button>}
       </div>
-      <a class="owner" href="/about/">
+      <a class="owner" href={lp("/about/")}>
         <Avatar size={48} />
-        <span><b>{site.owner}</b><small>طراح و توسعه‌دهنده وب؛ مستقیم با خودم صحبت می‌کنید</small></span>
+        <span><b>{site.owner}</b><small>{t.hero.ownerRole}</small></span>
       </a>
       <ul class="hero__points">
         {points.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
@@ -40,8 +44,8 @@ const points = ["ارتباط مستقیم با طراح", "طراحی واکن�
   .hero::before {
     content: ""; position: absolute; inset: 0; z-index: -1;
     background:
-      radial-gradient(40rem 22rem at 85% -5%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
-      radial-gradient(28rem 14rem at 0 100%, color-mix(in srgb, var(--warm) 11%, transparent), transparent 70%),
+      radial-gradient(40rem 22rem at var(--glow-a) -5%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+      radial-gradient(28rem 14rem at var(--glow-b) 100%, color-mix(in srgb, var(--warm) 11%, transparent), transparent 70%),
       radial-gradient(#cfd6e2 1px, transparent 1px) 0 0 / 24px 24px;
     -webkit-mask-image: linear-gradient(#000 40%, transparent);
     mask-image: linear-gradient(#000 40%, transparent);

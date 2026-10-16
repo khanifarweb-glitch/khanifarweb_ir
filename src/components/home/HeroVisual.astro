@@ -1,23 +1,26 @@
 ---
 /** تصویرسازی مفهومی «دیده‌شدن»: نتیجه جستجوی مشتری. تزئینی است (aria-hidden). */
 import Icon from "../common/Icon.astro";
+import { useI18n } from "../../i18n/ui";
+
+const v = useI18n(Astro.url).t.heroVisual;
 ---
 
 <div class="visual" aria-hidden="true">
   <div class="serp">
-    <div class="serp__bar"><Icon name="search" size={18} /><span>خدماتی که مشتری شما دنبالش است</span></div>
+    <div class="serp__bar"><Icon name="search" size={18} /><span>{v.query}</span></div>
 
     <div class="res res--you">
-      <span class="badge">سایت شما</span>
-      <div class="res__url"><span class="fav"><Icon name="eye" size={14} /></span><span class="ltr">yourbusiness.ir</span></div>
-      <p class="res__title">نام کسب‌وکار شما | خدمات، نمونه‌کار و تماس</p>
-      <p class="res__desc">همان چیزی که مشتری دنبالش است، یک قدم تا تماس.</p>
+      <span class="badge">{v.badge}</span>
+      <div class="res__url"><span class="fav"><Icon name="eye" size={14} /></span><span class="ltr">{v.url}</span></div>
+      <p class="res__title">{v.title}</p>
+      <p class="res__desc">{v.desc}</p>
     </div>
 
     <div class="res res--dim"><i class="w40"></i><i class="w90"></i><i class="w65"></i></div>
     <div class="res res--dim"><i class="w50"></i><i class="w80"></i></div>
   </div>
-  <div class="chip"><span class="dot"></span>مشتری جدید</div>
+  <div class="chip"><span class="dot"></span>{v.chip}</div>
 </div>
 
 <style>
