@@ -45,11 +45,11 @@ const hasContact = phone || email || whatsapp || telegram;
 <style>
   .footer { margin-top: var(--s-16); padding-block: var(--s-12) var(--s-6); background: var(--ink); color: var(--on-ink); }
   .footer__grid { display: grid; gap: var(--s-8); }
-  .footer__slogan { margin-top: var(--s-3); color: #d1d5db; max-width: 32ch; }
-  .footer__title { font-size: var(--fs-base); color: #fff; margin-bottom: var(--s-3); }
+  .footer__slogan { margin-top: var(--s-3); color: var(--on-ink-muted); max-width: 32ch; }
+  .footer__title { font-size: var(--fs-base); color: var(--gold-on-ink); margin-bottom: var(--s-3); }
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-1); }
-  a { color: #d1d5db; text-decoration: none; display: inline-block; padding: var(--s-1) 0; }
-  a:hover { color: #fff; text-decoration: underline; }
-  .footer__copy { margin-top: var(--s-8); padding-top: var(--s-4); border-top: 1px solid #374151; font-size: var(--fs-sm); color: #9ca3af; }
+  a { color: var(--on-ink); text-decoration: none; display: inline-block; padding: var(--s-1) 0; }
+  a:hover { color: var(--gold-on-ink); text-decoration: underline; }
+  .footer__copy { margin-top: var(--s-8); padding-top: var(--s-4); border-top: 1px solid rgb(255 255 255 / 0.08); font-size: var(--fs-sm); color: var(--on-ink-muted); }
   @media (min-width: 48rem) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr; } }
 </style>

@@ -59,6 +59,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* فوکوس واضح برای همه عناصر تعاملی */
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.header :focus-visible, .hero :focus-visible, .footer :focus-visible, .section--dark :focus-visible, .cta .panel :focus-visible { outline-color: var(--gold-on-ink); }
 
 /* متن فقط برای صفحه‌خوان */
 .sr-only {
