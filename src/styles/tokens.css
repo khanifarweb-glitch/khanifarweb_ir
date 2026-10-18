@@ -1,24 +1,33 @@
-/* Design tokens: برای تغییر ظاهر سایت فقط همین فایل را ویرایش کنید */
+/* Design tokens: برای تغییر ظاهر سایت فقط همین فایل را ویرایش کنید (سرمه‌ای رسمی + طلایی ملایم؛ هم‌تم با nedakhanifar.com) */
 :root {
   /* رنگ‌ها */
-  --bg: #f8f9fa;
+  --bg: #f7f6f3;
   --surface: #ffffff;
-  --text: #111111;
-  --muted: #5b5b5b; /* کنتراست AA روی پس‌زمینه */
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --text: #14202e;
+  --muted: #56606d; /* کنتراست AA روی پس‌زمینه */
+  --accent: #1f3a5f;
+  --accent-hover: #162c49;
   --on-accent: #ffffff;
-  --border: #e5e7eb;
-  --focus: #2563eb;
-  --accent-soft: #eff4ff;
-  --warm: #f59e0b; /* رنگ گرم کمکی؛ فقط برای جزئیات */
-  --warm-soft: #fff8eb;
-  --warm-border: #fde2b0;
-  --warm-ink: #92400e;
-  --ink: #0b1220; /* بخش‌های تیره */
-  --on-ink: #e8edf7;
-  --on-ink-muted: #a5b0c6;
-  --accent-on-ink: #7aa2ff;
+  --border: #e3e0d8;
+  --focus: #1f3a5f;
+  --accent-soft: #eef2f7;
+  --dots: #d6d2c6; /* شبکه نقطه‌ای تزئینی روی زمینه روشن */
+
+  /* طلایی: روی زمینه روشن فقط تزئینی (کنتراست ۲.۹)؛ برای متن از --gold-ink یا --gold-on-ink استفاده کنید */
+  --gold: #b8914a;
+  --gold-soft: #f6efe0;
+  --gold-border: #e8d8b4;
+  --gold-ink: #7a5a1f; /* متن طلایی تیره روی زمینه روشن (کنتراست ≥ ۵.۵) */
+  --warm: var(--gold); /* نام‌های قدیمی؛ به طلایی اشاره می‌کنند */
+  --warm-soft: var(--gold-soft);
+  --warm-border: var(--gold-border);
+  --warm-ink: var(--gold-ink);
+
+  --ink: #0e1b2c; /* بخش‌های تیره */
+  --on-ink: #e9edf3;
+  --on-ink-muted: #a9b4c4;
+  --gold-on-ink: #d8b673; /* طلایی روی زمینه تیره (کنتراست ۹) */
+  --accent-on-ink: var(--gold-on-ink);
 
   /* تایپوگرافی */
   --font: "Vazirmatn Variable", Tahoma, system-ui, sans-serif;
@@ -28,8 +37,8 @@
   --fs-h3: clamp(1.1875rem, 1.1rem + 0.5vw, 1.4375rem);
   --fs-h2: clamp(1.5rem, 1.25rem + 1.2vw, 2.125rem);
   --fs-h1: clamp(2.125rem, 1.5rem + 3vw, 3.75rem);
-  --lh-body: 1.85;
-  --lh-heading: 1.35;
+  --lh-body: 1.9;
+  --lh-heading: 1.4;
 
   /* فاصله‌ها (مقیاس ۴px) */
   --s-1: 0.25rem;
@@ -45,10 +54,10 @@
   /* چیدمان */
   --container: 70rem; /* 1120px */
   --measure: 68ch; /* عرض مناسب متن مقاله */
-  --radius-sm: 0.625rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04);
-  --shadow-md: 0 10px 28px rgb(17 24 39 / 0.08);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --shadow-sm: 0 1px 2px rgb(14 27 44 / 0.05);
+  --shadow-md: 0 10px 28px rgb(14 27 44 / 0.09);
   --ease: 0.2s ease;
 }

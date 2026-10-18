@@ -16,7 +16,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 
 <header class="header" data-header>
   <div class="container header__bar">
-    <a class="brand" href={lp("/")} aria-label={`${site.name} - ${t.common.homeAria}`}><Logo /></a>
+    <a class="brand" href={lp("/")} aria-label={`${site.name} - ${t.common.homeAria}`}><Logo light /></a>
 
     <div class="header__tools">
       <!-- کلید زبان: لینک ساده به همان صفحه در زبان دیگر (بدون JS) -->
@@ -42,7 +42,7 @@ const isActive = (href: string) => path === href || path.startsWith(href);
           </li>
         ))}
       </ul>
-      <Button href={site.primaryCta.href} class="nav__cta">{site.primaryCta.label}</Button>
+      <Button href={site.primaryCta.href} variant="gold" class="nav__cta">{site.primaryCta.label}</Button>
     </nav>
   </div>
 </header>
@@ -66,19 +66,19 @@ const isActive = (href: string) => path === href || path.startsWith(href);
 </script>
 
 <style>
-  .header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--border); }
+  /* نوار تیره سرمه‌ای + جزئیات طلایی (هم‌تم با nedakhanifar.com) */
+  .header { position: sticky; top: 0; z-index: 50; background: rgb(14 27 44 / 0.96); color: var(--on-ink); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid rgb(255 255 255 / 0.08); }
   .header__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-3); }
   .brand { text-decoration: none; }
   .header__tools { display: flex; align-items: center; gap: var(--s-2); }
-  .lang-switch { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 var(--s-4); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: var(--fs-sm); font-weight: 600; color: var(--text); text-decoration: none; transition: border-color var(--ease), color var(--ease); }
-  .lang-switch:hover { border-color: var(--accent); color: var(--accent); }
-  .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s-4); background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; }
+  .lang-switch { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 var(--s-4); border: 1px solid rgb(216 182 115 / 0.5); border-radius: var(--radius-sm); font-size: var(--fs-sm); font-weight: 600; color: var(--gold-on-ink); text-decoration: none; transition: background-color var(--ease), color var(--ease); }
+  .lang-switch:hover { background: var(--gold-on-ink); color: var(--ink); }
+  .menu-btn { display: none; min-height: 2.75rem; padding: 0 var(--s-4); background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / 0.3); border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; }
   .nav { display: flex; flex-direction: column; gap: var(--s-4); width: 100%; }
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-  .nav a:not(.btn) { display: block; padding: var(--s-3) 0; text-decoration: none; color: var(--muted); }
-  .nav a:not(.btn):hover, .nav a[aria-current="page"] { color: var(--text); }
-  .nav a[aria-current="page"] { font-weight: 700; }
-  @media (min-width: 64rem) { .nav a[aria-current="page"] { box-shadow: 0 2px 0 var(--accent); } }
+  .nav a:not(.btn) { display: block; padding: var(--s-3) 0; text-decoration: none; color: var(--on-ink-muted); font-weight: 600; transition: color var(--ease); }
+  .nav a:not(.btn):hover, .nav a[aria-current="page"] { color: #fff; }
+  @media (min-width: 64rem) { .nav a[aria-current="page"] { box-shadow: 0 2px 0 var(--gold-on-ink); } }
 
   /* موبایل با JS: منو جمع‌شونده */
   @media (max-width: 63.99rem) {
