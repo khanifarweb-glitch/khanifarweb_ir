@@ -31,14 +31,14 @@ const Tag = href ? "a" : "button";
   .btn :global(.btn__icon) { transition: transform var(--ease); }
   .btn:hover :global(.btn__icon) { transform: scaleX(var(--arrow-flip)) translateX(-4px); }
 
-  .btn--primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 28%, transparent); }
-  .btn--primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn--primary { background: var(--accent); color: var(--on-accent); }
+  .btn--primary:hover { background: var(--accent-hover); }
   .btn--secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
   .btn--secondary:hover { border-color: var(--text); }
-  .btn--gold { background: var(--gold-on-ink); color: var(--ink); box-shadow: 0 6px 16px rgb(184 145 74 / 0.28); }
-  .btn--gold:hover { background: #e6c98f; transform: translateY(-1px); }
+  .btn--gold { background: var(--accent-on-ink); color: var(--ink); }
+  .btn--gold:hover { background: #a5c0ff; }
   .btn--light { background: #fff; color: var(--ink); }
-  .btn--light:hover { background: var(--accent-soft); transform: translateY(-1px); }
+  .btn--light:hover { background: var(--accent-soft); }
   .btn--outline-light { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.4); }
   .btn--outline-light:hover { border-color: #fff; }
 </style>

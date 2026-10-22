@@ -3,7 +3,6 @@ import { siteFor } from "../../data/site";
 import { useI18n } from "../../i18n/ui";
 
 import Button from "../common/Button.astro";
-import Icon from "../common/Icon.astro";
 import HeroVisual from "./HeroVisual.astro";
 import Avatar from "../common/Avatar.astro";
 import { hasEntries } from "../../utils/content";
@@ -17,21 +16,20 @@ const points = t.hero.points;
 <section class="hero" aria-labelledby="hero-title">
   <div class="container hero__grid">
     <div class="hero__text">
-      <p class="hero__slogan">{site.slogan}</p>
-      <h1 id="hero-title">{t.hero.h1a} <span class="mark">{t.hero.h1mark}</span></h1>
+      <h1 id="hero-title">{site.slogan}</h1>
       <p class="hero__lead">{site.description}</p>
       <div class="hero__actions">
-        <Button href={site.primaryCta.href} variant="gold" size="lg" arrow>{site.primaryCta.label}</Button>
+        <Button href={site.primaryCta.href} size="lg" arrow>{site.primaryCta.label}</Button>
         {hasWork
-          ? <Button href={lp("/portfolio/")} variant="outline-light" size="lg">{t.hero.portfolio}</Button>
-          : <Button href="#services" variant="outline-light" size="lg">{t.hero.services}</Button>}
+          ? <Button href={lp("/portfolio/")} variant="secondary" size="lg">{t.hero.portfolio}</Button>
+          : <Button href="#services" variant="secondary" size="lg">{t.hero.services}</Button>}
       </div>
       <a class="owner" href={lp("/about/")}>
         <Avatar size={48} />
         <span><b>{site.owner}</b><small>{t.hero.ownerRole}</small></span>
       </a>
       <ul class="hero__points">
-        {points.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
+        {points.map((p) => <li>{p}</li>)}
       </ul>
     </div>
     <HeroVisual />
@@ -39,29 +37,21 @@ const points = t.hero.points;
 </section>
 
 <style>
-  .hero { position: relative; isolation: isolate; overflow: clip; background: var(--ink); color: var(--on-ink); padding-block: var(--s-12) var(--s-16); }
-  /* شبکه نقطه‌ای ملایم + درخشش طلایی روی زمینه سرمه‌ای تیره */
-  .hero::before {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background:
-      radial-gradient(40rem 22rem at var(--glow-a) 0, rgb(184 145 74 / 0.22), transparent 70%),
-      radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px) 0 0 / 26px 26px;
-  }
+  .hero { padding-block: var(--s-12) var(--s-16); }
   .hero__grid { display: grid; gap: var(--s-16); align-items: center; }
-  .hero__slogan { display: inline-block; margin-bottom: var(--s-4); padding: var(--s-1) var(--s-4); border: 1px solid rgb(216 182 115 / 0.5); color: var(--gold-on-ink); font-weight: 600; font-size: var(--fs-sm); border-radius: 999px; }
-  h1 { font-weight: 800; letter-spacing: -0.01em; max-width: 18ch; color: #fff; }
-  .mark { color: var(--gold-on-ink); }
-  .hero__lead { margin-top: var(--s-6); max-width: 52ch; font-size: var(--fs-lg); color: var(--on-ink-muted); }
+  h1 { max-width: 14ch; letter-spacing: 0; }
+  .hero__lead { margin-top: var(--s-6); max-width: 50ch; font-size: var(--fs-lg); color: var(--muted); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
-  .owner { display: inline-flex; align-items: center; gap: var(--s-3); margin-top: var(--s-8); padding: var(--s-2); padding-inline-end: var(--s-6); color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; text-decoration: none; box-shadow: var(--shadow-sm); transition: border-color var(--ease), box-shadow var(--ease); }
-  .owner:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+  .owner { display: inline-flex; align-items: center; gap: var(--s-3); margin-top: var(--s-8); text-decoration: none; }
   .owner span { display: grid; line-height: 1.5; }
+  .owner b { text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 0.35em; transition: text-decoration-color var(--ease); }
+  .owner:hover b { text-decoration-color: var(--accent); }
   .owner small { color: var(--muted); font-size: var(--fs-sm); }
-  .hero__points { list-style: none; margin: var(--s-6) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); color: var(--on-ink-muted); font-size: var(--fs-sm); }
-  .hero__points li { display: inline-flex; align-items: center; gap: var(--s-2); }
-  .hero__points :global(svg) { color: var(--gold-on-ink); }
+  .hero__points { list-style: none; margin: var(--s-6) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2) 0; color: var(--muted); font-size: var(--fs-sm); }
+  .hero__points li { padding-inline: var(--s-4); border-inline-start: 1px solid var(--border); }
+  .hero__points li:first-child { padding-inline-start: 0; border-inline-start: 0; }
   @media (min-width: 64rem) {
     .hero { padding-block: var(--s-24); }
-    .hero__grid { grid-template-columns: 1.15fr 0.85fr; }
+    .hero__grid { grid-template-columns: 7fr 5fr; gap: var(--s-12); }
   }
 </style>
