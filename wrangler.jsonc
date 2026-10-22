@@ -12,5 +12,7 @@
   },
   // متغیرها و Secretهای ثبت‌شده در داشبورد با هر deploy پاک نشوند
   "keep_vars": true,
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // لازم برای Preview شاخه‌ها (دستور «wrangler preview» در بیلد شاخه‌های غیر main)؛ خالی بودنش درست است
+  "previews": {}
 }
