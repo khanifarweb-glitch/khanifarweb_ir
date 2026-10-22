@@ -2,14 +2,15 @@
 import Section from "../common/Section.astro";
 import { useI18n } from "../../i18n/ui";
 
+// این‌جا شماره‌گذاری درست است چون مراحل واقعاً پشت‌سرهم‌اند
 const p = useI18n(Astro.url).t.process;
 const steps = p.steps;
 ---
 
-<Section id="process" eyebrow={p.eyebrow} title={p.title} intro={p.intro} tone="surface">
+<Section id="process" title={p.title} intro={p.intro}>
   <ol class="steps">
     {steps.map((s) => (
-      <li class="reveal">
+      <li>
         <h3>{s.title}</h3>
         <p>{s.text}</p>
       </li>
@@ -18,15 +19,11 @@ const steps = p.steps;
 </Section>
 
 <style>
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: step; }
-  li { counter-increment: step; position: relative; padding-inline-start: 3.75rem; padding-bottom: var(--s-8); }
-  li::before { content: counter(step, persian); /* در انگلیسی: عدد لاتین */ position: absolute; inset-inline-start: 0; top: 0; display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 800; }
-  li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 1.2rem; top: 2.75rem; bottom: var(--s-2); width: 2px; background: var(--border); }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-8); counter-reset: step; }
+  li { counter-increment: step; padding-top: var(--s-4); border-top: 2px solid var(--border); }
+  li::before { content: counter(step, persian); /* در انگلیسی: عدد لاتین */ display: block; margin-bottom: var(--s-2); font-size: var(--fs-h2); font-weight: 900; line-height: 1; color: var(--accent); }
   :global(html[lang="en"]) li::before { content: counter(step); }
+  h3 { font-weight: 800; }
   p { margin-top: var(--s-1); color: var(--muted); }
-  @media (min-width: 48rem) {
-    .steps { grid-template-columns: repeat(4, 1fr); gap: var(--s-6); }
-    li { padding-inline-start: 0; padding-top: 3.5rem; padding-bottom: 0; }
-    li:not(:last-child)::after { top: 1.2rem; bottom: auto; height: 2px; width: calc(100% - 2.75rem + var(--s-6)); inset-inline-start: 2.75rem; }
-  }
+  @media (min-width: 48rem) { .steps { grid-template-columns: repeat(4, 1fr); gap: var(--s-6); } }
 </style>

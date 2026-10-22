@@ -8,19 +8,21 @@ const site = siteFor(lang);
 ---
 
 <section class="cta" aria-labelledby="cta-title">
-  <div class="container">
-    <div class="panel reveal">
+  <div class="container band">
+    <div>
       <h2 id="cta-title">{t.finalCta.title}</h2>
       <p>{t.finalCta.text}</p>
-      <Button href={site.primaryCta.href} variant="light" size="lg" arrow>{site.primaryCta.label}</Button>
     </div>
+    <Button href={site.primaryCta.href} variant="light" size="lg" arrow>{site.primaryCta.label}</Button>
   </div>
 </section>
 
 <style>
-  .cta { padding-block: var(--s-16) 0; }
-  .panel { padding: var(--s-12) var(--s-6); text-align: center; color: #fff; border-radius: var(--radius-lg);
-    background: radial-gradient(30rem 14rem at var(--glow-c) 0, rgb(255 255 255 / 0.16), transparent 70%), var(--accent); }
-  p { margin: var(--s-3) auto var(--s-8); max-width: 48ch; color: #e0e9ff; }
-  @media (min-width: 48rem) { .panel { padding: var(--s-16) var(--s-8); } }
+  .cta { margin-top: var(--s-16); padding-block: var(--s-12); background: var(--ink); color: var(--on-ink); }
+  .band { display: grid; gap: var(--s-6); align-items: center; }
+  p { margin-top: var(--s-3); max-width: 48ch; color: var(--on-ink-muted); }
+  @media (min-width: 48rem) {
+    .cta { padding-block: var(--s-16); }
+    .band { grid-template-columns: 1fr auto; gap: var(--s-12); }
+  }
 </style>

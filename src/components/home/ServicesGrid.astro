@@ -1,38 +1,45 @@
 ---
 import Section from "../common/Section.astro";
-import Card from "../common/Card.astro";
 import Icon from "../common/Icon.astro";
 import { useI18n } from "../../i18n/ui";
 
-// محتوا طبق Design Brief؛ «for» به بازدیدکننده کمک می‌کند خودش را پیدا کند (متن‌ها در src/i18n/ui.ts)
+// سه خدمت به‌صورت ردیف‌های لینک‌دار؛ «for» به بازدیدکننده کمک می‌کند خودش را پیدا کند (متن‌ها در src/i18n/ui.ts)
 const { t, lp } = useI18n(Astro.url);
 const sv = t.services;
 const services = sv.items;
 ---
 
-<Section id="services" eyebrow={sv.eyebrow} title={sv.title} intro={sv.intro} tone="surface">
-  <div class="grid">
+<Section id="services" title={sv.title} intro={sv.intro}>
+  <ul class="rows">
     {services.map((s) => (
-      <Card href={lp(s.href)} class="reveal">
-        <span class="icon"><Icon name={s.icon} size={26} /></span>
-        <p class="for">{s.for}</p>
-        <h3>{s.title}</h3>
-        <p class="text">{s.text}</p>
-        <span class="cta">{s.cta}<Icon name="arrow" size={16} /></span>
-      </Card>
+      <li>
+        <a class="row" href={lp(s.href)}>
+          <span class="for">{s.for}</span>
+          <span class="body">
+            <h3>{s.title}</h3>
+            <span class="text">{s.text}</span>
+          </span>
+          <span class="cta">{s.cta}<Icon name="arrow" size={16} /></span>
+        </a>
+      </li>
     ))}
-  </div>
+  </ul>
 </Section>
 
 <style>
-  .grid { display: grid; gap: var(--s-6); }
-  .icon { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; margin-bottom: var(--s-4); background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-md); transition: background-color var(--ease), color var(--ease); }
-  :global(.card:hover) .icon { background: var(--accent); color: #fff; }
-  .for { font-size: var(--fs-sm); font-weight: 700; color: var(--accent); }
-  h3 { margin: var(--s-1) 0 var(--s-2); }
-  .text { color: var(--muted); }
-  .cta { display: inline-flex; align-items: center; gap: var(--s-2); margin-top: var(--s-6); font-weight: 700; color: var(--accent); }
+  .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+  li { border-bottom: 1px solid var(--border); }
+  .row { display: grid; gap: var(--s-2); padding: var(--s-6) var(--s-2); color: inherit; text-decoration: none; transition: background-color var(--ease); }
+  .row:hover { background: var(--accent-soft); }
+  .for { font-size: var(--fs-sm); font-weight: 700; color: var(--accent-hover); }
+  .body { display: grid; gap: var(--s-1); }
+  h3 { font-weight: 800; }
+  .text { color: var(--muted); max-width: 52ch; }
+  .cta { display: inline-flex; align-items: center; gap: var(--s-2); margin-top: var(--s-2); font-weight: 700; color: var(--accent); }
   .cta :global(svg) { transition: transform var(--ease); }
-  :global(.card:hover) .cta :global(svg) { transform: scaleX(var(--arrow-flip)) translateX(-4px); }
-  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .row:hover .cta :global(svg) { transform: scaleX(var(--arrow-flip)) translateX(-4px); }
+  @media (min-width: 48rem) {
+    .row { grid-template-columns: 13rem 1fr auto; align-items: baseline; gap: var(--s-8); padding-inline: var(--s-4); }
+    .cta { margin-top: 0; }
+  }
 </style>
