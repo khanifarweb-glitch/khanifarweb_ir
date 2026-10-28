@@ -481,10 +481,11 @@
     else pngPromise = null;
   }
 
-  /* ---------- ساخت تصویر PNG (۱۰۸۰×۱۳۵۰) ---------- */
+  /* ---------- ساخت تصویر JPG (۱۰۸۰×۱۳۵۰) ---------- */
   const W = 1080, H = 1350, U = W / 100;
   const GOLD = '143,102,24';
   const INK = '#1b2838';
+  const JPG_QUALITY = 0.93;   // تقریباً بدون افت دیدنی، با حجم بسیار کمتر از PNG
 
   async function loadFonts() {
     const timeout = new Promise(res => setTimeout(res, 3000));
@@ -675,7 +676,7 @@
     c.fillText(id, px + padX + dot + dgap, hTop + hPillH / 2 + 1);
     c.restore();
 
-    return new Promise(res => cv.toBlob(res, 'image/png'));
+    return new Promise(res => cv.toBlob(res, 'image/jpeg', JPG_QUALITY));
   }
 
   function prepareImage() {
@@ -755,7 +756,7 @@
   function makeFileName(text, kw) {
     // عدد: ۶ رقم آخر زمان (میلی‌ثانیه) تا هر بار نام جدید باشد
     const num = String(Date.now()).slice(-6);
-    return slugFor(text, kw) + '-' + num + '.png';
+    return slugFor(text, kw) + '-' + num + '.jpg';
   }
 
   /* ---------- ساخت، ذخیره و اشتراک‌گذاری ---------- */
@@ -769,7 +770,8 @@
   function hideResult() { resultEl.hidden = true; lastFile = null; }
   function showResult(file, text, kw) {
     lastFile = { file, text, kw };
-    resultName.textContent = file.name;
+    const kb = Math.max(1, Math.round(file.size / 1024));
+    resultName.textContent = file.name + '  (' + kb.toLocaleString('en') + ' KB)';
     resultEl.hidden = false;
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -801,7 +803,7 @@
       try {
         handle = await window.showSaveFilePicker({
           suggestedName: name,
-          types: [{ description: 'تصویر PNG', accept: { 'image/png': ['.png'] } }]
+          types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
         });
         if (handle && handle.name) name = handle.name;
       } catch (e) {
@@ -827,7 +829,7 @@
       }
       if (!saved) download(blob, name);
 
-      const file = new File([blob], name, { type: 'image/png' });
+      const file = new File([blob], name, { type: 'image/jpeg' });
       showResult(file, text, kw);
       toast(handle ? 'فایل ذخیره شد' : 'فایل در پوشه‌ی دانلودها ذخیره شد');
     } catch (e) {
@@ -859,7 +861,7 @@
       try {
         const h = await window.showSaveFilePicker({
           suggestedName: file.name,
-          types: [{ description: 'تصویر PNG', accept: { 'image/png': ['.png'] } }]
+          types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
         });
         await writeToHandle(h, file);
         toast('فایل ذخیره شد');
