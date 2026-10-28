@@ -792,46 +792,59 @@
     await w.close();
   }
 
+  // پنجره‌ی انتخاب محل فقط روی رایانه (Chrome/Edge) استفاده می‌شود.
+  // در گوشی (اندروید/آیفون) مستقیم دانلود می‌شود، چون آنجا این پنجره ناپایدار است.
+  const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+                    (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
+  const CAN_PICK = !!window.showSaveFilePicker && !IS_MOBILE;
+  const PICK_OPTS = name => ({
+    suggestedName: name,
+    types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
+  });
+
+  async function getBlob(text, kw) {
+    clearTimeout(debounce);
+    if (!pngPromise || pngPromise.text !== text || pngPromise.kw !== kw) {
+      pngPromise = renderPNG(text, kw); pngPromise.text = text; pngPromise.kw = kw;
+    }
+    const blob = await pngPromise;
+    if (!blob) throw new Error('empty');
+    return blob;
+  }
+
   async function makeAndSave() {
     if (!currentText) { toast('ابتدا جمله را وارد کنید'); input.focus(); return; }
     const text = currentText, kw = currentKw;
     let name = makeFileName(text, kw);
     let handle = null;
-
-    // پنجره‌ی انتخاب محل باید بلافاصله بعد از کلیک باز شود
-    if (window.showSaveFilePicker) {
-      try {
-        handle = await window.showSaveFilePicker({
-          suggestedName: name,
-          types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
-        });
-        if (handle && handle.name) name = handle.name;
-      } catch (e) {
-        if (e && e.name === 'AbortError') { toast('ذخیره لغو شد'); return; }
-        handle = null;   // مثلاً مرورگر اجازه نداد؛ با دانلود ادامه می‌دهیم
-      }
-    }
-
     makeBtn.disabled = true;
-    toast('در حال ساخت عکس…');
+
     try {
-      clearTimeout(debounce);
-      if (!pngPromise || pngPromise.text !== text || pngPromise.kw !== kw) {
-        pngPromise = renderPNG(text, kw); pngPromise.text = text; pngPromise.kw = kw;
+      // رایانه: پنجره‌ی انتخاب محل باید بلافاصله بعد از کلیک باز شود
+      if (CAN_PICK) {
+        const t0 = Date.now();
+        try {
+          handle = await window.showSaveFilePicker(PICK_OPTS(name));
+          if (handle && handle.name) name = handle.name;
+        } catch (e) {
+          // فقط وقتی کاربر خودش پنجره را بسته (بعد از چند لحظه) «لغو» حساب می‌شود
+          if (e && e.name === 'AbortError' && Date.now() - t0 > 400) { toast('ذخیره لغو شد'); return; }
+          handle = null;   // خطای دیگر: با دانلود معمولی ادامه می‌دهیم
+        }
       }
-      const blob = await pngPromise;
-      if (!blob) throw new Error('empty');
+
+      toast('در حال ساخت عکس…');
+      const blob = await getBlob(text, kw);
 
       let saved = false;
       if (handle) {
-        try { await writeToHandle(handle, blob); saved = true; }
-        catch (e) { handle = null; }
+        try { await writeToHandle(handle, blob); saved = true; } catch (e) { saved = false; }
       }
       if (!saved) download(blob, name);
 
       const file = new File([blob], name, { type: 'image/jpeg' });
       showResult(file, text, kw);
-      toast(handle ? 'فایل ذخیره شد' : 'فایل در پوشه‌ی دانلودها ذخیره شد');
+      toast(saved ? 'فایل ذخیره شد' : 'فایل ساخته شد و در دانلودها ذخیره شد');
     } catch (e) {
       toast('خطا در ساخت تصویر؛ دوباره تلاش کنید');
     } finally {
@@ -857,17 +870,15 @@
   async function saveAgain() {
     if (!lastFile) return;
     const { file } = lastFile;
-    if (window.showSaveFilePicker) {
+    if (CAN_PICK) {
+      const t0 = Date.now();
       try {
-        const h = await window.showSaveFilePicker({
-          suggestedName: file.name,
-          types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
-        });
+        const h = await window.showSaveFilePicker(PICK_OPTS(file.name));
         await writeToHandle(h, file);
         toast('فایل ذخیره شد');
         return;
       } catch (e) {
-        if (e && e.name === 'AbortError') return;
+        if (e && e.name === 'AbortError' && Date.now() - t0 > 400) return;
       }
     }
     download(file, file.name);
