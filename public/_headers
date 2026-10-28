@@ -21,3 +21,8 @@
 /admin/*
   ! Content-Security-Policy
   Cache-Control: no-store
+
+/saba/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Cache-Control: public, max-age=300

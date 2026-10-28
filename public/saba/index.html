@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fffaf0">
+<title>صبارسانه | بیمه تکمیلی بازنشستگان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#fffaf0;
+    --bg-2:#f6e9cb;
+    --bg-3:#f1e4c6;
+    --gold:#8f6618;
+    --gold-soft:rgba(143,102,24,.45);
+    --gold-faint:rgba(143,102,24,.22);
+    --ink:#1b2838;
+    --muted:#4a5868;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{min-height:100%}
+  body{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    gap:18px;
+    padding:16px 0 28px;
+    background:radial-gradient(circle at 50% 30%, #fffdf8 0%, #efe6d2 85%);
+    font-family:'Vazirmatn','Segoe UI',Tahoma,'Noto Sans Arabic','Geeza Pro',sans-serif;
+    color:var(--ink);
+  }
+
+  /* قاب اصلی تصویر (نسبت ۴ به ۵، مناسب اینستاگرام) */
+  .stage{
+    position:relative;
+    width:min(94vw, 540px);
+    aspect-ratio:4/5;
+    flex:none;
+    container-type:inline-size;
+    border-radius:3.2cqw;
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--bg-2) 0%, transparent 60%),
+      radial-gradient(100% 70% at 50% 100%, rgba(143,102,24,.14) 0%, transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-3));
+    box-shadow:0 2cqw 7cqw rgba(80,60,20,.25), inset 0 0 0 1px rgba(143,102,24,.12);
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .stage::before{
+    content:"";position:absolute;inset:0;z-index:-3;
+    background-image:radial-gradient(rgba(143,102,24,.14) 1px, transparent 1.2px);
+    background-size:3.4cqw 3.4cqw;
+    mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
+    -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
+  }
+
+  .watermark{
+    position:absolute;z-index:-2;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%) rotate(-14deg);
+    font-family:'Lalezar','Vazirmatn',sans-serif;
+    font-size:30cqw;
+    line-height:1;
+    white-space:nowrap;
+    color:var(--gold);
+    opacity:.075;
+    letter-spacing:-.5cqw;
+    user-select:none;
+    pointer-events:none;
+  }
+  .watermark.small{
+    font-size:9cqw;
+    opacity:.07;
+    transform:none;
+    top:auto;left:auto;
+  }
+  .watermark.s1{top:7%;right:6%}
+  .watermark.s2{bottom:7%;left:6%}
+
+  .frame{
+    position:absolute;inset:3cqw;
+    border:1.5px solid var(--gold-soft);
+    border-radius:2.2cqw;
+    pointer-events:none;
+  }
+  .frame::after{
+    content:"";position:absolute;inset:1.1cqw;
+    border:1px solid var(--gold-faint);
+    border-radius:1.4cqw;
+  }
+  .corner{
+    position:absolute;width:5cqw;height:5cqw;
+    border:2px solid var(--gold);
+    opacity:.8;
+  }
+  .corner.tl{top:2.2cqw;left:2.2cqw;border-right:0;border-bottom:0;border-top-left-radius:1.6cqw}
+  .corner.tr{top:2.2cqw;right:2.2cqw;border-left:0;border-bottom:0;border-top-right-radius:1.6cqw}
+  .corner.bl{bottom:2.2cqw;left:2.2cqw;border-right:0;border-top:0;border-bottom-left-radius:1.6cqw}
+  .corner.br{bottom:2.2cqw;right:2.2cqw;border-left:0;border-top:0;border-bottom-right-radius:1.6cqw}
+
+  .topic{
+    position:absolute;top:9.5cqw;left:0;right:0;
+    text-align:center;
+    color:var(--gold);
+    font-size:3.6cqw;
+    font-weight:800;
+    letter-spacing:.15cqw;
+  }
+  .topic span{
+    display:inline-block;
+    padding:1.2cqw 3.4cqw;
+    max-width:76cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    border:1px solid var(--gold-soft);
+    border-radius:99px;
+    background:rgba(143,102,24,.08);
+  }
+  .topic.hidden{visibility:hidden}
+
+  .content{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:0 11cqw;
+    text-align:center;
+  }
+  .quote-mark{
+    font-family:'Aref Ruqaa',serif;
+    font-size:15cqw;
+    line-height:.6;
+    color:var(--gold);
+    opacity:.6;
+    height:6cqw;
+    margin-bottom:2cqw;
+  }
+  .quote{
+    font-weight:800;
+    font-size:5.6cqw;
+    line-height:1.9;
+    color:var(--ink);
+    text-wrap:balance;
+    text-shadow:0 .2cqw .8cqw rgba(255,255,255,.6);
+    transition:opacity .55s ease, transform .55s ease, filter .55s ease;
+  }
+  .quote.out{opacity:0;transform:translateY(1.6cqw);filter:blur(.6cqw)}
+  .divider{
+    display:flex;align-items:center;gap:1.4cqw;
+    margin-top:4.2cqw;
+    color:var(--gold);
+  }
+  .divider i{display:block;width:12cqw;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .divider i:last-child{transform:scaleX(-1)}
+  .divider b{width:1.2cqw;height:1.2cqw;transform:rotate(45deg);background:var(--gold);opacity:.9}
+
+  .footer{
+    position:absolute;left:0;right:0;bottom:8.2cqw;
+    display:flex;flex-direction:column;align-items:center;gap:1.8cqw;
+  }
+  .brand{
+    font-family:'Aref Ruqaa','Vazirmatn',serif;
+    font-weight:700;
+    font-size:6.4cqw;
+    color:var(--gold);
+    line-height:1;
+  }
+  .handle{
+    direction:ltr;
+    display:inline-flex;align-items:center;gap:1.2cqw;
+    padding:1.2cqw 3.6cqw;
+    font-family:'Vazirmatn',sans-serif;
+    font-weight:600;
+    font-size:3.2cqw;
+    letter-spacing:.2cqw;
+    color:var(--ink);
+    border:1px solid var(--gold-soft);
+    border-radius:99px;
+    background:linear-gradient(135deg, rgba(143,102,24,.16), rgba(143,102,24,.05));
+  }
+  .handle::before{
+    content:"";width:1.4cqw;height:1.4cqw;border-radius:50%;
+    background:var(--gold);
+  }
+
+  /* بخش ورودی و دکمه‌ها (بیرون از تصویر) */
+  .actions{
+    width:min(94vw, 560px);
+    display:flex;flex-direction:column;gap:14px;align-items:stretch;
+  }
+  .field{position:relative}
+  .field textarea{
+    width:100%;resize:none;display:block;
+    font-family:'Vazirmatn',sans-serif;font-size:19px;font-weight:600;line-height:1.9;
+    color:var(--ink);
+    background:#ffffff;
+    border:2px solid rgba(143,102,24,.45);
+    border-radius:16px;
+    padding:12px 16px 28px;
+    outline:none;transition:.25s;
+  }
+  .field textarea::placeholder{color:rgba(27,40,56,.5);font-weight:400}
+  .field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(143,102,24,.18)}
+  .counter{
+    position:absolute;left:14px;bottom:7px;direction:ltr;
+    font-size:14px;color:var(--muted);pointer-events:none;
+  }
+
+  .kwrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .kwlabel{font-size:16px;font-weight:600;color:var(--muted);white-space:nowrap}
+  .kwrow input[type=text]{
+    flex:1;min-width:140px;
+    font-family:'Vazirmatn',sans-serif;font-size:17px;font-weight:600;
+    color:var(--gold);
+    background:#ffffff;
+    border:2px solid rgba(143,102,24,.4);
+    border-radius:99px;padding:8px 16px;outline:none;transition:.25s;
+  }
+  .kwrow input[type=text]::placeholder{color:rgba(143,102,24,.6);font-weight:400}
+  .kwrow input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(143,102,24,.18)}
+  .switch{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+  .switch input{accent-color:#8f6618;width:20px;height:20px;cursor:pointer}
+  .quote.placeholder{color:rgba(27,40,56,.4);font-weight:600;text-shadow:none}
+
+  .btn{
+    font-family:'Vazirmatn',sans-serif;font-size:17px;font-weight:700;
+    display:inline-flex;align-items:center;gap:10px;
+    padding:13px 26px;border-radius:99px;cursor:pointer;
+    transition:.25s;white-space:nowrap;
+  }
+  .btn.ghost{
+    color:var(--ink);background:#ffffff;
+    border:2px solid rgba(27,40,56,.2);
+  }
+  .btn.ghost:hover{background:#f6efe0}
+  .btn.primary{
+    justify-content:center;
+    color:#ffffff;
+    background:linear-gradient(135deg,#b5842c,#8f6618 55%,#76530f);
+    border:1px solid rgba(0,0,0,.1);
+    box-shadow:0 6px 20px rgba(143,102,24,.35);
+  }
+  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(143,102,24,.45)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .btn svg{width:22px;height:22px;flex:none}
+
+  .helplink{
+    align-self:center;background:none;border:0;cursor:pointer;
+    font-family:'Vazirmatn',Tahoma,sans-serif;font-size:16px;font-weight:600;
+    color:var(--gold);text-decoration:underline;text-underline-offset:4px;padding:6px 10px;
+  }
+  .helplink:hover{color:var(--ink)}
+
+  .overlay{
+    position:fixed;inset:0;z-index:20;display:none;
+    align-items:center;justify-content:center;padding:16px;
+    background:rgba(255,250,240,.93);backdrop-filter:blur(4px);
+  }
+  .overlay.show{display:flex}
+  .sheet{
+    width:min(94vw,480px);max-height:94vh;overflow:auto;
+    background:#ffffff;border:2px solid var(--gold-soft);border-radius:20px;
+    padding:22px;text-align:center;color:var(--ink);
+    box-shadow:0 12px 40px rgba(80,60,20,.25);
+    font-family:'Vazirmatn',Tahoma,sans-serif;
+  }
+  .sheet img{display:block;margin:0 auto 14px;max-width:100%;max-height:55vh;border-radius:12px;box-shadow:0 10px 30px rgba(80,60,20,.3)}
+  .sheet p{font-size:16.5px;line-height:2;color:var(--muted);margin-bottom:14px}
+  .sheet h3{font-size:21px;color:var(--gold);margin-bottom:12px}
+  .sheet ol{text-align:right;padding-right:26px;font-size:17px;line-height:2.1;color:var(--ink);margin-bottom:12px}
+  .ovbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translate(-50%,10px);z-index:30;
+    background:#1b2838;color:#ffffff;
+    padding:12px 22px;border-radius:12px;font-size:16px;font-weight:600;
+    opacity:0;pointer-events:none;transition:.3s;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<main class="stage" id="stage">
+  <div class="watermark">صبارسانه</div>
+  <div class="watermark small s1">صبارسانه</div>
+  <div class="watermark small s2">صبارسانه</div>
+
+  <div class="frame"></div>
+  <span class="corner tl"></span><span class="corner tr"></span>
+  <span class="corner bl"></span><span class="corner br"></span>
+
+  <div class="topic hidden" id="topic"><span id="kw"></span></div>
+
+  <section class="content">
+    <div class="quote-mark">”</div>
+    <p class="quote" id="quote"></p>
+    <div class="divider"><i></i><b></b><i></i></div>
+  </section>
+
+  <footer class="footer">
+    <div class="brand">صبارسانه</div>
+    <div class="handle">@saba_rasanehh</div>
+  </footer>
+</main>
+
+<div class="actions">
+  <div class="field">
+    <textarea id="input" rows="3" maxlength="360" dir="rtl" placeholder="جمله یا شعار خود را اینجا بنویسید…" aria-label="متن شعار"></textarea>
+    <span class="counter" id="counter">0 / 360</span>
+  </div>
+  <div class="kwrow">
+    <label class="kwlabel" for="kwinput">کلمه کلیدی</label>
+    <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار از متن انتخاب می‌شود">
+    <label class="switch"><input type="checkbox" id="kwon" checked><span>نمایش در تصویر</span></label>
+  </div>
+  <button class="btn primary" id="share" type="button" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+    <span>تبدیل به عکس و اشتراک‌گذاری</span>
+  </button>
+  <button class="helplink" id="helpBtn" type="button">راهنمای استفاده</button>
+</div>
+
+<div class="overlay" id="ovImgWrap" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <img id="ovImg" alt="تصویر ساخته‌شده">
+    <p>اگر پنجره‌ی ارسال باز نشد، انگشت خود را روی عکس نگه دارید و «ذخیره تصویر» را بزنید؛ یا از دکمه‌های زیر استفاده کنید.</p>
+    <div class="ovbtns">
+      <button class="btn primary" id="ovShare" type="button">ارسال</button>
+      <button class="btn ghost" id="ovSave" type="button">ذخیره عکس</button>
+      <button class="btn ghost" id="ovClose" type="button">بستن</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="helpWrap" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <h3>راهنمای استفاده</h3>
+    <ol>
+      <li>جمله یا شعار خود را در کادر بنویسید؛ تصویر هم‌زمان ساخته می‌شود.</li>
+      <li>کلمه کلیدی خودکار انتخاب می‌شود؛ می‌توانید آن را تغییر دهید یا حذف کنید.</li>
+      <li>دکمه‌ی طلایی را بزنید و برنامه‌ی دلخواه (تلگرام، واتساپ، اینستاگرام و…) را انتخاب کنید.</li>
+    </ol>
+    <p>در رایانه عکس به‌صورت PNG ذخیره می‌شود. در گوشی، این صفحه را با مرورگر (Chrome یا Safari) باز کنید.</p>
+    <div class="ovbtns"><button class="btn ghost" id="helpClose" type="button">متوجه شدم</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+
+  const el = document.getElementById('quote');
+  const input = document.getElementById('input');
+  const counter = document.getElementById('counter');
+  const MAX = 360;
+  const kwInput = document.getElementById('kwinput');
+  const kwOn = document.getElementById('kwon');
+  const kwEl = document.getElementById('kw');
+  const topicEl = document.getElementById('topic');
+
+  let currentKw = '';
+  let currentText = '';
+  let pngPromise = null;
+  let debounce = null;
+
+  // اندازه فونت بر اساس طول جمله (واحد: درصد عرض تصویر) - بزرگ‌تر برای خوانایی بیشتر
+  function sizeFor(len) {
+    if (len <= 50)  return 6.4;
+    if (len <= 90)  return 5.8;
+    if (len <= 140) return 5.3;
+    if (len <= 200) return 4.8;
+    if (len <= 280) return 4.4;
+    return 4.1;
+  }
+
+  function normalize(v) {
+    return v.replace(/\s*\n+\s*/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  }
+
+  /* ---------- استخراج خودکار کلمه کلیدی (بدون اینترنت، مستقل از موضوع) ---------- */
+  const STOP = new Set((
+    'و در به از که این آن با برای تا را است بود شد شده شود شوند می نمی هر همه یک یا اگر اما ولی هم نیز چه چرا کی کجا ' +
+    'من تو او ما شما ایشان آنها آن‌ها این‌ها بر بی بین پس پیش روی زیر مثل مانند چون چنین چنان بدون باید نباید ' +
+    'کرد کردن کنند کند کنیم کنید کنم کرده کردند دارد دارند داشت داشته باشد باشند باشیم بودن بودند نه نیست نیستند ' +
+    'نبود نشد نکرد هیچ هنوز دیگر بسیار خیلی تنها فقط حتی هرگز همیشه وقتی زمانی جایی کسی چیزی بعد قبل دوباره همان ' +
+    'همین هیچ‌وقت هیچ‌کس هیچ‌کدام بخشی کمترین بیشترین بیش کم تر ترین آیا مگر بلکه زیرا درباره درمورد نزد طی طبق علیه ' +
+    'علاوه بنابراین سپس همچنین وگرنه یعنی یکی دو سه چهار پنج شش هفت هشت نه ده بیست سی چهل پنجاه صد هزار ' +
+    'اسمش داده دادم دادی بودم بودی هستم هستی هستیم هستند هست خود خودش خودت خودم مان تان شان اش ات ام باز بار بس چقدر اینکه آنکه چنانچه هرچه هرکس هرگاه اکنون امروز اینجا آنجا ' +
+    'شود شدن گردد گردید گفت گوید گویند دهد دهند دهیم داد دادن آید آمد آمدن رفت رود رفتن شده‌اند شده‌است ' +
+    'the a an of to and is in for on with at by from or as be are was it this that'
+  ).split(/\s+/));
+
+  function cleanToken(t) {
+    return t
+      .replace(/‌(ای|ام|ات|اش|مان|تان|شان|ها|های|ی)$/, '')   // پسوندهای چسبان
+      .replace(/^[‌‍]+|[‌‍]+$/g, '');
+  }
+
+  function extractKeywords(text) {
+    const norm = text.replace(/ي/g, 'ی').replace(/ك/g, 'ک');
+    const segments = norm.split(/[«»"“”‘’()\[\]{}.,،؛;:!؟?…\-–—|\/\\*_~`^+=<>#$%&@٪]+/);
+
+    const toks = [];
+    segments.forEach((seg, si) => {
+      seg.split(/\s+/).filter(Boolean).forEach(r => {
+        const w = cleanToken(r);
+        const lower = w.toLowerCase();
+        const verbish = /^(نمی|می)\u200c/.test(w);
+        const hasDigit = /[0-9۰-۹٠-٩]/.test(w);
+        const ok = w.length >= 2 && !STOP.has(w) && !STOP.has(r) && !STOP.has(lower) && !verbish && !hasDigit;
+        toks.push({ w, lower, ok, si });
+      });
+    });
+
+    const freq = {};
+    toks.forEach(t => { if (t.ok) freq[t.lower] = (freq[t.lower] || 0) + 1; });
+
+    const score = (t, i) => Math.min(t.w.length, 9) + 3 * (freq[t.lower] - 1) + (i < 4 ? 1 : 0);
+
+    const cands = [];
+    toks.forEach((t, i) => {
+      if (t.ok && t.w.length >= 3) cands.push({ text: t.w, score: score(t, i), words: [t.lower] });
+    });
+    for (let i = 0; i < toks.length - 1; i++) {
+      const a = toks[i], b = toks[i + 1];
+      if (!a.ok || !b.ok || a.si !== b.si || a.lower === b.lower) continue;
+      if (a.w.length < 3 || b.w.length < 4 || !/ی$/.test(b.w)) continue;
+      const phrase = a.w + ' ' + b.w;
+      if (phrase.length > 24) continue;
+      cands.push({ text: phrase, score: score(a, i) + score(b, i + 1), words: [a.lower, b.lower] });
+    }
+    if (!cands.length) return '';
+    cands.sort((x, y) => y.score - x.score);
+    const best = cands[0];
+
+    return best.text;
+  }
+
+  function update() {
+    const text = normalize(input.value);
+    currentText = text;
+    counter.textContent = input.value.length + ' / ' + MAX;
+    shareBtn.disabled = !text;
+
+    const auto = text ? extractKeywords(text) : '';
+    kwInput.placeholder = auto || 'خودکار از متن انتخاب می‌شود';
+    const manual = kwInput.value.trim();
+    currentKw = (!text || !kwOn.checked) ? '' : (manual || auto);
+    kwEl.textContent = currentKw;
+    topicEl.classList.toggle('hidden', !currentKw);
+    if (text) {
+      el.textContent = text;
+      el.style.fontSize = sizeFor(text.length) + 'cqw';
+      el.classList.remove('placeholder');
+    } else {
+      el.textContent = 'جمله یا شعار خود را در کادر پایین بنویسید…';
+      el.style.fontSize = '5cqw';
+      el.classList.add('placeholder');
+    }
+    clearTimeout(debounce);
+    if (text) debounce = setTimeout(prepareImage, 350);
+    else pngPromise = null;
+  }
+
+  /* ---------- ساخت تصویر PNG (۱۰۸۰×۱۳۵۰) ---------- */
+  const W = 1080, H = 1350, U = W / 100;
+  const GOLD = '143,102,24';
+  const INK = '#1b2838';
+
+  async function loadFonts() {
+    const timeout = new Promise(res => setTimeout(res, 3000));
+    try {
+      await Promise.race([timeout, Promise.all([
+        document.fonts.load('800 40px Vazirmatn', 'صبارسانه'),
+        document.fonts.load('600 40px Vazirmatn', 'صبارسانه'),
+        document.fonts.load('700 40px "Aref Ruqaa"', 'صبارسانه'),
+        document.fonts.load('40px Lalezar', 'صبارسانه')
+      ])]);
+    } catch (e) {}
+  }
+
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function wrap(ctx, text, maxW) {
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+      const t = line ? line + ' ' + w : w;
+      if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
+      else line = t;
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function balancedLines(ctx, text, maxW) {
+    const n = wrap(ctx, text, maxW).length;
+    let w = maxW;
+    while (w > maxW * 0.5 && wrap(ctx, text, w * 0.97).length === n) w *= 0.97;
+    return wrap(ctx, text, w);
+  }
+
+  async function renderPNG(text, kw) {
+    await loadFonts();
+    const cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    const c = cv.getContext('2d');
+    c.direction = 'rtl';
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+
+    // پس‌زمینه روشن
+    let g = c.createLinearGradient(W * 0.2, 0, W * 0.8, H);
+    g.addColorStop(0, '#fffaf0'); g.addColorStop(1, '#f1e4c6');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+
+    g = c.createRadialGradient(W / 2, 0, 0, W / 2, 0, W * 0.95);
+    g.addColorStop(0, 'rgba(246,233,203,1)'); g.addColorStop(1, 'rgba(246,233,203,0)');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+
+    g = c.createRadialGradient(W / 2, H, 0, W / 2, H, W * 0.85);
+    g.addColorStop(0, `rgba(${GOLD},.14)`); g.addColorStop(1, `rgba(${GOLD},0)`);
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+
+    // بافت نقطه‌ای ملایم
+    const step = 3.4 * U;
+    for (let y = step / 2; y < H; y += step) {
+      for (let x = step / 2; x < W; x += step) {
+        const d = Math.hypot((x - W / 2) / (W * .6), (y - H / 2) / (H * .6));
+        const a = Math.max(0, 1 - d) * 0.16;
+        if (a > 0.01) { c.fillStyle = `rgba(${GOLD},${a})`; c.fillRect(x, y, 1.4, 1.4); }
+      }
+    }
+
+    // واترمارک‌ها
+    c.save();
+    c.translate(W / 2, H / 2); c.rotate(-14 * Math.PI / 180);
+    c.globalAlpha = 0.075; c.fillStyle = `rgb(${GOLD})`;
+    c.font = `${30 * U}px Lalezar, Vazirmatn, sans-serif`;
+    c.fillText('صبارسانه', 0, 0);
+    c.restore();
+
+    c.save();
+    c.globalAlpha = 0.07; c.fillStyle = `rgb(${GOLD})`;
+    c.font = `${9 * U}px Lalezar, Vazirmatn, sans-serif`;
+    c.textAlign = 'right'; c.fillText('صبارسانه', W - 6 * U, H * 0.07 + 5 * U);
+    c.textAlign = 'left';  c.fillText('صبارسانه', 6 * U, H * 0.93 - 5 * U);
+    c.restore();
+
+    // قاب‌ها
+    c.lineJoin = 'round';
+    c.strokeStyle = `rgba(${GOLD},.45)`; c.lineWidth = 2.2;
+    rr(c, 3 * U, 3 * U, W - 6 * U, H - 6 * U, 2.2 * U); c.stroke();
+    c.strokeStyle = `rgba(${GOLD},.22)`; c.lineWidth = 1.4;
+    rr(c, 4.1 * U, 4.1 * U, W - 8.2 * U, H - 8.2 * U, 1.4 * U); c.stroke();
+
+    const len = 5 * U, r = 1.6 * U;
+    const corner = (cx, cy, sx, sy) => {
+      c.save(); c.translate(cx, cy); c.scale(sx, sy);
+      c.globalAlpha = 0.8; c.strokeStyle = `rgb(${GOLD})`; c.lineWidth = 3; c.lineCap = 'round';
+      c.beginPath();
+      c.moveTo(len, 0); c.lineTo(r, 0); c.arcTo(0, 0, 0, r, r); c.lineTo(0, len);
+      c.stroke(); c.restore();
+    };
+    corner(2.2 * U, 2.2 * U, 1, 1);
+    corner(W - 2.2 * U, 2.2 * U, -1, 1);
+    corner(2.2 * U, H - 2.2 * U, 1, -1);
+    corner(W - 2.2 * U, H - 2.2 * U, -1, -1);
+
+    // برچسب بالا
+    if (kw) {
+      c.font = `800 ${3.6 * U}px Vazirmatn, Tahoma, sans-serif`;
+      const tw = Math.min(c.measureText(kw).width + 7 * U, W - 24 * U), th = 7.4 * U, ty = 9.5 * U;
+      rr(c, (W - tw) / 2, ty, tw, th, th / 2);
+      c.fillStyle = `rgba(${GOLD},.08)`; c.fill();
+      c.strokeStyle = `rgba(${GOLD},.45)`; c.lineWidth = 1.6; c.stroke();
+      c.fillStyle = `rgb(${GOLD})`; c.fillText(kw, W / 2, ty + th / 2 + 1, tw - 6 * U);
+    }
+
+    // جمله مرکزی
+    const markH = 8 * U, divGap = 4.2 * U, divH = 1.2 * U;
+    const maxBlock = 80 * U;
+    let qSize = sizeFor(text.length) * U, lh, lines, total;
+    for (let k = 0; k < 24; k++) {
+      lh = qSize * 1.9;
+      c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
+      lines = balancedLines(c, text, W - 22 * U);
+      total = markH + lines.length * lh + divGap + divH;
+      if (total <= maxBlock || qSize <= 3.4 * U) break;
+      qSize *= 0.96;
+    }
+    const y0 = (H - total) / 2;
+
+    c.save();
+    c.globalAlpha = 0.6; c.fillStyle = `rgb(${GOLD})`;
+    c.font = `${15 * U}px "Aref Ruqaa", serif`;
+    c.textBaseline = 'alphabetic';
+    c.fillText('”', W / 2, y0 + 10 * U);
+    c.restore();
+
+    c.save();
+    c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
+    c.fillStyle = INK;
+    lines.forEach((ln, i) => c.fillText(ln, W / 2, y0 + markH + lh * (i + .5)));
+    c.restore();
+
+    // جداکننده
+    const dy = y0 + markH + lines.length * lh + divGap + divH / 2;
+    const half = 0.6 * U, gap = 1.4 * U, ll = 12 * U;
+    let lg = c.createLinearGradient(W / 2 - half - gap - ll, 0, W / 2 - half - gap, 0);
+    lg.addColorStop(0, `rgba(${GOLD},0)`); lg.addColorStop(1, `rgb(${GOLD})`);
+    c.strokeStyle = lg; c.lineWidth = 1.6;
+    c.beginPath(); c.moveTo(W / 2 - half - gap - ll, dy); c.lineTo(W / 2 - half - gap, dy); c.stroke();
+    lg = c.createLinearGradient(W / 2 + half + gap + ll, 0, W / 2 + half + gap, 0);
+    lg.addColorStop(0, `rgba(${GOLD},0)`); lg.addColorStop(1, `rgb(${GOLD})`);
+    c.strokeStyle = lg;
+    c.beginPath(); c.moveTo(W / 2 + half + gap + ll, dy); c.lineTo(W / 2 + half + gap, dy); c.stroke();
+    c.save(); c.translate(W / 2, dy); c.rotate(Math.PI / 4);
+    c.fillStyle = `rgb(${GOLD})`; c.globalAlpha = .9;
+    c.fillRect(-divH / 2, -divH / 2, divH, divH); c.restore();
+
+    // امضا
+    const hPillH = 7.4 * U, hBottom = H - 8.2 * U, hTop = hBottom - hPillH;
+    c.save();
+    c.font = `700 ${6.4 * U}px "Aref Ruqaa", Vazirmatn, serif`;
+    c.fillStyle = `rgb(${GOLD})`;
+    c.fillText('صبارسانه', W / 2, hTop - 1.8 * U - 3.2 * U);
+    c.restore();
+
+    // آیدی
+    c.save();
+    c.direction = 'ltr'; c.textAlign = 'left';
+    c.font = `600 ${3.2 * U}px Vazirmatn, Tahoma, sans-serif`;
+    try { c.letterSpacing = `${0.2 * U}px`; } catch (e) {}
+    const id = '@saba_rasanehh';
+    const idw = c.measureText(id).width;
+    const dot = 1.4 * U, dgap = 1.2 * U, padX = 3.6 * U;
+    const pw = padX * 2 + dot + dgap + idw, px = (W - pw) / 2;
+    rr(c, px, hTop, pw, hPillH, hPillH / 2);
+    g = c.createLinearGradient(px, hTop, px + pw, hTop + hPillH);
+    g.addColorStop(0, `rgba(${GOLD},.16)`); g.addColorStop(1, `rgba(${GOLD},.05)`);
+    c.fillStyle = g; c.fill();
+    c.strokeStyle = `rgba(${GOLD},.45)`; c.lineWidth = 1.6; c.stroke();
+    c.fillStyle = `rgb(${GOLD})`;
+    c.beginPath(); c.arc(px + padX + dot / 2, hTop + hPillH / 2, dot / 2, 0, Math.PI * 2); c.fill();
+    c.fillStyle = INK;
+    c.fillText(id, px + padX + dot + dgap, hTop + hPillH / 2 + 1);
+    c.restore();
+
+    return new Promise(res => cv.toBlob(res, 'image/png'));
+  }
+
+  function prepareImage() {
+    const t = currentText, k = currentKw;
+    if (!t) { pngPromise = null; return; }
+    pngPromise = renderPNG(t, k);
+    pngPromise.text = t;
+    pngPromise.kw = k;
+  }
+
+  /* ---------- اشتراک‌گذاری ---------- */
+  const toastEl = document.getElementById('toast');
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 2600);
+  }
+
+  function download(blob) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'saba-rasaneh.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+
+  const shareBtn = document.getElementById('share');
+  const isTouch = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
+
+  const ovWrap = document.getElementById('ovImgWrap');
+  const ovImg = document.getElementById('ovImg');
+  let ovBlob = null;
+
+  // از data: استفاده می‌کنیم (نه blob:) تا با سیاست امنیتی سایت (CSP) سازگار باشد
+  function showOverlay(blob) {
+    ovBlob = blob;
+    const fr = new FileReader();
+    fr.onload = () => { ovImg.src = fr.result; };
+    fr.readAsDataURL(blob);
+    ovWrap.classList.add('show');
+  }
+  function hideOverlay() { ovWrap.classList.remove('show'); }
+
+  async function tryShare(blob) {
+    const file = new File([blob], 'saba-rasaneh.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'صبارسانه', text: '@saba_rasanehh' });
+      return true;
+    }
+    return false;
+  }
+
+  shareBtn.addEventListener('click', async () => {
+    if (!currentText) { toast('ابتدا جمله را وارد کنید'); input.focus(); return; }
+    clearTimeout(debounce);
+    if (!pngPromise || pngPromise.text !== currentText || pngPromise.kw !== currentKw) prepareImage();
+    shareBtn.disabled = true;
+    let blob = null;
+    try {
+      blob = await pngPromise;
+      if (!blob) throw new Error('empty');
+      const shared = await tryShare(blob);
+      if (!shared) {
+        download(blob);
+        if (isTouch) showOverlay(blob);
+        else toast('تصویر ذخیره شد');
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') { /* کاربر پنجره را بست */ }
+      else if (blob) showOverlay(blob);
+      else toast('خطا در ساخت تصویر؛ دوباره تلاش کنید');
+    } finally {
+      shareBtn.disabled = !currentText;
+    }
+  });
+
+  document.getElementById('ovShare').addEventListener('click', async () => {
+    if (!ovBlob) return;
+    try {
+      const ok = await tryShare(ovBlob);
+      if (!ok) { download(ovBlob); toast('تصویر ذخیره شد'); }
+    } catch (e) {
+      if (!e || e.name !== 'AbortError') { download(ovBlob); toast('تصویر ذخیره شد'); }
+    }
+  });
+  document.getElementById('ovSave').addEventListener('click', () => { if (ovBlob) { download(ovBlob); toast('تصویر ذخیره شد'); } });
+  document.getElementById('ovClose').addEventListener('click', hideOverlay);
+  ovWrap.addEventListener('click', e => { if (e.target === ovWrap) hideOverlay(); });
+
+  const helpWrap = document.getElementById('helpWrap');
+  document.getElementById('helpBtn').addEventListener('click', () => helpWrap.classList.add('show'));
+  document.getElementById('helpClose').addEventListener('click', () => helpWrap.classList.remove('show'));
+  helpWrap.addEventListener('click', e => { if (e.target === helpWrap) helpWrap.classList.remove('show'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { hideOverlay(); helpWrap.classList.remove('show'); } });
+
+  input.addEventListener('input', update);
+  kwInput.addEventListener('input', update);
+  kwOn.addEventListener('change', update);
+  update();
+</script>
+</body>
+</html>
