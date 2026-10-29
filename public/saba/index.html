@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fffaf0">
 <title>صبارسانه | بیمه تکمیلی بازنشستگان</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    --cq:5.4px;
     --bg-1:#fffaf0;
     --bg-2:#f6e9cb;
     --bg-3:#f1e4c6;
@@ -37,13 +35,12 @@
     width:min(94vw, 540px);
     aspect-ratio:4/5;
     flex:none;
-    container-type:inline-size;
-    border-radius:3.2cqw;
+    border-radius:calc(var(--cq) * 3.2);
     background:
       radial-gradient(120% 80% at 50% 0%, var(--bg-2) 0%, transparent 60%),
       radial-gradient(100% 70% at 50% 100%, rgba(143,102,24,.14) 0%, transparent 60%),
       linear-gradient(160deg, var(--bg-1), var(--bg-3));
-    box-shadow:0 2cqw 7cqw rgba(80,60,20,.25), inset 0 0 0 1px rgba(143,102,24,.12);
+    box-shadow:0 calc(var(--cq) * 2) calc(var(--cq) * 7) rgba(80,60,20,.25), inset 0 0 0 1px rgba(143,102,24,.12);
     overflow:hidden;
     isolation:isolate;
   }
@@ -51,7 +48,7 @@
   .stage::before{
     content:"";position:absolute;inset:0;z-index:-3;
     background-image:radial-gradient(rgba(143,102,24,.14) 1px, transparent 1.2px);
-    background-size:3.4cqw 3.4cqw;
+    background-size:calc(var(--cq) * 3.4) calc(var(--cq) * 3.4);
     mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
     -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
   }
@@ -61,17 +58,17 @@
     top:50%;left:50%;
     transform:translate(-50%,-50%) rotate(-14deg);
     font-family:'Lalezar','Vazirmatn',sans-serif;
-    font-size:30cqw;
+    font-size:calc(var(--cq) * 30);
     line-height:1;
     white-space:nowrap;
     color:var(--gold);
     opacity:.075;
-    letter-spacing:-.5cqw;
+    letter-spacing:calc(var(--cq) * -.5);
     user-select:none;
     pointer-events:none;
   }
   .watermark.small{
-    font-size:9cqw;
+    font-size:calc(var(--cq) * 9);
     opacity:.07;
     transform:none;
     top:auto;left:auto;
@@ -80,38 +77,38 @@
   .watermark.s2{bottom:7%;left:6%}
 
   .frame{
-    position:absolute;inset:3cqw;
+    position:absolute;inset:calc(var(--cq) * 3);
     border:1.5px solid var(--gold-soft);
-    border-radius:2.2cqw;
+    border-radius:calc(var(--cq) * 2.2);
     pointer-events:none;
   }
   .frame::after{
-    content:"";position:absolute;inset:1.1cqw;
+    content:"";position:absolute;inset:calc(var(--cq) * 1.1);
     border:1px solid var(--gold-faint);
-    border-radius:1.4cqw;
+    border-radius:calc(var(--cq) * 1.4);
   }
   .corner{
-    position:absolute;width:5cqw;height:5cqw;
+    position:absolute;width:calc(var(--cq) * 5);height:calc(var(--cq) * 5);
     border:2px solid var(--gold);
     opacity:.8;
   }
-  .corner.tl{top:2.2cqw;left:2.2cqw;border-right:0;border-bottom:0;border-top-left-radius:1.6cqw}
-  .corner.tr{top:2.2cqw;right:2.2cqw;border-left:0;border-bottom:0;border-top-right-radius:1.6cqw}
-  .corner.bl{bottom:2.2cqw;left:2.2cqw;border-right:0;border-top:0;border-bottom-left-radius:1.6cqw}
-  .corner.br{bottom:2.2cqw;right:2.2cqw;border-left:0;border-top:0;border-bottom-right-radius:1.6cqw}
+  .corner.tl{top:calc(var(--cq) * 2.2);left:calc(var(--cq) * 2.2);border-right:0;border-bottom:0;border-top-left-radius:calc(var(--cq) * 1.6)}
+  .corner.tr{top:calc(var(--cq) * 2.2);right:calc(var(--cq) * 2.2);border-left:0;border-bottom:0;border-top-right-radius:calc(var(--cq) * 1.6)}
+  .corner.bl{bottom:calc(var(--cq) * 2.2);left:calc(var(--cq) * 2.2);border-right:0;border-top:0;border-bottom-left-radius:calc(var(--cq) * 1.6)}
+  .corner.br{bottom:calc(var(--cq) * 2.2);right:calc(var(--cq) * 2.2);border-left:0;border-top:0;border-bottom-right-radius:calc(var(--cq) * 1.6)}
 
   .topic{
-    position:absolute;top:9.5cqw;left:0;right:0;
+    position:absolute;top:calc(var(--cq) * 9.5);left:0;right:0;
     text-align:center;
     color:var(--gold);
-    font-size:3.6cqw;
+    font-size:calc(var(--cq) * 3.6);
     font-weight:800;
-    letter-spacing:.15cqw;
+    letter-spacing:calc(var(--cq) * .15);
   }
   .topic span{
     display:inline-block;
-    padding:1.2cqw 3.4cqw;
-    max-width:76cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    padding:calc(var(--cq) * 1.2) calc(var(--cq) * 3.4);
+    max-width:calc(var(--cq) * 76);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     border:1px solid var(--gold-soft);
     border-radius:99px;
     background:rgba(143,102,24,.08);
@@ -121,63 +118,63 @@
   .content{
     position:absolute;inset:0;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:0 11cqw;
+    padding:0 calc(var(--cq) * 11);
     text-align:center;
   }
-  .quote-mark{
+  .quote-mark-old{
     font-family:'Aref Ruqaa',serif;
-    font-size:15cqw;
+    font-size:calc(var(--cq) * 15);
     line-height:.6;
     color:var(--gold);
     opacity:.6;
-    height:6cqw;
-    margin-bottom:2cqw;
+    height:calc(var(--cq) * 6);
+    margin-bottom:calc(var(--cq) * 2);
   }
   .quote{
     font-weight:800;
-    font-size:5.6cqw;
+    font-size:calc(var(--cq) * 5.6);
     line-height:1.9;
     color:var(--ink);
     text-wrap:balance;
-    text-shadow:0 .2cqw .8cqw rgba(255,255,255,.6);
+    text-shadow:0 calc(var(--cq) * .2) calc(var(--cq) * .8) rgba(255,255,255,.6);
     transition:opacity .55s ease, transform .55s ease, filter .55s ease;
   }
-  .quote.out{opacity:0;transform:translateY(1.6cqw);filter:blur(.6cqw)}
+  .quote.out{opacity:0;transform:translateY(calc(var(--cq) * 1.6));filter:blur(calc(var(--cq) * .6))}
   .divider{
-    display:flex;align-items:center;gap:1.4cqw;
-    margin-top:4.2cqw;
+    display:flex;align-items:center;gap:calc(var(--cq) * 1.4);
+    margin-top:calc(var(--cq) * 4.2);
     color:var(--gold);
   }
-  .divider i{display:block;width:12cqw;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .divider i{display:block;width:calc(var(--cq) * 12);height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
   .divider i:last-child{transform:scaleX(-1)}
-  .divider b{width:1.2cqw;height:1.2cqw;transform:rotate(45deg);background:var(--gold);opacity:.9}
+  .divider b{width:calc(var(--cq) * 1.2);height:calc(var(--cq) * 1.2);transform:rotate(45deg);background:var(--gold);opacity:.9}
 
   .footer{
-    position:absolute;left:0;right:0;bottom:8.2cqw;
-    display:flex;flex-direction:column;align-items:center;gap:1.8cqw;
+    position:absolute;left:0;right:0;bottom:calc(var(--cq) * 8.2);
+    display:flex;flex-direction:column;align-items:center;gap:calc(var(--cq) * 1.8);
   }
   .brand{
     font-family:'Aref Ruqaa','Vazirmatn',serif;
     font-weight:700;
-    font-size:6.4cqw;
+    font-size:calc(var(--cq) * 6.4);
     color:var(--gold);
     line-height:1;
   }
   .handle{
     direction:ltr;
-    display:inline-flex;align-items:center;gap:1.2cqw;
-    padding:1.2cqw 3.6cqw;
+    display:inline-flex;align-items:center;gap:calc(var(--cq) * 1.2);
+    padding:calc(var(--cq) * 1.2) calc(var(--cq) * 3.6);
     font-family:'Vazirmatn',sans-serif;
     font-weight:600;
-    font-size:3.2cqw;
-    letter-spacing:.2cqw;
+    font-size:calc(var(--cq) * 3.2);
+    letter-spacing:calc(var(--cq) * .2);
     color:var(--ink);
     border:1px solid var(--gold-soft);
     border-radius:99px;
     background:linear-gradient(135deg, rgba(143,102,24,.16), rgba(143,102,24,.05));
   }
   .handle::before{
-    content:"";width:1.4cqw;height:1.4cqw;border-radius:50%;
+    content:"";width:calc(var(--cq) * 1.4);height:calc(var(--cq) * 1.4);border-radius:50%;
     background:var(--gold);
   }
 
@@ -301,9 +298,36 @@
     opacity:0;pointer-events:none;transition:.3s;
   }
   .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  .quote{white-space:pre-line}
+  .mark{display:flex;justify-content:center;margin-bottom:calc(var(--cq) * 3)}
+  .mark .qm{font-family:'Aref Ruqaa',serif;font-size:calc(var(--cq) * 15);line-height:.6;height:calc(var(--cq) * 6);color:var(--gold);opacity:.6}
+  .badge{width:calc(var(--cq) * 11.5);height:calc(var(--cq) * 11.5);border-radius:50%;border:1.5px solid var(--gold-soft);background:rgba(143,102,24,.08);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+  .badge svg{width:calc(var(--cq) * 6.4);height:calc(var(--cq) * 6.4)}
+  .nobrand .footer,.nobrand .watermark{display:none}
+  .opts{display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid rgba(143,102,24,.25)}
+  .optrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .opts .switch{white-space:normal;font-size:17px;line-height:1.7}
+  .opts .switch input{width:24px;height:24px;flex:none}
+  .btn.small{padding:9px 18px;font-size:16px}
+  a.btn{text-decoration:none}
+  .inapp{width:min(94vw,560px)}
+  .inapp p{margin-bottom:10px}
+  .inapp .result-btns{margin-top:4px}
+  .inapp .small{font-size:15px;font-weight:400;margin:10px 0 0}
 </style>
 </head>
 <body>
+
+  <div class="inapp" id="inapp" hidden>
+    <p>⚠️ این صفحه داخل یک برنامه (مثل تلگرام) باز شده است و ساخت یا ذخیره‌ی عکس در آن ممکن است درست کار نکند.</p>
+    <p><b>بهتر است همین صفحه را در مرورگر Chrome باز کنید.</b></p>
+    <div class="result-btns">
+      <a class="btn primary" id="openChrome" href="#" hidden>باز کردن در Chrome</a>
+      <button class="btn ghost" id="copyLink" type="button">کپی آدرس صفحه</button>
+    </div>
+    <p class="small" id="copyHint" hidden>آدرس کپی شد. مرورگر Chrome را باز کنید، روی نوار آدرس بزنید و «چسباندن» (Paste) را انتخاب کنید.</p>
+  </div>
 
 <main class="stage" id="stage">
   <div class="watermark">صبارسانه</div>
@@ -317,7 +341,7 @@
   <div class="topic hidden" id="topic"><span id="kw"></span></div>
 
   <section class="content">
-    <div class="quote-mark">”</div>
+    <div class="mark" id="mark"></div>
     <p class="quote" id="quote"></p>
     <div class="divider"><i></i><b></b><i></i></div>
   </section>
@@ -330,23 +354,29 @@
 
 <div class="actions">
   <div class="field">
-    <textarea id="input" rows="3" maxlength="360" dir="rtl" placeholder="جمله یا شعار خود را اینجا بنویسید…" aria-label="متن شعار"></textarea>
-    <span class="counter" id="counter">0 / 360</span>
+    <textarea id="input" rows="4" maxlength="500" dir="rtl" placeholder="متن خود را اینجا بنویسید…" aria-label="متن شما"></textarea>
+    <span class="counter" id="counter">0 / 500</span>
   </div>
-  <div class="kwrow">
-    <label class="kwlabel" for="kwinput">کلمه کلیدی</label>
-    <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار از متن انتخاب می‌شود">
-    <label class="switch"><input type="checkbox" id="kwon" checked><span>نمایش در تصویر</span></label>
+
+  <div class="opts">
+    <div class="kwrow">
+      <label class="kwlabel" for="kwinput">عنوان بالای عکس</label>
+      <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار انتخاب می‌شود">
+      <label class="switch"><input type="checkbox" id="kwon" checked><span>نشان بده</span></label>
+    </div>
+    <div class="optrow">
+      <label class="switch"><input type="checkbox" id="iconon" checked><span>آیکن مناسب موضوع: <b id="iconname"></b></span></label>
+      <button class="btn ghost small" id="iconnext" type="button">آیکن دیگر</button>
+    </div>
+    <div class="optrow">
+      <label class="switch"><input type="checkbox" id="brandon" checked><span>نام و آدرس «صبارسانه» پایین عکس</span></label>
+    </div>
   </div>
+
   <button class="btn primary" id="make" type="button" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>
-    <span>ساخت عکس و ذخیره</span>
+    <span>ساخت عکس</span>
   </button>
-
-  <div class="inapp" id="inapp" hidden>
-    ⚠️ به نظر می‌رسد این صفحه داخل یک برنامه (تلگرام، اینستاگرام و…) باز شده و ذخیره‌ی فایل در آن ممکن است کار نکند.
-    برای نتیجه‌ی بهتر، از منوی ⋮ یا «…» گزینه‌ی «باز کردن در مرورگر» (Chrome / Safari) را بزنید.
-  </div>
 
   <!-- بعد از ساخت عکس نمایش داده می‌شود -->
   <div class="result" id="result" hidden>
@@ -359,19 +389,19 @@
     <div class="result-btns">
       <button class="btn primary" id="share" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-        <span>اشتراک‌گذاری</span>
+        <span>ارسال عکس</span>
       </button>
-      <button class="btn ghost" id="saveAgain" type="button">ذخیره در دستگاه</button>
+      <button class="btn ghost" id="saveAgain" type="button">ذخیره عکس</button>
     </div>
   </div>
 
   <div class="errbox" id="errBox" role="alert" hidden>
-    <strong id="errTitle">خطا</strong>
+    <strong id="errTitle">مشکلی پیش آمد</strong>
     <p id="errText"></p>
     <div class="errcode" id="errCode"></div>
     <div class="result-btns">
       <button class="btn primary" id="errRetry" type="button">تلاش دوباره</button>
-      <button class="btn ghost" id="errCopy" type="button">کپی گزارش فنی</button>
+      <button class="btn ghost" id="errCopy" type="button">کپی گزارش برای پشتیبانی</button>
     </div>
   </div>
 
@@ -382,27 +412,54 @@
   <div class="sheet">
     <h3>راهنمای استفاده</h3>
     <ol>
-      <li>جمله یا شعار خود را در کادر بنویسید؛ تصویر هم‌زمان ساخته می‌شود.</li>
-      <li>کلمه کلیدی خودکار انتخاب می‌شود؛ می‌توانید آن را تغییر دهید یا حذف کنید.</li>
-      <li>دکمه‌ی «ساخت عکس و ذخیره» را بزنید. در رایانه (Chrome یا Edge) محل ذخیره را انتخاب می‌کنید؛ در گوشی عکس در پوشه‌ی دانلودها ذخیره می‌شود.</li>
-      <li>بعد از ساخت، پیش‌نمایش عکس و دکمه‌های «ذخیره» و «اشتراک‌گذاری» ظاهر می‌شود؛ برنامه‌ی دلخواه (تلگرام، واتساپ، اینستاگرام و…) را انتخاب کنید. در گوشی اگر ذخیره‌ی خودکار کار نکرد، انگشت را روی عکس نگه دارید.</li>
+      <li>متن خود را بنویسید. هر جا «Enter» بزنید، همان‌جا در عکس هم خط جدید می‌شود.</li>
+      <li>در صورت نیاز عنوان بالای عکس، آیکن و نام «صبارسانه» را تغییر دهید یا خاموش کنید.</li>
+      <li>دکمه‌ی «ساخت عکس» را بزنید.</li>
+      <li>سپس «ذخیره عکس» یا «ارسال عکس» را بزنید و برنامه‌ی دلخواه (تلگرام، واتساپ و…) را انتخاب کنید.</li>
     </ol>
-    <p>نام فایل خودکار و انگلیسی از روی موضوع متن ساخته می‌شود و یک عدد هم دارد تا تکراری نشود. در گوشی این صفحه را با مرورگر (Chrome یا Safari) باز کنید.</p>
+    <p>اگر صفحه را از داخل تلگرام یا اینستاگرام باز کرده‌اید، آن را در مرورگر Chrome یا Safari باز کنید.</p>
     <div class="ovbtns"><button class="btn ghost" id="helpClose" type="button">متوجه شدم</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
+  // فونت‌ها بعد از بارگذاری صفحه و بدون مسدود کردن آن اضافه می‌شوند؛ اگر اینترنت اجازه ندهد، فونت پیش‌فرض گوشی استفاده می‌شود
+  (function () {
+    try {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Aref+Ruqaa:wght@400;700&display=swap';
+      document.head.appendChild(l);
+    } catch (e) {}
+  })();
 
   const el = document.getElementById('quote');
   const input = document.getElementById('input');
   const counter = document.getElementById('counter');
-  const MAX = 360;
+  const MAX = 500;
   const kwInput = document.getElementById('kwinput');
   const kwOn = document.getElementById('kwon');
   const kwEl = document.getElementById('kw');
   const topicEl = document.getElementById('topic');
+
+  const iconOnEl = document.getElementById('iconon');
+  const iconNameEl = document.getElementById('iconname');
+  const iconNextBtn = document.getElementById('iconnext');
+  const brandOnEl = document.getElementById('brandon');
+  const stageEl = document.getElementById('stage');
+  const markEl = document.getElementById('mark');
+
+  // اندازه‌ی واحد (۱٪ عرض کارت) بدون وابستگی به cqw تا در مرورگرهای قدیمی (مثل مرورگر داخل تلگرام) هم درست باشد
+  function setCq() {
+    try {
+      const w = stageEl.getBoundingClientRect().width || 340;
+      document.documentElement.style.setProperty('--cq', (w / 100) + 'px');
+    } catch (e) {}
+  }
+  setCq();
+  window.addEventListener('resize', setCq);
+  window.addEventListener('load', setCq);
 
   let currentKw = '';
   let currentText = '';
@@ -419,9 +476,14 @@
     return 4.1;
   }
 
+  // خط‌های جدید (Enter) حفظ می‌شوند؛ فقط فاصله‌های اضافی تمیز می‌شوند
   function normalize(v) {
-    return v.replace(/\s*\n+\s*/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    return v.replace(/\r/g, '').split('\n')
+      .map(l => l.replace(/[ \t\u00a0]+/g, ' ').trim())
+      .join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
+  // طول مؤثر: هر خط جدید مثل مقداری متن اضافه حساب می‌شود تا فونت متناسب کوچک شود
+  function effLen(t) { return t.length + (t.split('\n').length - 1) * 28; }
 
   /* ---------- استخراج خودکار کلمه کلیدی (بدون اینترنت، مستقل از موضوع) ---------- */
   const STOP = new Set((
@@ -444,7 +506,7 @@
 
   function extractKeywords(text) {
     const norm = text.replace(/ي/g, 'ی').replace(/ك/g, 'ک');
-    const segments = norm.split(/[«»"“”‘’()\[\]{}.,،؛;:!؟?…\-–—|\/\\*_~`^+=<>#$%&@٪]+/);
+    const segments = norm.split(/[\n«»"“”‘’()\[\]{}.,،؛;:!؟?…\-–—|\/\\*_~`^+=<>#$%&@٪]+/);
 
     const toks = [];
     segments.forEach((seg, si) => {
@@ -482,6 +544,105 @@
     return best.text;
   }
 
+
+  /* ---------- آیکن‌های مناسب موضوع (خطی، هم‌رنگ طرح) ---------- */
+  const ICONS = {
+    shield:   { n: 'بیمه و اطمینان', p: ['M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6z', 'M9 12l2 2 4-4'] },
+    health:   { n: 'سلامت', p: ['M9 3h6v6h6v6h-6v6H9v-6H3V9h6z'] },
+    heart:    { n: 'محبت', p: ['M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'] },
+    money:    { n: 'پول و اقتصاد', p: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'M12 7v10', 'M15 9.5c-.7-1-1.8-1.5-3-1.5-1.7 0-3 .9-3 2s1.2 1.7 3 2 3 .9 3 2-1.3 2-3 2c-1.2 0-2.3-.5-3-1.5'] },
+    family:   { n: 'خانواده', p: ['M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z', 'M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6', 'M17 11a2.5 2.5 0 1 0 0-5', 'M16.5 14.2c2.6.3 4.5 2.4 4.5 5.8'] },
+    umbrella: { n: 'حمایت', p: ['M3 12a9 9 0 0 1 18 0H3z', 'M12 12v6a2 2 0 0 1-4 0'] },
+    home:     { n: 'خانه', p: ['M3 11l9-7 9 7', 'M5 10v10h14V10', 'M10 20v-6h4v6'] },
+    hourglass:{ n: 'زمان و صبر', p: ['M6 3h12', 'M6 21h12', 'M7 3c0 5 5 6 5 9s-5 4-5 9', 'M17 3c0 5-5 6-5 9s5 4 5 9'] },
+    sun:      { n: 'امید', p: ['M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M12 2v2.5', 'M12 19.5V22', 'M2 12h2.5', 'M19.5 12H22', 'M4.9 4.9l1.8 1.8', 'M17.3 17.3l1.8 1.8', 'M4.9 19.1l1.8-1.8', 'M17.3 6.7l1.8-1.8'] },
+    book:     { n: 'دانش', p: ['M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z', 'M4 19V5', 'M9 8h6'] },
+    leaf:     { n: 'طبیعت', p: ['M5 19c0-8 5-14 15-14 0 10-6 15-14 15', 'M5 19c3-5 6-7 10-9'] },
+    sport:    { n: 'ورزش', p: ['M6 8v8', 'M3 10v4', 'M18 8v8', 'M21 10v4', 'M6 12h12'] },
+    cup:      { n: 'غذا و نوشیدنی', p: ['M5 8h12v5a6 6 0 0 1-12 0z', 'M17 9h2a2 2 0 0 1 0 4h-2', 'M8 3v2', 'M11 3v2', 'M14 3v2'] },
+    plane:    { n: 'سفر', p: ['M21 3L3 11l7 2 2 7z', 'M10 13l11-10'] },
+    moon:     { n: 'معنویت', p: ['M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z'] },
+    work:     { n: 'کار', p: ['M4 8h16v11H4z', 'M9 8V5h6v3', 'M4 13h16'] },
+    smile:    { n: 'شادی', p: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'M8 14c1 2 2.4 3 4 3s3-1 4-3', 'M9 9.5v.5', 'M15 9.5v.5'] },
+    bulb:     { n: 'ایده و دانایی', p: ['M9 18h6', 'M10 21h4', 'M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z'] },
+    mountain: { n: 'هدف و موفقیت', p: ['M3 20l6-10 4 6 3-4 5 8z'] },
+    star:     { n: 'ستاره', p: ['M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z'] }
+  };
+  const ICON_ORDER = Object.keys(ICONS);
+  // کلمه‌های موضوعی (شروع کلمه) برای انتخاب خودکار آیکن؛ b = امتیاز اضافه
+  const ICON_WORDS = {
+    shield:   { b: 4, w: ['بیمه', 'ایمن', 'امنیت', 'حفاظت', 'محافظ', 'تضمین', 'اطمینان', 'پوشش', 'insurance', 'safe'] },
+    health:   { b: 2, w: ['سلامت', 'درمان', 'بیمار', 'پزشک', 'دارو', 'دکتر', 'بیمارستان', 'تندرست', 'بهداشت', 'جراح', 'health'] },
+    heart:    { b: 0, w: ['عشق', 'مهر', 'محبت', 'قلب', 'دوست', 'عاطفه', 'عزیز', 'love'] },
+    money:    { b: 1, w: ['پول', 'مالی', 'اقتصاد', 'سرمایه', 'قیمت', 'ثروت', 'درآمد', 'حقوق', 'پس‌انداز', 'هزینه', 'ارزان', 'تخفیف', 'بودجه', 'تومان', 'money'] },
+    family:   { b: 2, w: ['خانواده', 'فرزند', 'پدر', 'مادر', 'بچه', 'کودک', 'نوه', 'همسر', 'والدین', 'family'] },
+    umbrella: { b: 0, w: ['بازنشست', 'حمایت', 'پناه', 'سایه', 'پشتیبان', 'کهنسال', 'سالمند'] },
+    home:     { b: 1, w: ['خانه', 'منزل', 'مسکن', 'ملک', 'ساختمان', 'آشیانه', 'home'] },
+    hourglass:{ b: 1, w: ['صبر', 'زمان', 'وقت', 'انتظار', 'عمر', 'لحظه', 'فرصت', 'تاخیر', 'تأخیر', 'time'] },
+    sun:      { b: 1, w: ['امید', 'روشن', 'نور', 'صبح', 'آفتاب', 'خورشید', 'آینده', 'طلوع', 'hope'] },
+    book:     { b: 1, w: ['دانش', 'علم', 'کتاب', 'آموزش', 'درس', 'مدرسه', 'معلم', 'دانشگاه', 'مطالعه', 'یادگیری', 'learn'] },
+    leaf:     { b: 1, w: ['طبیعت', 'سبز', 'گیاه', 'محیط', 'درخت', 'بهار', 'باغ', 'گل', 'nature'] },
+    sport:    { b: 2, w: ['ورزش', 'تمرین', 'تناسب', 'پیاده‌روی', 'دویدن', 'باشگاه', 'sport'] },
+    cup:      { b: 1, w: ['چای', 'قهوه', 'غذا', 'صبحانه', 'نوشیدنی', 'آشپز', 'خوراک', 'تغذیه', 'میوه', 'food'] },
+    plane:    { b: 2, w: ['سفر', 'مسافر', 'پرواز', 'گردش', 'تعطیلات', 'گردشگر', 'مقصد', 'travel'] },
+    moon:     { b: 1, w: ['خدا', 'دعا', 'نماز', 'ایمان', 'معنوی', 'قرآن', 'رمضان', 'توکل', 'شکر', 'روزه', 'عبادت'] },
+    work:     { b: 0, w: ['کار', 'شغل', 'تجارت', 'شرکت', 'کسب', 'مدیر', 'کارمند', 'حرفه', 'پروژه', 'business'] },
+    smile:    { b: 1, w: ['شاد', 'لبخند', 'خوشحال', 'خوشبخت', 'خنده', 'خوش'] },
+    bulb:     { b: 1, w: ['ایده', 'فکر', 'خلاقیت', 'نوآوری', 'هوش', 'ذهن', 'اندیشه', 'راهکار', 'idea'] },
+    mountain: { b: 1, w: ['موفق', 'هدف', 'تلاش', 'پیشرفت', 'قله', 'پشتکار', 'اراده', 'رشد', 'چالش', 'success'] }
+  };
+
+  function pickIcon(text) {
+    const toks = String(text || '').replace(/ي/g, 'ی').replace(/ك/g, 'ک').toLowerCase()
+      .split(/[\s‌.,،؛:!؟?«»"'()\-–—…]+/).filter(Boolean);
+    let best = 'star', bestScore = 0;
+    for (const name of Object.keys(ICON_WORDS)) {
+      const { b, w } = ICON_WORDS[name];
+      let score = 0;
+      for (const kw of w) {
+        for (const t of toks) {
+          if (t === kw || (kw.length >= 4 && t.startsWith(kw))) { score += kw.length + b; break; }
+        }
+      }
+      if (score > bestScore) { bestScore = score; best = name; }
+    }
+    return best;
+  }
+
+  function iconSvg(name) {
+    const ic = ICONS[name] || ICONS.star;
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      ic.p.map(d => '<path d="' + d + '"/>').join('') + '</svg>';
+  }
+
+  function drawIcon(c, name, cx, cy, D) {
+    try {
+      const ic = ICONS[name] || ICONS.star;
+      c.save();
+      c.beginPath(); c.arc(cx, cy, D / 2, 0, Math.PI * 2);
+      c.fillStyle = `rgba(${GOLD},.08)`; c.fill();
+      c.strokeStyle = `rgba(${GOLD},.55)`; c.lineWidth = 2.2; c.stroke();
+      const sc = D * 0.56 / 24;
+      c.translate(cx - 12 * sc, cy - 12 * sc); c.scale(sc, sc);
+      c.strokeStyle = `rgb(${GOLD})`; c.lineWidth = 1.7; c.lineCap = 'round'; c.lineJoin = 'round';
+      ic.p.forEach(d => c.stroke(new Path2D(d)));
+      c.restore();
+    } catch (e) { dlog('icon draw failed ' + (e && e.message)); }
+  }
+
+  /* ---------- انتخاب‌های کاربر (ذخیره در مرورگر) ---------- */
+  function lsGet(k, d) { try { const v = localStorage.getItem('saba.' + k); return v === null ? d : v; } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem('saba.' + k, v); } catch (e) {} }
+  kwOn.checked = lsGet('kw', '1') === '1';
+  iconOnEl.checked = lsGet('icon', '1') === '1';
+  brandOnEl.checked = lsGet('brand', '1') === '1';
+  let iconOverride = null;
+  let iconCur = 'star';
+
+  function currentOpts() { return { brand: brandOnEl.checked, icon: iconOnEl.checked ? iconCur : null }; }
+  function optKey(o) { return (o.brand ? 'B' : 'b') + (o.icon || '-'); }
+
+
   function update() {
     const text = normalize(input.value);
     currentText = text;
@@ -489,26 +650,34 @@
     makeBtn.disabled = !text;
 
     const auto = text ? extractKeywords(text) : '';
-    kwInput.placeholder = auto || 'خودکار از متن انتخاب می‌شود';
+    kwInput.placeholder = auto || 'خودکار انتخاب می‌شود';
     const manual = kwInput.value.trim();
     currentKw = (!text || !kwOn.checked) ? '' : (manual || auto);
     kwEl.textContent = currentKw;
     topicEl.classList.toggle('hidden', !currentKw);
+
+    // آیکن: خودکار از روی موضوع، یا انتخاب دستی کاربر
+    iconCur = iconOverride || pickIcon(text + ' ' + manual);
+    iconNameEl.textContent = (ICONS[iconCur] || ICONS.star).n;
+    iconNextBtn.disabled = !iconOnEl.checked;
+    markEl.innerHTML = iconOnEl.checked
+      ? '<div class="badge">' + iconSvg(iconCur) + '</div>'
+      : '<div class="qm">”</div>';
+    stageEl.classList.toggle('nobrand', !brandOnEl.checked);
+
     if (text) {
       el.textContent = text;
-      el.style.fontSize = sizeFor(text.length) + 'cqw';
+      el.style.fontSize = 'calc(var(--cq) * ' + sizeFor(effLen(text)) + ')';
       el.classList.remove('placeholder');
     } else {
-      el.textContent = 'جمله یا شعار خود را در کادر پایین بنویسید…';
-      el.style.fontSize = '5cqw';
+      el.textContent = 'متن شما در همین‌جا نشان داده می‌شود…';
+      el.style.fontSize = 'calc(var(--cq) * 5)';
       el.classList.add('placeholder');
     }
-    // اگر متن یا کلمه کلیدی بعد از ساخت فایل عوض شد، فایل قبلی دیگر معتبر نیست
-    if (lastFile && (lastFile.text !== text || lastFile.kw !== currentKw)) hideResult();
-    clearTimeout(debounce);
-    if (text) debounce = setTimeout(prepareImage, 350);
-    else pngPromise = null;
+    // اگر متن یا گزینه‌ها بعد از ساخت عکس عوض شد، عکس قبلی دیگر معتبر نیست
+    if (lastFile && lastFile.sig !== currentSig()) hideResult();
   }
+  function currentSig() { return currentText + '|' + currentKw + '|' + optKey(currentOpts()); }
 
   /* ---------- ساخت تصویر JPG (۱۰۸۰×۱۳۵۰) ---------- */
   let W = 1080, H = 1350, U = W / 100;   // با scale کوچک‌تر می‌شوند (برای گوشی‌های ضعیف)
@@ -516,16 +685,20 @@
   const INK = '#1b2838';
   const JPG_QUALITY = 0.93;   // تقریباً بدون افت دیدنی، با حجم بسیار کمتر از PNG
 
+  let fontsReady = false;
   async function loadFonts() {
-    const timeout = new Promise(res => setTimeout(res, 3000));
+    if (fontsReady) return;
     try {
-      await Promise.race([timeout, Promise.all([
+      if (!document.fonts || !document.fonts.load) return;
+      const loaded = Promise.all([
         document.fonts.load('800 40px Vazirmatn', 'صبارسانه'),
         document.fonts.load('600 40px Vazirmatn', 'صبارسانه'),
         document.fonts.load('700 40px "Aref Ruqaa"', 'صبارسانه'),
         document.fonts.load('40px Lalezar', 'صبارسانه')
-      ])]);
-    } catch (e) {}
+      ]).then(() => 'ok');
+      const r = await Promise.race([loaded, new Promise(res => setTimeout(() => res('timeout'), 1500))]);
+      if (r === 'ok') fontsReady = true;   // اگر اینترنت کند بود، دفعه‌ی بعد دوباره تلاش می‌شود
+    } catch (e) { dlog('fonts: ' + (e && e.message)); }
   }
 
   function rr(ctx, x, y, w, h, r) {
@@ -558,7 +731,7 @@
     return wrap(ctx, text, w);
   }
 
-  async function renderPNG(text, kw, scale = 1) {
+  async function renderPNG(text, kw, scale = 1, opt = currentOpts()) {
     await loadFonts();
     // بعد از این خط تا آخر تابع هیچ await ای نیست، پس تغییر W/H/U امن است
     W = Math.round(1080 * scale); H = Math.round(1350 * scale); U = W / 100;
@@ -593,6 +766,7 @@
       }
     }
 
+    if (opt.brand) {
     // واترمارک‌ها
     c.save();
     c.translate(W / 2, H / 2); c.rotate(-14 * Math.PI / 180);
@@ -607,6 +781,8 @@
     c.textAlign = 'right'; c.fillText('صبارسانه', W - 6 * U, H * 0.07 + 5 * U);
     c.textAlign = 'left';  c.fillText('صبارسانه', 6 * U, H * 0.93 - 5 * U);
     c.restore();
+
+    }
 
     // قاب‌ها
     c.lineJoin = 'round';
@@ -638,35 +814,50 @@
       c.fillStyle = `rgb(${GOLD})`; c.fillText(kw, W / 2, ty + th / 2 + 1, tw - 6 * U);
     }
 
-    // جمله مرکزی
-    const markH = 8 * U, divGap = 4.2 * U, divH = 1.2 * U;
+    // جمله مرکزی (خط‌های جدید کاربر حفظ می‌شود)
+    const BADGE = 11.5 * U;
+    const markH = opt.icon ? BADGE + 3.6 * U : 8 * U, divGap = 4.2 * U, divH = 1.2 * U;
     const maxBlock = 80 * U;
-    let qSize = sizeFor(text.length) * U, lh, lines, total;
-    for (let k = 0; k < 24; k++) {
+    let qSize = sizeFor(effLen(text)) * U, lh, lines, textH, total;
+    for (let k = 0; k < 30; k++) {
       lh = qSize * 1.9;
       c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
-      lines = balancedLines(c, text, W - 22 * U);
-      total = markH + lines.length * lh + divGap + divH;
-      if (total <= maxBlock || qSize <= 3.4 * U) break;
-      qSize *= 0.96;
+      lines = [];
+      text.split('\n').forEach(par => {
+        if (!par.trim()) lines.push({ blank: true });
+        else balancedLines(c, par, W - 22 * U).forEach(t => lines.push({ t }));
+      });
+      textH = lines.reduce((sum, l) => sum + (l.blank ? lh * 0.55 : lh), 0);
+      total = markH + textH + divGap + divH;
+      if (total <= maxBlock || qSize <= 3 * U) break;
+      qSize *= 0.95;
     }
     const y0 = (H - total) / 2;
 
-    c.save();
-    c.globalAlpha = 0.6; c.fillStyle = `rgb(${GOLD})`;
-    c.font = `${15 * U}px "Aref Ruqaa", serif`;
-    c.textBaseline = 'alphabetic';
-    c.fillText('”', W / 2, y0 + 10 * U);
-    c.restore();
+    if (opt.icon) {
+      drawIcon(c, opt.icon, W / 2, y0 + BADGE / 2, BADGE);
+    } else {
+      c.save();
+      c.globalAlpha = 0.6; c.fillStyle = `rgb(${GOLD})`;
+      c.font = `${15 * U}px "Aref Ruqaa", serif`;
+      c.textBaseline = 'alphabetic';
+      c.fillText('”', W / 2, y0 + 10 * U);
+      c.restore();
+    }
 
     c.save();
     c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
     c.fillStyle = INK;
-    lines.forEach((ln, i) => c.fillText(ln, W / 2, y0 + markH + lh * (i + .5)));
+    let yy = y0 + markH;
+    lines.forEach(l => {
+      if (l.blank) { yy += lh * 0.55; return; }
+      c.fillText(l.t, W / 2, yy + lh / 2);
+      yy += lh;
+    });
     c.restore();
 
     // جداکننده
-    const dy = y0 + markH + lines.length * lh + divGap + divH / 2;
+    const dy = y0 + markH + textH + divGap + divH / 2;
     const half = 0.6 * U, gap = 1.4 * U, ll = 12 * U;
     let lg = c.createLinearGradient(W / 2 - half - gap - ll, 0, W / 2 - half - gap, 0);
     lg.addColorStop(0, `rgba(${GOLD},0)`); lg.addColorStop(1, `rgb(${GOLD})`);
@@ -680,6 +871,7 @@
     c.fillStyle = `rgb(${GOLD})`; c.globalAlpha = .9;
     c.fillRect(-divH / 2, -divH / 2, divH, divH); c.restore();
 
+    if (opt.brand) {
     // امضا
     const hPillH = 7.4 * U, hBottom = H - 8.2 * U, hTop = hBottom - hPillH;
     c.save();
@@ -708,15 +900,9 @@
     c.fillText(id, px + padX + dot + dgap, hTop + hPillH / 2 + 1);
     c.restore();
 
-    return canvasToBlob(cv);
-  }
+    }
 
-  function prepareImage() {
-    const t = currentText, k = currentKw;
-    if (!t) { pngPromise = null; return; }
-    const p = renderPNG(t, k).catch(e => { dlog('prerender failed: ' + (e && e.message)); return null; });
-    p.text = t; p.kw = k;
-    pngPromise = p;
+    return canvasToBlob(cv);
   }
 
   /* ---------- اشتراک‌گذاری ---------- */
@@ -816,7 +1002,7 @@
     dlog('ERROR ' + code + ' - ' + text);
     errTitle.textContent = title;
     errText.textContent = text;
-    errCode.textContent = 'کد خطا: ' + code;
+    errCode.textContent = 'کد پشتیبانی: ' + code;
     errRetry.hidden = !canRetry;
     errBox.hidden = false;
     errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -825,46 +1011,66 @@
 
   function friendly(e, where) {
     const n = nameOf(e);
-    if (n === 'E-TIMEOUT') return ['ساخت عکس بیش از حد طول کشید', 'اینترنت یا گوشی کند است. چند لحظه صبر کنید و «تلاش دوباره» را بزنید.'];
-    if (n === 'E-EMPTY' || n === 'E-CANVAS' || n === 'E-BLOB') return ['ساخت عکس انجام نشد', 'مرورگر نتوانست تصویر را بسازد (احتمالاً حافظه‌ی گوشی پر است). برنامه‌های دیگر را ببندید یا متن را کوتاه‌تر کنید و دوباره امتحان کنید.'];
-    if (n === 'NotAllowedError') return ['اجازه داده نشد', 'مرورگر اجازه‌ی این کار را نداد. دوباره روی دکمه بزنید؛ اگر باز هم نشد، صفحه را در Chrome یا Safari باز کنید.'];
-    if (n === 'QuotaExceededError') return ['حافظه‌ی دستگاه پر است', 'فضای خالی گوشی کم است. چند فایل را پاک کنید و دوباره امتحان کنید.'];
-    if (n === 'SecurityError') return ['محدودیت امنیتی مرورگر', 'این مرورگر ذخیره یا ارسال را مسدود کرد. صفحه را در Chrome یا Safari باز کنید.'];
-    return ['خطای پیش‌بینی‌نشده', 'مشکلی در ' + where + ' پیش آمد. «تلاش دوباره» را بزنید؛ اگر ادامه داشت «کپی گزارش فنی» را بزنید و برای پشتیبانی بفرستید.'];
+    if (n === 'E-TIMEOUT') return ['ساخت عکس طول کشید', 'گوشی یا اینترنت کند است. چند لحظه صبر کنید و دکمه‌ی «تلاش دوباره» را بزنید.'];
+    if (n === 'E-EMPTY' || n === 'E-CANVAS' || n === 'E-BLOB') return ['عکس ساخته نشد', 'گوشی نتوانست عکس را بسازد. برنامه‌های دیگر را ببندید، متن را کوتاه‌تر کنید و «تلاش دوباره» را بزنید.'];
+    if (n === 'NotAllowedError') return ['اجازه داده نشد', 'مرورگر اجازه نداد. دوباره دکمه را بزنید. اگر باز هم نشد، صفحه را در Chrome یا Safari باز کنید.'];
+    if (n === 'QuotaExceededError') return ['حافظه‌ی گوشی پر است', 'جای خالی گوشی کم است. چند عکس یا فایل را پاک کنید و دوباره امتحان کنید.'];
+    if (n === 'SecurityError') return ['مرورگر اجازه نداد', 'این مرورگر جلوی کار را گرفت. صفحه را در Chrome یا Safari باز کنید.'];
+    return ['مشکلی پیش آمد', 'دکمه‌ی «تلاش دوباره» را بزنید. اگر باز هم نشد، صفحه را در Chrome یا Safari باز کنید.'];
   }
 
   window.addEventListener('error', ev => {
     if (!ev || !ev.message) return;
     dlog('window.error ' + ev.message + ' @' + (ev.lineno || '?'));
-    showError('خطای پیش‌بینی‌نشده', 'مشکلی در برنامه پیش آمد. صفحه را یک بار تازه (Refresh) کنید و دوباره امتحان کنید.', 'E-JS');
+    showError('مشکلی پیش آمد', 'صفحه را یک بار ببندید و دوباره باز کنید. اگر باز هم نشد، آن را در Chrome یا Safari باز کنید.', 'E-JS');
   });
   window.addEventListener('unhandledrejection', ev => {
     const r = ev && ev.reason;
     if (r && r.name === 'AbortError') return;
     dlog('unhandledrejection ' + (r && (r.message || r.name || r)));
-    showError('خطای پیش‌بینی‌نشده', 'مشکلی در برنامه پیش آمد. صفحه را یک بار تازه (Refresh) کنید و دوباره امتحان کنید.', 'E-PROMISE');
+    showError('مشکلی پیش آمد', 'صفحه را یک بار ببندید و دوباره باز کنید. اگر باز هم نشد، آن را در Chrome یا Safari باز کنید.', 'E-PROMISE');
   });
 
   async function copyReport() {
     const text = ['صبارسانه - گزارش فنی', location.href, ...DIAG].join('\n');
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(text); toast('گزارش کپی شد'); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(text); toast('کپی شد'); return; }
     } catch (e) { /* ادامه با روش دوم */ }
     try {
       const ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
       const ok = document.execCommand('copy'); ta.remove();
-      toast(ok ? 'گزارش کپی شد' : 'کپی انجام نشد');
+      toast(ok ? 'کپی شد' : 'کپی انجام نشد');
     } catch (e) { toast('کپی انجام نشد'); }
   }
 
-  // مرورگر داخل برنامه‌ها (تلگرام، اینستاگرام، ...) معمولاً دانلود را قبول نمی‌کند
+  // مرورگر داخل برنامه‌ها (تلگرام، اینستاگرام، ...) محدودیت دارد؛ کاربر را به Chrome هدایت می‌کنیم
   (function detectInApp() {
     const ua = navigator.userAgent || '';
     const inApp = /FBAN|FBAV|Instagram|Telegram|Line\/|MicroMessenger|Twitter|Snapchat|; wv\)|WebView/i.test(ua);
     dlog('inApp=' + inApp);
-    if (inApp) document.getElementById('inapp').hidden = false;
+    if (!inApp) return;
+    document.getElementById('inapp').hidden = false;
+    const link = document.getElementById('openChrome');
+    if (/Android/i.test(ua)) {
+      const u = location.host + location.pathname + location.search;
+      link.href = 'intent://' + u + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
+                  encodeURIComponent(location.href) + ';end';
+      link.hidden = false;
+    }
+    document.getElementById('copyLink').addEventListener('click', async () => {
+      let ok = false;
+      try { await navigator.clipboard.writeText(location.href); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea'); ta.value = location.href; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove();
+        } catch (e) {}
+      }
+      document.getElementById('copyHint').hidden = false;
+      toast(ok ? 'آدرس کپی شد' : 'کپی نشد؛ آدرس را از نوار بالا بردارید');
+    });
   })();
 
   /* ---------- ساخت، ذخیره و اشتراک‌گذاری ---------- */
@@ -877,7 +1083,7 @@
   const resultHint = document.getElementById('resultHint');
   const previewEl = document.getElementById('preview');
   const makeLabel = makeBtn.querySelector('span');
-  const MAKE_TEXT = makeLabel.textContent;
+  let MAKE_TEXT = makeLabel.textContent;
   let lastFile = null;   // { file, text, kw }
 
   const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
@@ -888,19 +1094,20 @@
     suggestedName: name,
     types: [{ description: 'تصویر JPG', accept: { 'image/jpeg': ['.jpg', '.jpeg'] } }]
   });
-  if (IS_MOBILE) saveAgainBtn.textContent = 'ذخیره در گوشی';
+  MAKE_TEXT = IS_MOBILE ? 'ساخت عکس' : 'ساخت و ذخیره عکس';
+  makeLabel.textContent = MAKE_TEXT;
   dlog('IS_MOBILE=' + IS_MOBILE + ' CAN_PICK=' + CAN_PICK);
 
   function setBusy(on) {
     makeBtn.disabled = on || !currentText;
     makeBtn.classList.toggle('busy', on);
-    makeLabel.textContent = on ? 'در حال ساخت عکس…' : MAKE_TEXT;
+    makeLabel.textContent = on ? 'لطفاً کمی صبر کنید…' : MAKE_TEXT;
   }
 
   function hideResult() { resultEl.hidden = true; lastFile = null; previewEl.removeAttribute('src'); }
 
-  function showResult(file, text, kw, info) {
-    lastFile = { file, text, kw };
+  function showResult(file, sig, info) {
+    lastFile = { file, sig };
     const kb = Math.max(1, Math.round(file.size / 1024));
     resultName.textContent = file.name + '  (' + kb.toLocaleString('en') + ' KB)';
     resultMsg.textContent = info.msg;
@@ -947,18 +1154,15 @@
     });
   }
 
-  async function getBlob(text, kw) {
+  async function getBlob(text, kw, opt) {
     clearTimeout(debounce);
-    // ۱) تصویر آماده‌شده‌ی قبلی  ۲) ساخت تازه  ۳) ساخت با اندازه‌ی کوچک‌تر
-    if (pngPromise && pngPromise.text === text && pngPromise.kw === kw) {
-      try { const b = await withTimeout(pngPromise, 25000); if (b) return b; } catch (e) { dlog('cached render failed ' + nameOf(e)); }
-    }
-    for (const scale of [1, 0.75]) {
+    // ساخت عادی؛ اگر نشد با اندازه‌ی کوچک‌تر (برای گوشی‌های ضعیف)
+    for (const scale of [1, 0.75, 0.5]) {
       try {
         dlog('render scale ' + scale);
-        const b = await withTimeout(renderPNG(text, kw, scale), 25000);
+        const b = await withTimeout(renderPNG(text, kw, scale, opt), 25000);
         if (b) return b;
-      } catch (e) { dlog('render failed (scale ' + scale + '): ' + nameOf(e) + ' ' + (e && e.message)); if (scale === 0.75) throw e; }
+      } catch (e) { dlog('render failed (scale ' + scale + '): ' + nameOf(e) + ' ' + (e && e.message)); if (scale === 0.5) throw e; }
     }
     throw codedError('E-EMPTY', 'no blob');
   }
@@ -989,9 +1193,9 @@
 
   async function makeAndSave() {
     clearError();
-    if (!currentText) { toast('ابتدا جمله را وارد کنید'); input.focus(); return; }
+    if (!currentText) { toast('ابتدا متن خود را بنویسید'); input.focus(); return; }
     if (makeBtn.classList.contains('busy')) return;
-    const text = currentText, kw = currentKw;
+    const text = currentText, kw = currentKw, opts = currentOpts(), sig = currentSig();
     let name = makeFileName(text, kw);
     let handle = null;
     setBusy(true);
@@ -1007,12 +1211,12 @@
         } catch (e) {
           dlog('picker: ' + nameOf(e) + ' after ' + (Date.now() - t0) + 'ms');
           // فقط وقتی کاربر خودش پنجره را بسته (بعد از چند لحظه) «لغو» حساب می‌شود
-          if (e && e.name === 'AbortError' && Date.now() - t0 > 400) { toast('ذخیره لغو شد'); return; }
+          if (e && e.name === 'AbortError' && Date.now() - t0 > 400) { toast('ذخیره انجام نشد (لغو شد)'); return; }
           handle = null;   // خطای دیگر: با دانلود معمولی ادامه می‌دهیم
         }
       }
 
-      const blob = await getBlob(text, kw);
+      const blob = await getBlob(text, kw, opts);
       if (blob.type === 'image/png' && !handle) name = name.replace(/\.jpe?g$/i, '.png');
       const file = makeFile(blob, name);
       dlog('blob ok ' + blob.size + 'B ' + blob.type);
@@ -1024,20 +1228,20 @@
         catch (e) { dlog('write failed ' + nameOf(e)); }
       }
       if (saved) {
-        info = { msg: '✓ عکس ساخته و در مسیر انتخابی ذخیره شد' };
+        info = { msg: '✓ عکس ساخته و ذخیره شد' };
       } else if (!IS_MOBILE) {
         // رایانه بدون پنجره‌ی انتخاب محل (مثل Firefox): دانلود خودکار
         triggerDownload(file);
-        info = { msg: '✓ عکس ساخته شد و در پوشه‌ی دانلودها ذخیره شد' };
+        info = { msg: '✓ عکس ساخته و ذخیره شد', hint: 'عکس در پوشه‌ی دانلودهای (Downloads) رایانه‌ی شما ذخیره شد.' };
       } else {
         // گوشی: دانلود فقط با لمس مستقیم کاربر قابل‌اعتماد است، پس دکمه‌ی ذخیره را نشان می‌دهیم
         info = {
-          msg: '✓ عکس ساخته شد',
-          hint: 'برای ذخیره در گوشی دکمه‌ی «ذخیره در گوشی» را بزنید. اگر فایل در دانلودها پیدا نشد، انگشت را روی عکس بالا نگه دارید و «Download image» یا «ذخیره تصویر» را بزنید.'
+          msg: '✓ عکس شما آماده است',
+          hint: 'برای نگه‌داشتن عکس در گوشی، دکمه‌ی «ذخیره عکس» را بزنید. اگر ذخیره نشد، انگشت‌تان را روی عکس بالا نگه دارید و «ذخیره تصویر» را انتخاب کنید.'
         };
       }
-      showResult(file, text, kw, info);
-      toast(saved ? 'فایل ذخیره شد' : (IS_MOBILE ? 'عکس ساخته شد؛ دکمه‌ی ذخیره را بزنید' : 'فایل ذخیره شد'));
+      showResult(file, sig, info);
+      toast(IS_MOBILE ? 'عکس آماده است' : 'عکس ذخیره شد');
     } catch (e) {
       dlog('make failed ' + nameOf(e) + ' ' + (e && e.message));
       const [t, m] = friendly(e, 'ساخت عکس');
@@ -1058,15 +1262,15 @@
         dlog('share done');
       } else if (!IS_MOBILE) {
         triggerDownload(file);
-        toast('این مرورگر اشتراک‌گذاری مستقیم ندارد؛ فایل دوباره ذخیره شد');
+        toast('ارسال مستقیم ممکن نیست؛ عکس ذخیره شد');
       } else {
-        showError('اشتراک‌گذاری در این مرورگر ممکن نیست', 'دکمه‌ی «ذخیره در گوشی» را بزنید و عکس را از گالری یا دانلودها بفرستید. یا انگشت را روی عکس نگه دارید.', 'E-NOSHARE', false);
+        showError('ارسال مستقیم در این مرورگر ممکن نیست', 'ابتدا «ذخیره عکس» را بزنید و بعد عکس را از گالری گوشی برای دوستانتان بفرستید. یا انگشت‌تان را روی عکس نگه دارید.', 'E-NOSHARE', false);
       }
     } catch (e) {
       dlog('share failed ' + nameOf(e) + ' ' + (e && e.message));
       if (e && e.name === 'AbortError') return;   // کاربر پنجره را بست
       const [t, m] = friendly(e, 'اشتراک‌گذاری');
-      showError(t, m + ' (راه دیگر: «ذخیره در گوشی» و ارسال از گالری)', nameOf(e), false);
+      showError(t, m + ' (راه دیگر: «ذخیره عکس» را بزنید و از گالری بفرستید)', nameOf(e), false);
     }
   }
 
@@ -1079,7 +1283,7 @@
       try {
         const h = await window.showSaveFilePicker(PICK_OPTS(file.name));
         await writeToHandle(h, file);
-        toast('فایل ذخیره شد');
+        toast('عکس ذخیره شد');
         return;
       } catch (e) {
         dlog('saveAgain picker: ' + nameOf(e));
@@ -1088,10 +1292,10 @@
     }
     try {
       triggerDownload(file);
-      toast(IS_MOBILE ? 'دانلود شروع شد؛ نوار اعلان یا پوشه‌ی Downloads را ببینید' : 'فایل در پوشه‌ی دانلودها ذخیره شد');
+      toast(IS_MOBILE ? 'ذخیره شروع شد؛ اگر عکس را در گالری ندیدید، انگشت را روی عکس نگه دارید' : 'عکس ذخیره شد');
     } catch (e) {
       const [t, m] = friendly(e, 'ذخیره');
-      showError(t, m + ' (راه دیگر: انگشت را روی عکس نگه دارید و ذخیره کنید)', nameOf(e), false);
+      showError(t, m + ' (راه دیگر: انگشت‌تان را روی عکس نگه دارید و ذخیره کنید)', nameOf(e), false);
     }
   }
 
@@ -1107,9 +1311,16 @@
   helpWrap.addEventListener('click', e => { if (e.target === helpWrap) helpWrap.classList.remove('show'); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') helpWrap.classList.remove('show'); });
 
-  input.addEventListener('input', update);
+  input.addEventListener('input', () => { iconOverride = null; update(); });
   kwInput.addEventListener('input', update);
-  kwOn.addEventListener('change', update);
+  kwOn.addEventListener('change', () => { lsSet('kw', kwOn.checked ? '1' : '0'); update(); });
+  iconOnEl.addEventListener('change', () => { lsSet('icon', iconOnEl.checked ? '1' : '0'); update(); });
+  brandOnEl.addEventListener('change', () => { lsSet('brand', brandOnEl.checked ? '1' : '0'); update(); });
+  iconNextBtn.addEventListener('click', () => {
+    const i = ICON_ORDER.indexOf(iconCur);
+    iconOverride = ICON_ORDER[(i + 1) % ICON_ORDER.length];
+    update();
+  });
   update();
 </script>
 </body>
