@@ -337,6 +337,33 @@
   .inapp p{margin-bottom:10px}
   .inapp .result-btns{margin-top:4px}
   .inapp .small{font-size:15px;font-weight:400;margin:10px 0 0}
+
+  /* پیش‌نمایش چسبان: کاربر همیشه نتیجه را همزمان با تغییر گزینه‌ها می‌بیند */
+  .layout{width:min(96vw,1120px);display:flex;flex-direction:column;align-items:center;gap:14px}
+  .stick{
+    position:sticky;top:0;z-index:15;width:100vw;
+    display:flex;justify-content:center;padding:8px 0;
+    background:rgba(246,238,220,.94);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--gold-faint);
+  }
+  .stick .stage{width:min(92vw,31vh);transition:width .25s ease}
+  .stick.big .stage{width:min(94vw,540px)}
+  .zoombtn{
+    position:absolute;top:12px;left:10px;z-index:2;
+    width:42px;height:42px;border-radius:50%;cursor:pointer;
+    font-size:20px;line-height:1;color:var(--gold);
+    background:#ffffff;border:2px solid var(--gold-soft);
+    box-shadow:0 2px 8px rgba(80,60,20,.2);
+  }
+  .zoombtn[aria-pressed="true"]{color:#ffffff;background:var(--gold)}
+  @media (min-width:900px){
+    .layout{flex-direction:row;align-items:flex-start;justify-content:center;gap:28px}
+    .stick{position:sticky;top:16px;width:auto;flex:none;padding:0;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+    .stick .stage,.stick.big .stage{width:min(44vw,calc((100vh - 32px) * .8),540px)}
+    .zoombtn{display:none}
+    .actions{flex:1;min-width:0}
+  }
 </style>
 </head>
 <body>
@@ -351,6 +378,9 @@
     <p class="small" id="copyHint" hidden>آدرس کپی شد. مرورگر Chrome را باز کنید، روی نوار آدرس بزنید و «چسباندن» (Paste) را انتخاب کنید.</p>
   </div>
 
+<div class="layout">
+<div class="stick" id="stick">
+<button class="zoombtn" id="zoombtn" type="button" aria-pressed="false" aria-label="بزرگ‌نمایی پیش‌نمایش">⤢</button>
 <main class="stage" id="stage">
   <div class="watermark">صبارسانه</div>
   <div class="watermark small s1">صبارسانه</div>
@@ -373,6 +403,7 @@
     <div class="handle">@saba_rasanehh</div>
   </footer>
 </main>
+</div>
 
 <div class="actions">
   <div class="field">
@@ -442,6 +473,7 @@
 
   <button class="helplink" id="helpBtn" type="button">راهنمای استفاده</button>
 </div>
+</div>
 
 <div class="overlay" id="helpWrap" role="dialog" aria-modal="true">
   <div class="sheet">
@@ -465,32 +497,29 @@
      اگر هیچ‌کدام در دسترس نبود، فونت پیش‌فرض گوشی استفاده می‌شود.
      f: نام خانواده، w: وزن متن اصلی، s: ضریب اندازه (برای هم‌اندازه دیده شدن فونت‌ها)
      pkg: نام فایل/بسته، ws: وزن‌هایی که باید بارگذاری شوند */
+  // منبع‌ها به ترتیب: ۱) پوشه‌ی fonts کنار صفحه (اگر فایل‌ها را آنجا گذاشتید)  ۲) مخزن رسمی google/fonts در GitHub
   const FONT_DIR = 'fonts/';
+  const FONT_GH = 'https://raw.githubusercontent.com/google/fonts/main/ofl/';
+  // faces: [وزن یا بازه‌ی وزن، مسیر فایل در مخزن google/fonts]
   const FONTS = {
-    vazir:   { label: 'وزیرمتن',   f: 'Vazirmatn',          w: 800, s: 1,    lh: 1.9, pkg: 'vazirmatn',          ws: [600, 800] },
-    lalezar: { label: 'لالزار',     f: 'Lalezar',            w: 400, s: 1.08, lh: 1.9, pkg: 'lalezar',            ws: [400] },
-    aref:    { label: 'عارف رقعه', f: 'Aref Ruqaa',         w: 700, s: 1.12, lh: 2.0, pkg: 'aref-ruqaa',         ws: [400, 700] },
-    amiri:   { label: 'امیری',      f: 'Amiri',              w: 700, s: 1.08, lh: 2.0, pkg: 'amiri',              ws: [700] },
-    naskh:   { label: 'نسخ',        f: 'Noto Naskh Arabic',  w: 700, s: 1,    lh: 2.0, pkg: 'noto-naskh-arabic',  ws: [700] },
-    cairo:   { label: 'قاهره',      f: 'Cairo',              w: 700, s: 0.95, lh: 1.9, pkg: 'cairo',              ws: [700] },
-    nasta:   { label: 'نستعلیق',    f: 'Noto Nastaliq Urdu', w: 400, s: 0.82, lh: 2.9, pkg: 'noto-nastaliq-urdu', ws: [400] }
+    vazir:   { label: 'وزیرمتن',   f: 'Vazirmatn',          w: 800, s: 1,    lh: 1.9, faces: [['100 900', 'vazirmatn/Vazirmatn[wght].ttf']] },
+    lalezar: { label: 'لالزار',     f: 'Lalezar',            w: 400, s: 1.08, lh: 1.9, faces: [['400', 'lalezar/Lalezar-Regular.ttf']] },
+    aref:    { label: 'عارف رقعه', f: 'Aref Ruqaa',         w: 700, s: 1.12, lh: 2.0, faces: [['400', 'arefruqaa/ArefRuqaa-Regular.ttf'], ['700', 'arefruqaa/ArefRuqaa-Bold.ttf']] },
+    amiri:   { label: 'امیری',      f: 'Amiri',              w: 700, s: 1.08, lh: 2.0, faces: [['700', 'amiri/Amiri-Bold.ttf']] },
+    naskh:   { label: 'نسخ',        f: 'Noto Naskh Arabic',  w: 700, s: 1,    lh: 2.0, faces: [['400 700', 'notonaskharabic/NotoNaskhArabic[wght].ttf']] },
+    nasta:   { label: 'نستعلیق',    f: 'Noto Nastaliq Urdu', w: 400, s: 0.82, lh: 2.9, faces: [['400 700', 'notonastaliqurdu/NotoNastaliqUrdu[wght].ttf']] }
   };
   const FONT_IDS = Object.keys(FONTS);
 
-  // هر فونت چهار منبع دارد؛ مرورگر به ترتیب امتحان می‌کند: پوشه‌ی خودمان ← jsDelivr ← unpkg ← مسیر دوم jsDelivr
   (function injectFontFaces() {
     try {
       let css = '';
       FONT_IDS.forEach(id => {
         const F = FONTS[id];
-        F.ws.forEach(w => {
-          const file = F.pkg + '-arabic-' + w + '-normal.woff2';
-          const srcs = [
-            FONT_DIR + file,
-            'https://cdn.jsdelivr.net/npm/@fontsource/' + F.pkg + '/files/' + file,
-            'https://unpkg.com/@fontsource/' + F.pkg + '/files/' + file,
-            'https://cdn.jsdelivr.net/fontsource/fonts/' + F.pkg + '@latest/arabic-' + w + '-normal.woff2'
-          ].map(u => 'url("' + u + '") format("woff2")').join(',');
+        F.faces.forEach(([w, path]) => {
+          const base = path.split('/').pop();
+          const srcs = [FONT_DIR + base, FONT_GH + path]
+            .map(u => 'url("' + encodeURI(u) + '") format("truetype")').join(',');
           css += '@font-face{font-family:"' + F.f + '";font-style:normal;font-weight:' + w + ';font-display:swap;src:' + srcs + ';}';
         });
       });
@@ -1471,6 +1500,18 @@
       update();
     });
   });
+  // دکمه‌ی بزرگ‌نمایی پیش‌نمایش (موبایل)
+  const stickEl = document.getElementById('stick');
+  const zoomBtn = document.getElementById('zoombtn');
+  zoomBtn.addEventListener('click', () => {
+    const big = stickEl.classList.toggle('big');
+    zoomBtn.setAttribute('aria-pressed', big ? 'true' : 'false');
+  });
+  // با تغییر اندازه‌ی قاب (بزرگ‌نمایی، چرخش گوشی)، اندازه‌ی متن دوباره تنظیم می‌شود
+  if (window.ResizeObserver) {
+    let raf = 0;
+    new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { setCq(); update(); }); }).observe(stageEl);
+  }
   update();
 </script>
 </body>
