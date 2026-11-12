@@ -101,8 +101,9 @@
     position:absolute;top:calc(var(--cq) * 9.5);left:0;right:0;
     text-align:center;
     color:var(--gold);
+    font-family:var(--qf, inherit);
     font-size:calc(var(--cq) * 3.6);
-    font-weight:800;
+    font-weight:var(--qw, 800);
     letter-spacing:calc(var(--cq) * .15);
   }
   .topic span{
@@ -131,9 +132,10 @@
     margin-bottom:calc(var(--cq) * 2);
   }
   .quote{
-    font-weight:800;
+    font-family:var(--qf, inherit);
+    font-weight:var(--qw, 800);
     font-size:calc(var(--cq) * 5.6);
-    line-height:1.9;
+    line-height:var(--ql, 1.9);
     color:var(--ink);
     text-wrap:balance;
     text-shadow:0 calc(var(--cq) * .2) calc(var(--cq) * .8) rgba(255,255,255,.6);
@@ -216,6 +218,26 @@
   .switch{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
   .switch input{accent-color:#8f6618;width:20px;height:20px;cursor:pointer}
   .quote.placeholder{color:rgba(27,40,56,.4);font-weight:600;text-shadow:none}
+
+  /* انتخابگر فونت */
+  .fontbox{display:flex;flex-direction:column;gap:8px}
+  .fontrow{display:flex;flex-wrap:wrap;gap:8px}
+  .fchip{
+    font-size:19px;line-height:1.8;padding:4px 16px;
+    color:var(--ink);background:#ffffff;
+    border:2px solid rgba(143,102,24,.35);border-radius:99px;
+    cursor:pointer;transition:.2s;
+  }
+  .fchip:hover{background:#f6efe0}
+  .fchip:focus-visible{outline:3px solid rgba(143,102,24,.45);outline-offset:2px}
+  .fchip[aria-checked="true"]{color:#ffffff;background:var(--gold);border-color:var(--gold)}
+  .fchip[data-state="bad"]{opacity:.45;border-style:dashed;cursor:not-allowed}
+  .fchip[data-state="loading"]{opacity:.8}
+  .sizerow{display:flex;align-items:center;gap:10px}
+  .sizerow input[type=range]{flex:1;min-width:120px;height:32px;accent-color:#8f6618;cursor:pointer}
+  .sizebtn{font-family:inherit;font-weight:800;line-height:1;width:44px;height:44px;border-radius:50%;border:2px solid rgba(143,102,24,.45);background:#fff;color:var(--ink);cursor:pointer;flex:none}
+  .sizebtn:hover{background:#f6efe0}
+  .sizeval{min-width:52px;text-align:center;direction:ltr;font-size:16px;font-weight:600;color:var(--muted)}
 
   .btn{
     font-family:'Vazirmatn',sans-serif;font-size:17px;font-weight:700;
@@ -359,6 +381,19 @@
   </div>
 
   <div class="opts">
+    <div class="fontbox">
+      <span class="kwlabel" id="fontlabel">فونت متن</span>
+      <div class="fontrow" id="fontrow" role="radiogroup" aria-labelledby="fontlabel"></div>
+    </div>
+    <div class="fontbox">
+      <label class="kwlabel" for="sizerange">اندازه متن</label>
+      <div class="sizerow">
+        <button class="sizebtn" id="sizedown" type="button" aria-label="کوچک‌تر" style="font-size:16px">A</button>
+        <input id="sizerange" type="range" min="60" max="160" step="5" value="100" dir="ltr">
+        <button class="sizebtn" id="sizeup" type="button" aria-label="بزرگ‌تر" style="font-size:25px">A</button>
+        <span class="sizeval" id="sizeval">100%</span>
+      </div>
+    </div>
     <div class="kwrow">
       <label class="kwlabel" for="kwinput">عنوان بالای عکس</label>
       <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار انتخاب می‌شود">
@@ -413,7 +448,7 @@
     <h3>راهنمای استفاده</h3>
     <ol>
       <li>متن خود را بنویسید. هر جا «Enter» بزنید، همان‌جا در عکس هم خط جدید می‌شود.</li>
-      <li>در صورت نیاز عنوان بالای عکس، آیکن و نام «صبارسانه» را تغییر دهید یا خاموش کنید.</li>
+      <li>در صورت نیاز فونت، عنوان بالای عکس، آیکن و نام «صبارسانه» را تغییر دهید یا خاموش کنید.</li>
       <li>دکمه‌ی «ساخت عکس» را بزنید.</li>
       <li>سپس «ذخیره عکس» یا «ارسال عکس» را بزنید و برنامه‌ی دلخواه (تلگرام، واتساپ و…) را انتخاب کنید.</li>
     </ol>
@@ -424,13 +459,45 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // فونت‌ها بعد از بارگذاری صفحه و بدون مسدود کردن آن اضافه می‌شوند؛ اگر اینترنت اجازه ندهد، فونت پیش‌فرض گوشی استفاده می‌شود
-  (function () {
+  /* ---------- فونت‌ها ----------
+     ترتیب بارگذاری هر فونت: ۱) فایل خودمان در پوشه‌ی fonts کنار همین صفحه (مطمئن‌ترین، بدون نیاز به سرویس خارجی)
+                              ۲) در صورت نبودن فایل، jsDelivr
+     اگر هیچ‌کدام در دسترس نبود، فونت پیش‌فرض گوشی استفاده می‌شود.
+     f: نام خانواده، w: وزن متن اصلی، s: ضریب اندازه (برای هم‌اندازه دیده شدن فونت‌ها)
+     pkg: نام فایل/بسته، ws: وزن‌هایی که باید بارگذاری شوند */
+  const FONT_DIR = 'fonts/';
+  const FONTS = {
+    vazir:   { label: 'وزیرمتن',   f: 'Vazirmatn',          w: 800, s: 1,    lh: 1.9, pkg: 'vazirmatn',          ws: [600, 800] },
+    lalezar: { label: 'لالزار',     f: 'Lalezar',            w: 400, s: 1.08, lh: 1.9, pkg: 'lalezar',            ws: [400] },
+    aref:    { label: 'عارف رقعه', f: 'Aref Ruqaa',         w: 700, s: 1.12, lh: 2.0, pkg: 'aref-ruqaa',         ws: [400, 700] },
+    amiri:   { label: 'امیری',      f: 'Amiri',              w: 700, s: 1.08, lh: 2.0, pkg: 'amiri',              ws: [700] },
+    naskh:   { label: 'نسخ',        f: 'Noto Naskh Arabic',  w: 700, s: 1,    lh: 2.0, pkg: 'noto-naskh-arabic',  ws: [700] },
+    cairo:   { label: 'قاهره',      f: 'Cairo',              w: 700, s: 0.95, lh: 1.9, pkg: 'cairo',              ws: [700] },
+    nasta:   { label: 'نستعلیق',    f: 'Noto Nastaliq Urdu', w: 400, s: 0.82, lh: 2.9, pkg: 'noto-nastaliq-urdu', ws: [400] }
+  };
+  const FONT_IDS = Object.keys(FONTS);
+
+  // هر فونت چهار منبع دارد؛ مرورگر به ترتیب امتحان می‌کند: پوشه‌ی خودمان ← jsDelivr ← unpkg ← مسیر دوم jsDelivr
+  (function injectFontFaces() {
     try {
-      var l = document.createElement('link');
-      l.rel = 'stylesheet';
-      l.href = 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Aref+Ruqaa:wght@400;700&display=swap';
-      document.head.appendChild(l);
+      let css = '';
+      FONT_IDS.forEach(id => {
+        const F = FONTS[id];
+        F.ws.forEach(w => {
+          const file = F.pkg + '-arabic-' + w + '-normal.woff2';
+          const srcs = [
+            FONT_DIR + file,
+            'https://cdn.jsdelivr.net/npm/@fontsource/' + F.pkg + '/files/' + file,
+            'https://unpkg.com/@fontsource/' + F.pkg + '/files/' + file,
+            'https://cdn.jsdelivr.net/fontsource/fonts/' + F.pkg + '@latest/arabic-' + w + '-normal.woff2'
+          ].map(u => 'url("' + u + '") format("woff2")').join(',');
+          css += '@font-face{font-family:"' + F.f + '";font-style:normal;font-weight:' + w + ';font-display:swap;src:' + srcs + ';}';
+        });
+      });
+      const st = document.createElement('style');
+      st.id = 'fontfaces';
+      st.textContent = css;
+      document.head.appendChild(st);
     } catch (e) {}
   })();
 
@@ -449,6 +516,9 @@
   const brandOnEl = document.getElementById('brandon');
   const stageEl = document.getElementById('stage');
   const markEl = document.getElementById('mark');
+  const fontRowEl = document.getElementById('fontrow');
+  const sizeRange = document.getElementById('sizerange');
+  const sizeVal = document.getElementById('sizeval');
 
   // اندازه‌ی واحد (۱٪ عرض کارت) بدون وابستگی به cqw تا در مرورگرهای قدیمی (مثل مرورگر داخل تلگرام) هم درست باشد
   function setCq() {
@@ -639,9 +709,57 @@
   let iconOverride = null;
   let iconCur = 'star';
 
-  function currentOpts() { return { brand: brandOnEl.checked, icon: iconOnEl.checked ? iconCur : null }; }
-  function optKey(o) { return (o.brand ? 'B' : 'b') + (o.icon || '-'); }
+  // فونت انتخاب‌شده (اگر مقدار ذخیره‌شده نامعتبر بود، وزیرمتن)
+  let fontId = lsGet('font', 'vazir');
+  if (!FONTS[fontId]) fontId = 'vazir';
+  const fontStack = F => '"' + F.f + '", Tahoma, sans-serif';
+  let zoom = Math.min(1.6, Math.max(0.6, (parseInt(lsGet('zoom', '100'), 10) || 100) / 100));
+  const fontState = {};   // وضعیت هر فونت: ok / bad
 
+  // ساخت دکمه‌های انتخاب فونت؛ هر نام با خود همان فونت نوشته می‌شود
+  const fontChips = FONT_IDS.map(id => {
+    const F = FONTS[id];
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'fchip';
+    b.dataset.state = 'loading';
+    b.setAttribute('role', 'radio');
+    b.textContent = F.label;
+    b.style.fontFamily = fontStack(F);
+    b.style.fontWeight = F.w;
+    b.addEventListener('click', () => {
+      if (fontState[id] === 'bad') { toast('این فونت روی دستگاه شما بارگذاری نشد'); return; }
+      fontId = id; lsSet('font', id); update();
+    });
+    fontRowEl.appendChild(b);
+    return b;
+  });
+
+  // بررسی می‌کند فونت واقعاً بارگذاری شده است (true / false)؛ اگر خیلی کند بود null
+  function probeFont(id) {
+    const F = FONTS[id];
+    if (!document.fonts || !document.fonts.load) return Promise.resolve(true);
+    const load = document.fonts.load(F.w + ' 24px "' + F.f + '"', 'صبارسانه')
+      .then(list => list.some(ff => ff.status === 'loaded'))
+      .catch(() => false);
+    return Promise.race([load, new Promise(res => setTimeout(() => res(null), 12000))]);
+  }
+
+  function currentOpts() { return { brand: brandOnEl.checked, icon: iconOnEl.checked ? iconCur : null, font: fontId, zoom }; }
+  function optKey(o) { return (o.brand ? 'B' : 'b') + (o.icon || '-') + '|' + o.font + '|' + o.zoom; }
+
+
+  // پیش‌نمایش مثل ساخت عکس: اگر متن از محدوده‌ی امن بیرون بزند (ارتفاع یا عرض)، کم‌کم کوچک می‌شود تا از هر طرف جا شود
+  function fitPreview(units) {
+    const cq = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cq')) || 5.4;
+    const room = (80 - (iconOnEl.checked ? 15.1 : 8) - 4.2 - 1.2) * cq;
+    let u = units;
+    for (let k = 0; k < 40; k++) {
+      el.style.fontSize = (u * cq) + 'px';
+      if ((el.offsetHeight <= room && el.scrollWidth <= el.clientWidth + 1) || u <= 3) break;
+      u *= 0.95;
+    }
+  }
 
   function update() {
     const text = normalize(input.value);
@@ -665,10 +783,19 @@
       : '<div class="qm">”</div>';
     stageEl.classList.toggle('nobrand', !brandOnEl.checked);
 
+    // فونت انتخاب‌شده روی پیش‌نمایش و دکمه‌ها
+    const F = FONTS[fontId];
+    stageEl.style.setProperty('--qf', fontStack(F));
+    stageEl.style.setProperty('--qw', F.w);
+    fontChips.forEach((b, i) => b.setAttribute('aria-checked', FONT_IDS[i] === fontId ? 'true' : 'false'));
+
+    stageEl.style.setProperty('--ql', F.lh || 1.9);
+    sizeRange.value = Math.round(zoom * 100);
+    sizeVal.textContent = Math.round(zoom * 100) + '%';
     if (text) {
       el.textContent = text;
-      el.style.fontSize = 'calc(var(--cq) * ' + sizeFor(effLen(text)) + ')';
       el.classList.remove('placeholder');
+      fitPreview(sizeFor(effLen(text)) * F.s * zoom);
     } else {
       el.textContent = 'متن شما در همین‌جا نشان داده می‌شود…';
       el.style.fontSize = 'calc(var(--cq) * 5)';
@@ -685,19 +812,20 @@
   const INK = '#1b2838';
   const JPG_QUALITY = 0.93;   // تقریباً بدون افت دیدنی، با حجم بسیار کمتر از PNG
 
-  let fontsReady = false;
-  async function loadFonts() {
-    if (fontsReady) return;
+  // فونت متن اصلی روی بوم
+  function qFont(F, size) { return F.w + ' ' + size + 'px ' + fontStack(F); }
+
+  // فونت‌های لازم (ثابت‌ها + فونت انتخابی) قبل از ساخت عکس بارگذاری می‌شوند
+  const loadedFonts = new Set();
+  async function loadFonts(id) {
+    const F = FONTS[id] || FONTS.vazir;
+    const specs = [[800, 'Vazirmatn'], [600, 'Vazirmatn'], [400, 'Lalezar'], [700, 'Aref Ruqaa'], [F.w, F.f]];
+    const need = specs.filter(([w, f]) => !loadedFonts.has(w + f));
+    if (!need.length || !document.fonts || !document.fonts.load) return;
     try {
-      if (!document.fonts || !document.fonts.load) return;
-      const loaded = Promise.all([
-        document.fonts.load('800 40px Vazirmatn', 'صبارسانه'),
-        document.fonts.load('600 40px Vazirmatn', 'صبارسانه'),
-        document.fonts.load('700 40px "Aref Ruqaa"', 'صبارسانه'),
-        document.fonts.load('40px Lalezar', 'صبارسانه')
-      ]).then(() => 'ok');
-      const r = await Promise.race([loaded, new Promise(res => setTimeout(() => res('timeout'), 1500))]);
-      if (r === 'ok') fontsReady = true;   // اگر اینترنت کند بود، دفعه‌ی بعد دوباره تلاش می‌شود
+      const loaded = Promise.all(need.map(([w, f]) => document.fonts.load(w + ' 40px "' + f + '"', 'صبارسانه'))).then(() => 'ok');
+      const r = await Promise.race([loaded, new Promise(res => setTimeout(() => res('timeout'), 3000))]);
+      if (r === 'ok') need.forEach(([w, f]) => loadedFonts.add(w + f));   // اگر کند بود، دفعه‌ی بعد دوباره تلاش می‌شود
     } catch (e) { dlog('fonts: ' + (e && e.message)); }
   }
 
@@ -732,7 +860,8 @@
   }
 
   async function renderPNG(text, kw, scale = 1, opt = currentOpts()) {
-    await loadFonts();
+    await loadFonts(opt.font);
+    const F = FONTS[opt.font] || FONTS.vazir;
     // بعد از این خط تا آخر تابع هیچ await ای نیست، پس تغییر W/H/U امن است
     W = Math.round(1080 * scale); H = Math.round(1350 * scale); U = W / 100;
     const cv = document.createElement('canvas');
@@ -806,7 +935,7 @@
 
     // برچسب بالا
     if (kw) {
-      c.font = `800 ${3.6 * U}px Vazirmatn, Tahoma, sans-serif`;
+      c.font = qFont(F, 3.6 * U);
       const tw = Math.min(c.measureText(kw).width + 7 * U, W - 24 * U), th = 7.4 * U, ty = 9.5 * U;
       rr(c, (W - tw) / 2, ty, tw, th, th / 2);
       c.fillStyle = `rgba(${GOLD},.08)`; c.fill();
@@ -818,18 +947,19 @@
     const BADGE = 11.5 * U;
     const markH = opt.icon ? BADGE + 3.6 * U : 8 * U, divGap = 4.2 * U, divH = 1.2 * U;
     const maxBlock = 80 * U;
-    let qSize = sizeFor(effLen(text)) * U, lh, lines, textH, total;
+    let qSize = sizeFor(effLen(text)) * F.s * (opt.zoom || 1) * U, lh, lines, textH, total, widest;
     for (let k = 0; k < 30; k++) {
-      lh = qSize * 1.9;
-      c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
+      lh = qSize * (F.lh || 1.9);
+      widest = 0;
+      c.font = qFont(F, qSize);
       lines = [];
       text.split('\n').forEach(par => {
         if (!par.trim()) lines.push({ blank: true });
-        else balancedLines(c, par, W - 22 * U).forEach(t => lines.push({ t }));
+        else balancedLines(c, par, W - 22 * U).forEach(t => { lines.push({ t }); widest = Math.max(widest, c.measureText(t).width); });
       });
       textH = lines.reduce((sum, l) => sum + (l.blank ? lh * 0.55 : lh), 0);
       total = markH + textH + divGap + divH;
-      if (total <= maxBlock || qSize <= 3 * U) break;
+      if ((total <= maxBlock && widest <= W - 20 * U) || qSize <= 3 * U) break;
       qSize *= 0.95;
     }
     const y0 = (H - total) / 2;
@@ -846,7 +976,7 @@
     }
 
     c.save();
-    c.font = `800 ${qSize}px Vazirmatn, Tahoma, sans-serif`;
+    c.font = qFont(F, qSize);
     c.fillStyle = INK;
     let yy = y0 + markH;
     lines.forEach(l => {
@@ -1199,7 +1329,7 @@
     let name = makeFileName(text, kw);
     let handle = null;
     setBusy(true);
-    dlog('make start name=' + name + ' len=' + text.length);
+    dlog('make start name=' + name + ' len=' + text.length + ' font=' + opts.font);
 
     try {
       // رایانه: پنجره‌ی انتخاب محل باید بلافاصله بعد از کلیک باز شود
@@ -1320,6 +1450,26 @@
     const i = ICON_ORDER.indexOf(iconCur);
     iconOverride = ICON_ORDER[(i + 1) % ICON_ORDER.length];
     update();
+  });
+  function setZoom(v) {
+    zoom = Math.min(1.6, Math.max(0.6, v));
+    lsSet('zoom', String(Math.round(zoom * 100)));
+    update();
+  }
+  sizeRange.addEventListener('input', () => setZoom(sizeRange.value / 100));
+  document.getElementById('sizedown').addEventListener('click', () => setZoom(zoom - 0.05));
+  document.getElementById('sizeup').addEventListener('click', () => setZoom(zoom + 0.05));
+
+  // بعد از بارگذاری هر فونت، وضعیتش روی دکمه‌ی آن نشان داده می‌شود (فونت ناموفق کم‌رنگ و خط‌چین می‌شود)
+  FONT_IDS.forEach((id, i) => {
+    probeFont(id).then(ok => {
+      if (ok === null) { fontChips[i].dataset.state = ''; return; }
+      fontState[id] = ok ? 'ok' : 'bad';
+      fontChips[i].dataset.state = fontState[id];
+      dlog('font ' + id + ' ' + fontState[id]);
+      if (!ok && fontId === id) { fontId = 'vazir'; lsSet('font', 'vazir'); toast('فونت انتخابی بارگذاری نشد؛ وزیرمتن جایگزین شد'); }
+      update();
+    });
   });
   update();
 </script>
