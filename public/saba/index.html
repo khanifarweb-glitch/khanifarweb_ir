@@ -8,12 +8,13 @@
 <style>
   :root{
     --cq:5.4px;
+    --acc:143,102,24;
     --bg-1:#fffaf0;
     --bg-2:#f6e9cb;
     --bg-3:#f1e4c6;
     --gold:#8f6618;
-    --gold-soft:rgba(143,102,24,.45);
-    --gold-faint:rgba(143,102,24,.22);
+    --gold-soft:rgba(var(--acc),.45);
+    --gold-faint:rgba(var(--acc),.22);
     --ink:#1b2838;
     --muted:#4a5868;
   }
@@ -38,16 +39,16 @@
     border-radius:calc(var(--cq) * 3.2);
     background:
       radial-gradient(120% 80% at 50% 0%, var(--bg-2) 0%, transparent 60%),
-      radial-gradient(100% 70% at 50% 100%, rgba(143,102,24,.14) 0%, transparent 60%),
+      radial-gradient(100% 70% at 50% 100%, rgba(var(--acc),.14) 0%, transparent 60%),
       linear-gradient(160deg, var(--bg-1), var(--bg-3));
-    box-shadow:0 calc(var(--cq) * 2) calc(var(--cq) * 7) rgba(80,60,20,.25), inset 0 0 0 1px rgba(143,102,24,.12);
+    box-shadow:0 calc(var(--cq) * 2) calc(var(--cq) * 7) rgba(80,60,20,.25), inset 0 0 0 1px rgba(var(--acc),.12);
     overflow:hidden;
     isolation:isolate;
   }
 
   .stage::before{
     content:"";position:absolute;inset:0;z-index:-3;
-    background-image:radial-gradient(rgba(143,102,24,.14) 1px, transparent 1.2px);
+    background-image:radial-gradient(rgba(var(--acc),.14) 1px, transparent 1.2px);
     background-size:calc(var(--cq) * 3.4) calc(var(--cq) * 3.4);
     mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
     -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
@@ -112,7 +113,7 @@
     max-width:calc(var(--cq) * 76);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     border:1px solid var(--gold-soft);
     border-radius:99px;
-    background:rgba(143,102,24,.08);
+    background:rgba(var(--acc),.08);
   }
   .topic.hidden{visibility:hidden}
 
@@ -138,7 +139,7 @@
     line-height:var(--ql, 1.9);
     color:var(--ink);
     text-wrap:balance;
-    text-shadow:0 calc(var(--cq) * .2) calc(var(--cq) * .8) rgba(255,255,255,.6);
+    text-shadow:var(--tsh, 0 calc(var(--cq) * .2) calc(var(--cq) * .8) rgba(255,255,255,.6));
     transition:opacity .55s ease, transform .55s ease, filter .55s ease;
   }
   .quote.out{opacity:0;transform:translateY(calc(var(--cq) * 1.6));filter:blur(calc(var(--cq) * .6))}
@@ -173,7 +174,7 @@
     color:var(--ink);
     border:1px solid var(--gold-soft);
     border-radius:99px;
-    background:linear-gradient(135deg, rgba(143,102,24,.16), rgba(143,102,24,.05));
+    background:linear-gradient(135deg, rgba(var(--acc),.16), rgba(var(--acc),.05));
   }
   .handle::before{
     content:"";width:calc(var(--cq) * 1.4);height:calc(var(--cq) * 1.4);border-radius:50%;
@@ -191,13 +192,13 @@
     font-family:'Vazirmatn',sans-serif;font-size:19px;font-weight:600;line-height:1.9;
     color:var(--ink);
     background:#ffffff;
-    border:2px solid rgba(143,102,24,.45);
+    border:2px solid rgba(var(--acc),.45);
     border-radius:16px;
     padding:12px 16px 28px;
     outline:none;transition:.25s;
   }
   .field textarea::placeholder{color:rgba(27,40,56,.5);font-weight:400}
-  .field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(143,102,24,.18)}
+  .field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(var(--acc),.18)}
   .counter{
     position:absolute;left:14px;bottom:7px;direction:ltr;
     font-size:14px;color:var(--muted);pointer-events:none;
@@ -210,14 +211,14 @@
     font-family:'Vazirmatn',sans-serif;font-size:17px;font-weight:600;
     color:var(--gold);
     background:#ffffff;
-    border:2px solid rgba(143,102,24,.4);
+    border:2px solid rgba(var(--acc),.4);
     border-radius:99px;padding:8px 16px;outline:none;transition:.25s;
   }
-  .kwrow input[type=text]::placeholder{color:rgba(143,102,24,.6);font-weight:400}
-  .kwrow input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(143,102,24,.18)}
+  .kwrow input[type=text]::placeholder{color:rgba(var(--acc),.6);font-weight:400}
+  .kwrow input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(var(--acc),.18)}
   .switch{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
   .switch input{accent-color:#8f6618;width:20px;height:20px;cursor:pointer}
-  .quote.placeholder{color:rgba(27,40,56,.4);font-weight:600;text-shadow:none}
+  .quote.placeholder{opacity:.45;font-weight:600;text-shadow:none}
 
   /* انتخابگر فونت */
   .fontbox{display:flex;flex-direction:column;gap:8px}
@@ -225,17 +226,17 @@
   .fchip{
     font-size:19px;line-height:1.8;padding:4px 16px;
     color:var(--ink);background:#ffffff;
-    border:2px solid rgba(143,102,24,.35);border-radius:99px;
+    border:2px solid rgba(var(--acc),.35);border-radius:99px;
     cursor:pointer;transition:.2s;
   }
   .fchip:hover{background:#f6efe0}
-  .fchip:focus-visible{outline:3px solid rgba(143,102,24,.45);outline-offset:2px}
+  .fchip:focus-visible{outline:3px solid rgba(var(--acc),.45);outline-offset:2px}
   .fchip[aria-checked="true"]{color:#ffffff;background:var(--gold);border-color:var(--gold)}
   .fchip[data-state="bad"]{opacity:.45;border-style:dashed;cursor:not-allowed}
   .fchip[data-state="loading"]{opacity:.8}
   .sizerow{display:flex;align-items:center;gap:10px}
   .sizerow input[type=range]{flex:1;min-width:120px;height:32px;accent-color:#8f6618;cursor:pointer}
-  .sizebtn{font-family:inherit;font-weight:800;line-height:1;width:44px;height:44px;border-radius:50%;border:2px solid rgba(143,102,24,.45);background:#fff;color:var(--ink);cursor:pointer;flex:none}
+  .sizebtn{font-family:inherit;font-weight:800;line-height:1;width:44px;height:44px;border-radius:50%;border:2px solid rgba(var(--acc),.45);background:#fff;color:var(--ink);cursor:pointer;flex:none}
   .sizebtn:hover{background:#f6efe0}
   .sizeval{min-width:52px;text-align:center;direction:ltr;font-size:16px;font-weight:600;color:var(--muted)}
 
@@ -255,16 +256,16 @@
     color:#ffffff;
     background:linear-gradient(135deg,#b5842c,#8f6618 55%,#76530f);
     border:1px solid rgba(0,0,0,.1);
-    box-shadow:0 6px 20px rgba(143,102,24,.35);
+    box-shadow:0 6px 20px rgba(var(--acc),.35);
   }
-  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(143,102,24,.45)}
+  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(var(--acc),.45)}
   .btn:disabled{opacity:.55;cursor:not-allowed}
   .btn svg{width:22px;height:22px;flex:none}
 
   .result{
     display:flex;flex-direction:column;gap:12px;
     padding:14px 16px;border-radius:16px;
-    background:#ffffff;border:2px solid rgba(143,102,24,.4);
+    background:#ffffff;border:2px solid rgba(var(--acc),.4);
     box-shadow:0 4px 16px rgba(80,60,20,.12);
   }
   .result[hidden]{display:none}
@@ -275,7 +276,7 @@
   .result-btns .btn.primary{flex:1;min-width:170px;justify-content:center}
   .result-btns .btn.ghost{flex:1;min-width:150px;justify-content:center}
 
-  .preview{display:block;width:100%;max-width:240px;margin:0 auto;border-radius:12px;border:1px solid rgba(143,102,24,.35);box-shadow:0 6px 20px rgba(80,60,20,.2);-webkit-touch-callout:default;user-select:auto}
+  .preview{display:block;width:100%;max-width:240px;margin:0 auto;border-radius:12px;border:1px solid rgba(var(--acc),.35);box-shadow:0 6px 20px rgba(80,60,20,.2);-webkit-touch-callout:default;user-select:auto}
   .result-hint{font-size:15.5px;line-height:1.95;color:var(--muted);text-align:center}
   .errbox{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:16px;background:#fff4f2;border:2px solid #d9695c;color:#5a1d16}
   .errbox[hidden]{display:none}
@@ -324,10 +325,10 @@
   .quote{white-space:pre-line}
   .mark{display:flex;justify-content:center;margin-bottom:calc(var(--cq) * 3)}
   .mark .qm{font-family:'Aref Ruqaa',serif;font-size:calc(var(--cq) * 15);line-height:.6;height:calc(var(--cq) * 6);color:var(--gold);opacity:.6}
-  .badge{width:calc(var(--cq) * 11.5);height:calc(var(--cq) * 11.5);border-radius:50%;border:1.5px solid var(--gold-soft);background:rgba(143,102,24,.08);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+  .badge{width:calc(var(--cq) * 11.5);height:calc(var(--cq) * 11.5);border-radius:50%;border:1.5px solid var(--gold-soft);background:rgba(var(--acc),.08);display:flex;align-items:center;justify-content:center;color:var(--gold)}
   .badge svg{width:calc(var(--cq) * 6.4);height:calc(var(--cq) * 6.4)}
   .nobrand .footer,.nobrand .watermark{display:none}
-  .opts{display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid rgba(143,102,24,.25)}
+  .opts{display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.7);border:1px solid rgba(var(--acc),.25)}
   .optrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
   .opts .switch{white-space:normal;font-size:17px;line-height:1.7}
   .opts .switch input{width:24px;height:24px;flex:none}
@@ -347,7 +348,7 @@
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
     border-bottom:1px solid var(--gold-faint);
   }
-  .stick .stage{width:min(92vw,31vh);transition:width .25s ease}
+  .stick .stage{width:min(92vw,34vh);width:min(92vw,34dvh);transition:width .25s ease}
   .stick.big .stage{width:min(94vw,540px)}
   .zoombtn{
     position:absolute;top:12px;left:10px;z-index:2;
@@ -357,12 +358,83 @@
     box-shadow:0 2px 8px rgba(80,60,20,.2);
   }
   .zoombtn[aria-pressed="true"]{color:#ffffff;background:var(--gold)}
-  @media (min-width:900px){
+
+  /* رنگ‌های تم روی خود قاب تنظیم می‌شود (از جاوااسکریپت) */
+  .stage{--gold-soft:rgba(var(--acc),.45);--gold-faint:rgba(var(--acc),.22)}
+
+  /* سربرگ (فقط صفحه‌ی عریض) */
+  .top{display:none;text-align:center;padding:6px 0 0}
+  .top h1{font-family:'Aref Ruqaa','Vazirmatn',serif;font-weight:700;font-size:32px;color:var(--gold);line-height:1.4}
+  .top h1::before,.top h1::after{content:"✦";font-size:16px;margin:0 12px;opacity:.6;vertical-align:middle}
+
+  /* پنل تنظیمات با تب */
+  .panel{
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(var(--acc),.28);border-radius:22px;
+    box-shadow:0 8px 28px rgba(80,60,20,.12);overflow:hidden;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
+  .tabs{display:flex;gap:6px;padding:8px;background:rgba(var(--acc),.08);border-bottom:1px solid rgba(var(--acc),.2)}
+  .tab{
+    flex:1;font-family:inherit;font-size:16px;font-weight:700;
+    padding:10px 6px;border-radius:14px;border:0;cursor:pointer;
+    background:transparent;color:var(--muted);transition:.2s;
+  }
+  .tab:hover{background:rgba(255,255,255,.6)}
+  .tab:focus-visible{outline:3px solid rgba(var(--acc),.45);outline-offset:1px}
+  .tab[aria-selected="true"]{background:#ffffff;color:var(--gold);box-shadow:0 2px 8px rgba(80,60,20,.15)}
+  .pane{padding:14px;display:flex;flex-direction:column;gap:14px}
+  .pane[hidden]{display:none}
+  .pane .optrow{padding:2px 0}
+
+  /* انتخاب رنگ‌بندی */
+  .themerow{display:flex;flex-wrap:wrap;gap:14px}
+  .swatch{
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    background:none;border:0;cursor:pointer;
+    font-family:inherit;font-size:14px;font-weight:600;color:var(--muted);
+  }
+  .swatch i{
+    display:block;width:46px;height:46px;border-radius:50%;
+    border:3px solid #ffffff;
+    box-shadow:0 0 0 2px rgba(var(--acc),.3),0 3px 8px rgba(0,0,0,.18);
+    transition:.2s;
+  }
+  .swatch:hover i{transform:scale(1.06)}
+  .swatch:focus-visible i{outline:3px solid rgba(var(--acc),.5);outline-offset:3px}
+  .swatch[aria-checked="true"] i{box-shadow:0 0 0 3px var(--gold),0 3px 10px rgba(0,0,0,.25)}
+  .swatch[aria-checked="true"] span{color:var(--ink);font-weight:800}
+
+  /* نوار دکمه‌ی ساخت: در موبایل پایین صفحه ثابت می‌ماند */
+  .makebar{
+    position:sticky;bottom:0;z-index:12;
+    padding:10px 0 calc(10px + env(safe-area-inset-bottom));
+    background:linear-gradient(to top,rgba(240,230,208,.98) 65%,rgba(240,230,208,0));
+  }
+  .makebar .btn{width:100%}
+  .result,.errbox{scroll-margin-top:46vh;scroll-margin-bottom:90px}
+
+  /* موبایل (عمودی): پیش‌نمایش بالا، تنظیمات فشرده‌ی تب‌دار در پایین */
+  @media (max-width:699px) and (orientation:portrait){
+    body{padding-top:0;gap:10px}
+    .fchip{font-size:17px;padding:2px 13px}
+    .field textarea{font-size:18px}
+  }
+
+  /* صفحه‌ی عریض یا گوشی افقی: پیش‌نمایش و گزینه‌ها کنار هم */
+  @media (min-width:700px),(orientation:landscape) and (min-width:520px){
+    .top{display:block}
     .layout{flex-direction:row;align-items:flex-start;justify-content:center;gap:28px}
     .stick{position:sticky;top:16px;width:auto;flex:none;padding:0;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none}
     .stick .stage,.stick.big .stage{width:min(44vw,calc((100vh - 32px) * .8),540px)}
     .zoombtn{display:none}
-    .actions{flex:1;min-width:0}
+    .actions{flex:1;min-width:0;width:auto;max-width:560px}
+    .makebar{position:static;padding:0;background:none}
+  }
+  @media (orientation:landscape) and (max-height:520px){
+    .top{display:none}
+    .stick{top:8px}
+    .stick .stage,.stick.big .stage{width:min(40vw,calc((100vh - 16px) * .8))}
   }
 </style>
 </head>
@@ -378,6 +450,7 @@
     <p class="small" id="copyHint" hidden>آدرس کپی شد. مرورگر Chrome را باز کنید، روی نوار آدرس بزنید و «چسباندن» (Paste) را انتخاب کنید.</p>
   </div>
 
+<header class="top"><h1>عکس‌نوشته‌ساز صبارسانه</h1></header>
 <div class="layout">
 <div class="stick" id="stick">
 <button class="zoombtn" id="zoombtn" type="button" aria-pressed="false" aria-label="بزرگ‌نمایی پیش‌نمایش">⤢</button>
@@ -406,43 +479,62 @@
 </div>
 
 <div class="actions">
-  <div class="field">
-    <textarea id="input" rows="4" maxlength="500" dir="rtl" placeholder="متن خود را اینجا بنویسید…" aria-label="متن شما"></textarea>
-    <span class="counter" id="counter">0 / 500</span>
-  </div>
-
-  <div class="opts">
-    <div class="fontbox">
-      <span class="kwlabel" id="fontlabel">فونت متن</span>
-      <div class="fontrow" id="fontrow" role="radiogroup" aria-labelledby="fontlabel"></div>
+  <div class="panel">
+    <div class="tabs" role="tablist" aria-label="بخش‌های تنظیمات">
+      <button class="tab" type="button" role="tab" id="tab-text" aria-controls="pane-text" data-pane="text">متن</button>
+      <button class="tab" type="button" role="tab" id="tab-font" aria-controls="pane-font" data-pane="font">فونت و اندازه</button>
+      <button class="tab" type="button" role="tab" id="tab-look" aria-controls="pane-look" data-pane="look">ظاهر</button>
     </div>
-    <div class="fontbox">
-      <label class="kwlabel" for="sizerange">اندازه متن</label>
-      <div class="sizerow">
-        <button class="sizebtn" id="sizedown" type="button" aria-label="کوچک‌تر" style="font-size:16px">A</button>
-        <input id="sizerange" type="range" min="60" max="160" step="5" value="100" dir="ltr">
-        <button class="sizebtn" id="sizeup" type="button" aria-label="بزرگ‌تر" style="font-size:25px">A</button>
-        <span class="sizeval" id="sizeval">100%</span>
+
+    <section class="pane" id="pane-text" role="tabpanel" aria-labelledby="tab-text">
+      <div class="field">
+        <textarea id="input" rows="3" maxlength="500" dir="rtl" placeholder="متن خود را اینجا بنویسید…" aria-label="متن شما"></textarea>
+        <span class="counter" id="counter">0 / 500</span>
       </div>
-    </div>
-    <div class="kwrow">
-      <label class="kwlabel" for="kwinput">عنوان بالای عکس</label>
-      <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار انتخاب می‌شود">
-      <label class="switch"><input type="checkbox" id="kwon" checked><span>نشان بده</span></label>
-    </div>
-    <div class="optrow">
-      <label class="switch"><input type="checkbox" id="iconon" checked><span>آیکن مناسب موضوع: <b id="iconname"></b></span></label>
-      <button class="btn ghost small" id="iconnext" type="button">آیکن دیگر</button>
-    </div>
-    <div class="optrow">
-      <label class="switch"><input type="checkbox" id="brandon" checked><span>نام و آدرس «صبارسانه» پایین عکس</span></label>
-    </div>
+      <div class="kwrow">
+        <label class="kwlabel" for="kwinput">عنوان بالای عکس</label>
+        <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار انتخاب می‌شود">
+        <label class="switch"><input type="checkbox" id="kwon" checked><span>نشان بده</span></label>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-font" role="tabpanel" aria-labelledby="tab-font" hidden>
+      <div class="fontbox">
+        <span class="kwlabel" id="fontlabel">فونت متن</span>
+        <div class="fontrow" id="fontrow" role="radiogroup" aria-labelledby="fontlabel"></div>
+      </div>
+      <div class="fontbox">
+        <label class="kwlabel" for="sizerange">اندازه متن</label>
+        <div class="sizerow">
+          <button class="sizebtn" id="sizedown" type="button" aria-label="کوچک‌تر" style="font-size:16px">A</button>
+          <input id="sizerange" type="range" min="60" max="160" step="5" value="100" dir="ltr">
+          <button class="sizebtn" id="sizeup" type="button" aria-label="بزرگ‌تر" style="font-size:25px">A</button>
+          <span class="sizeval" id="sizeval">100%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-look" role="tabpanel" aria-labelledby="tab-look" hidden>
+      <div class="fontbox">
+        <span class="kwlabel" id="themelabel">رنگ‌بندی</span>
+        <div class="themerow" id="themerow" role="radiogroup" aria-labelledby="themelabel"></div>
+      </div>
+      <div class="optrow">
+        <label class="switch"><input type="checkbox" id="iconon" checked><span>آیکن مناسب موضوع: <b id="iconname"></b></span></label>
+        <button class="btn ghost small" id="iconnext" type="button">آیکن دیگر</button>
+      </div>
+      <div class="optrow">
+        <label class="switch"><input type="checkbox" id="brandon" checked><span>نام و آدرس «صبارسانه» پایین عکس</span></label>
+      </div>
+    </section>
   </div>
 
+  <div class="makebar">
   <button class="btn primary" id="make" type="button" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>
     <span>ساخت عکس</span>
   </button>
+  </div>
 
   <!-- بعد از ساخت عکس نمایش داده می‌شود -->
   <div class="result" id="result" hidden>
@@ -738,6 +830,47 @@
   let iconOverride = null;
   let iconCur = 'star';
 
+  /* ---------- رنگ‌بندی‌ها (تم) ---------- */
+  const THEMES = {
+    gold:    { n: 'طلایی',   b1: '#fffaf0', b2: '#f6e9cb', b3: '#f1e4c6', acc: '143,102,24', ink: '#1b2838', dark: false },
+    night:   { n: 'شب',      b1: '#1a2a4a', b2: '#25396a', b3: '#0d1528', acc: '236,196,112', ink: '#f8f0dc', dark: true },
+    emerald: { n: 'زمرد',    b1: '#f3faf5', b2: '#d8eddf', b3: '#cde5d5', acc: '24,98,68',    ink: '#12301f', dark: false },
+    rose:    { n: 'گل‌سرخ',  b1: '#fff6f6', b2: '#fbdde0', b3: '#f5d0d5', acc: '158,44,68',   ink: '#3a1420', dark: false },
+    ocean:   { n: 'اقیانوس', b1: '#f3f8fd', b2: '#d4e5f6', b3: '#c8dcf0', acc: '28,82,150',   ink: '#12263f', dark: false }
+  };
+  const THEME_IDS = Object.keys(THEMES);
+  let themeId = lsGet('theme', 'gold');
+  if (!THEMES[themeId]) themeId = 'gold';
+  function hexRgb(h) { h = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)).join(','); }
+
+  const themeChips = THEME_IDS.map(id => {
+    const T = THEMES[id];
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'swatch';
+    b.setAttribute('role', 'radio');
+    const dot = document.createElement('i');
+    dot.style.background = 'linear-gradient(135deg,' + T.b1 + ' 0 50%,rgb(' + T.acc + ') 50% 100%)';
+    const lab = document.createElement('span');
+    lab.textContent = T.n;
+    b.appendChild(dot); b.appendChild(lab);
+    b.addEventListener('click', () => { themeId = id; lsSet('theme', id); update(); });
+    document.getElementById('themerow').appendChild(b);
+    return b;
+  });
+
+  /* ---------- تب‌های تنظیمات ---------- */
+  const tabEls = [...document.querySelectorAll('.tab')];
+  const paneEls = [...document.querySelectorAll('.pane')];
+  function showTab(name) {
+    if (!paneEls.some(p => p.id === 'pane-' + name)) name = 'text';
+    tabEls.forEach(t => { const on = t.dataset.pane === name; t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; });
+    paneEls.forEach(p => { p.hidden = p.id !== 'pane-' + name; });
+    lsSet('tab', name);
+  }
+  tabEls.forEach(t => t.addEventListener('click', () => showTab(t.dataset.pane)));
+  showTab(lsGet('tab', 'text'));
+
   // فونت انتخاب‌شده (اگر مقدار ذخیره‌شده نامعتبر بود، وزیرمتن)
   let fontId = lsGet('font', 'vazir');
   if (!FONTS[fontId]) fontId = 'vazir';
@@ -774,8 +907,8 @@
     return Promise.race([load, new Promise(res => setTimeout(() => res(null), 12000))]);
   }
 
-  function currentOpts() { return { brand: brandOnEl.checked, icon: iconOnEl.checked ? iconCur : null, font: fontId, zoom }; }
-  function optKey(o) { return (o.brand ? 'B' : 'b') + (o.icon || '-') + '|' + o.font + '|' + o.zoom; }
+  function currentOpts() { return { brand: brandOnEl.checked, icon: iconOnEl.checked ? iconCur : null, font: fontId, zoom, theme: themeId }; }
+  function optKey(o) { return (o.brand ? 'B' : 'b') + (o.icon || '-') + '|' + o.font + '|' + o.zoom + '|' + o.theme; }
 
 
   // پیش‌نمایش مثل ساخت عکس: اگر متن از محدوده‌ی امن بیرون بزند (ارتفاع یا عرض)، کم‌کم کوچک می‌شود تا از هر طرف جا شود
@@ -816,6 +949,16 @@
     const F = FONTS[fontId];
     stageEl.style.setProperty('--qf', fontStack(F));
     stageEl.style.setProperty('--qw', F.w);
+    // رنگ‌بندی انتخاب‌شده روی قاب
+    const T = THEMES[themeId];
+    stageEl.style.setProperty('--bg-1', T.b1);
+    stageEl.style.setProperty('--bg-2', T.b2);
+    stageEl.style.setProperty('--bg-3', T.b3);
+    stageEl.style.setProperty('--acc', T.acc);
+    stageEl.style.setProperty('--gold', 'rgb(' + T.acc + ')');
+    stageEl.style.setProperty('--ink', T.ink);
+    if (T.dark) stageEl.style.setProperty('--tsh', 'none'); else stageEl.style.removeProperty('--tsh');
+    themeChips.forEach((b, i) => b.setAttribute('aria-checked', THEME_IDS[i] === themeId ? 'true' : 'false'));
     fontChips.forEach((b, i) => b.setAttribute('aria-checked', FONT_IDS[i] === fontId ? 'true' : 'false'));
 
     stageEl.style.setProperty('--ql', F.lh || 1.9);
@@ -837,8 +980,8 @@
 
   /* ---------- ساخت تصویر JPG (۱۰۸۰×۱۳۵۰) ---------- */
   let W = 1080, H = 1350, U = W / 100;   // با scale کوچک‌تر می‌شوند (برای گوشی‌های ضعیف)
-  const GOLD = '143,102,24';
-  const INK = '#1b2838';
+  let GOLD = '143,102,24';
+  let INK = '#1b2838';
   const JPG_QUALITY = 0.93;   // تقریباً بدون افت دیدنی، با حجم بسیار کمتر از PNG
 
   // فونت متن اصلی روی بوم
@@ -891,6 +1034,8 @@
   async function renderPNG(text, kw, scale = 1, opt = currentOpts()) {
     await loadFonts(opt.font);
     const F = FONTS[opt.font] || FONTS.vazir;
+    const T = THEMES[opt.theme] || THEMES.gold;
+    GOLD = T.acc; INK = T.ink;
     // بعد از این خط تا آخر تابع هیچ await ای نیست، پس تغییر W/H/U امن است
     W = Math.round(1080 * scale); H = Math.round(1350 * scale); U = W / 100;
     const cv = document.createElement('canvas');
@@ -903,11 +1048,11 @@
 
     // پس‌زمینه روشن
     let g = c.createLinearGradient(W * 0.2, 0, W * 0.8, H);
-    g.addColorStop(0, '#fffaf0'); g.addColorStop(1, '#f1e4c6');
+    g.addColorStop(0, T.b1); g.addColorStop(1, T.b3);
     c.fillStyle = g; c.fillRect(0, 0, W, H);
 
     g = c.createRadialGradient(W / 2, 0, 0, W / 2, 0, W * 0.95);
-    g.addColorStop(0, 'rgba(246,233,203,1)'); g.addColorStop(1, 'rgba(246,233,203,0)');
+    g.addColorStop(0, 'rgba(' + hexRgb(T.b2) + ',1)'); g.addColorStop(1, 'rgba(' + hexRgb(T.b2) + ',0)');
     c.fillStyle = g; c.fillRect(0, 0, W, H);
 
     g = c.createRadialGradient(W / 2, H, 0, W / 2, H, W * 0.85);
@@ -1496,7 +1641,7 @@
       fontState[id] = ok ? 'ok' : 'bad';
       fontChips[i].dataset.state = fontState[id];
       dlog('font ' + id + ' ' + fontState[id]);
-      if (!ok && fontId === id) { fontId = 'vazir'; lsSet('font', 'vazir'); toast('فونت انتخابی بارگذاری نشد؛ وزیرمتن جایگزین شد'); }
+      if (!ok && fontId === id && id !== 'vazir') { fontId = 'vazir'; lsSet('font', 'vazir'); toast('فونت انتخابی بارگذاری نشد؛ وزیرمتن جایگزین شد'); }
       update();
     });
   });
