@@ -234,7 +234,7 @@
   .fchip[aria-checked="true"]{color:#ffffff;background:var(--gold);border-color:var(--gold)}
   .fchip[data-state="bad"]{opacity:.45;border-style:dashed;cursor:not-allowed}
   .fchip[data-state="loading"]{opacity:.8}
-  .sizerow{display:flex;align-items:center;gap:10px}
+  .sizerow{display:flex;align-items:center;gap:10px;direction:ltr}
   .sizerow input[type=range]{flex:1;min-width:120px;height:32px;accent-color:#8f6618;cursor:pointer}
   .sizebtn{font-family:inherit;font-weight:800;line-height:1;width:44px;height:44px;border-radius:50%;border:2px solid rgba(var(--acc),.45);background:#fff;color:var(--ink);cursor:pointer;flex:none}
   .sizebtn:hover{background:#f6efe0}
@@ -456,6 +456,45 @@
     .top{display:none}
     .stick{top:8px}
     .stick .stage,.stick.big .stage{width:min(40vw,calc((100vh - 16px) * .8))}
+  }
+
+  /* ===== خوانایی بیشتر: متن‌ها بزرگ‌تر، ضخیم‌تر و پررنگ‌تر (به‌ویژه موبایل) ===== */
+  :root{--muted:#2b3949}
+  body{font-weight:600}
+  .tab{font-size:clamp(15.5px,4.5vw,18px);font-weight:800;line-height:1.35;padding:11px 4px;min-height:48px;color:#2b3949}
+  .tab[aria-selected="true"]{color:var(--gold)}
+  .kwlabel{font-size:17.5px;font-weight:800;color:var(--ink)}
+  .field textarea{font-size:20px;font-weight:700}
+  .field textarea::placeholder{font-weight:500;color:rgba(27,40,56,.6)}
+  .counter{font-size:15px;font-weight:700}
+  .kwrow input[type=text]{font-size:18px;font-weight:700;padding:10px 16px}
+  .kwrow input[type=text]::placeholder{font-weight:600;color:rgba(var(--acc),.8)}
+  .switch,.opts .switch{font-size:17.5px;font-weight:700;color:var(--ink);gap:10px}
+  .switch input{width:24px;height:24px}
+  .fchip{font-size:19px;padding:5px 16px;min-height:44px}
+  .sizeval{font-size:17px;font-weight:800;color:var(--ink)}
+  .btn{font-size:18.5px;font-weight:800}
+  .btn.small{font-size:17px;font-weight:800;padding:10px 18px}
+  .swatch{font-size:15.5px;font-weight:800;color:var(--ink)}
+  .swatch i{width:50px;height:50px}
+  .rbtn{font-size:16px;font-weight:800}
+  #rTheme{font-size:14px!important}
+  .result-ok{font-size:18.5px;font-weight:800}
+  .result-name{font-size:15.5px;font-weight:700}
+  .result-hint{font-size:16.5px;font-weight:600;color:var(--ink)}
+  .errbox strong{font-size:18.5px;font-weight:800}
+  .errbox p{font-size:17px;font-weight:600}
+  .errcode{font-size:14px;font-weight:600}
+  .inapp{font-size:17px;font-weight:700}
+  .inapp .small{font-size:15.5px;font-weight:600}
+  .helplink{font-size:17.5px;font-weight:800}
+  .sheet h3{font-size:22px;font-weight:800}
+  .sheet p{font-size:17.5px;font-weight:600;color:var(--ink)}
+  .sheet ol{font-size:18px;font-weight:700}
+  .toast{font-size:17px;font-weight:700}
+  @media (orientation:portrait){
+    .fchip{font-size:19px;padding:5px 16px}
+    .field textarea{font-size:20px}
   }
 </style>
 </head>
