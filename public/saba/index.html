@@ -415,11 +415,32 @@
   .result,.errbox{scroll-margin-top:46vh;scroll-margin-bottom:90px}
 
   /* موبایل (عمودی): پیش‌نمایش بالا، تنظیمات فشرده‌ی تب‌دار در پایین */
-  @media (max-width:699px) and (orientation:portrait){
-    body{padding-top:0;gap:10px}
+  .rail{display:none}
+  /* موبایل و هر صفحه‌ی عمودی: کل صفحه پر می‌شود؛ ستون ابزار دو طرف عکس، پنل گزینه‌ها تا ته صفحه */
+  @media (orientation:portrait){
+    body{padding:0;gap:0;min-height:100vh;min-height:100dvh;justify-content:flex-start}
+    .layout{width:100%;flex:1;gap:0;align-items:stretch}
+    .stick{width:100%;gap:8px;padding:8px}
+    .stick .stage{width:min(calc(100vw - 124px),36vh);width:min(calc(100vw - 124px),36dvh)}
+    .rail{display:flex;flex-direction:column;justify-content:center;gap:12px;width:46px;flex:none}
+    .stick.big .rail{display:none}
+    .stick.big .stage{width:min(94vw,540px)}
+    .zoombtn{display:none}
+    .stick.big .zoombtn{display:block}
+    .actions{width:100%;flex:1;gap:0}
+    .panel{flex:1;border-radius:22px 22px 0 0;border-width:1px 0 0 0}
+    .makebar{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+    .helplink{padding:2px 10px 10px}
     .fchip{font-size:17px;padding:2px 13px}
     .field textarea{font-size:18px}
   }
+  .rbtn{
+    width:46px;height:46px;border-radius:50%;cursor:pointer;flex:none;
+    font-family:'Vazirmatn',sans-serif;font-size:15px;font-weight:800;line-height:1;
+    color:var(--gold);background:#ffffff;border:2px solid var(--gold-soft);
+    box-shadow:0 2px 8px rgba(80,60,20,.18);
+  }
+  .rbtn:active{background:var(--gold);color:#ffffff}
 
   /* صفحه‌ی عریض یا گوشی افقی: پیش‌نمایش و گزینه‌ها کنار هم */
   @media (orientation:landscape) and (min-width:520px){
@@ -454,6 +475,10 @@
 <div class="layout">
 <div class="stick" id="stick">
 <button class="zoombtn" id="zoombtn" type="button" aria-pressed="false" aria-label="بزرگ‌نمایی پیش‌نمایش">⤢</button>
+<div class="rail" aria-label="ابزار سریع">
+  <button class="rbtn" id="rExpand" type="button" aria-label="بزرگ‌نمایی پیش‌نمایش">⤢</button>
+  <button class="rbtn" id="rFont" type="button" aria-label="فونت بعدی">Aa</button>
+</div>
 <main class="stage" id="stage">
   <div class="watermark">صبارسانه</div>
   <div class="watermark small s1">صبارسانه</div>
@@ -476,6 +501,11 @@
     <div class="handle">@saba_rasanehh</div>
   </footer>
 </main>
+<div class="rail" aria-label="ابزار سریع">
+  <button class="rbtn" id="rPlus" type="button" aria-label="بزرگ‌تر کردن متن">A+</button>
+  <button class="rbtn" id="rMinus" type="button" aria-label="کوچک‌تر کردن متن">A−</button>
+  <button class="rbtn" id="rTheme" type="button" aria-label="رنگ‌بندی بعدی" style="font-size:13px">رنگ</button>
+</div>
 </div>
 
 <div class="actions">
@@ -1651,6 +1681,21 @@
   zoomBtn.addEventListener('click', () => {
     const big = stickEl.classList.toggle('big');
     zoomBtn.setAttribute('aria-pressed', big ? 'true' : 'false');
+  });
+  // ابزار سریع کنار عکس (موبایل)
+  const toggleBig = () => zoomBtn.click();
+  document.getElementById('rExpand').addEventListener('click', toggleBig);
+  document.getElementById('rPlus').addEventListener('click', () => setZoom(zoom + 0.1));
+  document.getElementById('rMinus').addEventListener('click', () => setZoom(zoom - 0.1));
+  document.getElementById('rFont').addEventListener('click', () => {
+    for (let k = 1; k <= FONT_IDS.length; k++) {
+      const id = FONT_IDS[(FONT_IDS.indexOf(fontId) + k) % FONT_IDS.length];
+      if (fontState[id] !== 'bad') { fontId = id; lsSet('font', id); update(); toast('فونت: ' + FONTS[id].label); return; }
+    }
+  });
+  document.getElementById('rTheme').addEventListener('click', () => {
+    themeId = THEME_IDS[(THEME_IDS.indexOf(themeId) + 1) % THEME_IDS.length];
+    lsSet('theme', themeId); update(); toast('رنگ‌بندی: ' + THEMES[themeId].n);
   });
   // با تغییر اندازه‌ی قاب (بزرگ‌نمایی، چرخش گوشی)، اندازه‌ی متن دوباره تنظیم می‌شود
   if (window.ResizeObserver) {
