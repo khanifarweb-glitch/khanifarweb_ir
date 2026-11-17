@@ -496,19 +496,92 @@
     .fchip{font-size:19px;padding:5px 16px}
     .field textarea{font-size:20px}
   }
+
+  /* ---- صفحه‌ی راهنما برای مرورگر داخل برنامه‌ها (تلگرام و...) ---- */
+  [hidden]{display:none !important}
+  .gate{width:min(94vw,560px);margin:16px auto;padding:22px 18px;border-radius:20px;background:#fff7dc;border:2px solid #d8b24a;color:#3d2f08;text-align:center;box-shadow:0 10px 30px rgba(80,60,20,.18);font-family:'Vazirmatn',Tahoma,'Segoe UI',sans-serif}
+  .gate h2{font-size:24px;line-height:1.7;margin-bottom:10px;color:#8f6618}
+  .gate p{font-size:18px;line-height:2;margin-bottom:12px}
+  .gate ol{text-align:right;padding-right:30px;font-size:19px;line-height:2.1;margin:4px 0 16px;font-weight:600}
+  .gate .btn{width:100%;justify-content:center;margin-bottom:10px}
+  .gate .tiny{font-size:15px;font-weight:400;color:#5b4410}
+  .gated .top,.gated .layout{display:none !important}
+  .ver{align-self:center;font-size:12.5px;color:rgba(27,40,56,.45);direction:ltr}
 </style>
 </head>
 <body>
 
-  <div class="inapp" id="inapp" hidden>
-    <p>⚠️ این صفحه داخل یک برنامه (مثل تلگرام) باز شده است و ساخت یا ذخیره‌ی عکس در آن ممکن است درست کار نکند.</p>
-    <p><b>بهتر است همین صفحه را در مرورگر Chrome باز کنید.</b></p>
-    <div class="result-btns">
-      <a class="btn primary" id="openChrome" href="#" hidden>باز کردن در Chrome</a>
-      <button class="btn ghost" id="copyLink" type="button">کپی آدرس صفحه</button>
-    </div>
-    <p class="small" id="copyHint" hidden>آدرس کپی شد. مرورگر Chrome را باز کنید، روی نوار آدرس بزنید و «چسباندن» (Paste) را انتخاب کنید.</p>
-  </div>
+<div class="gate" id="gate" hidden>
+  <h2>این صفحه را در مرورگر باز کنید</h2>
+  <p id="gateWhy">شما این صفحه را از داخل یک برنامه (مثل تلگرام) باز کرده‌اید. این برنامه‌ها اجازه‌ی ساخت و ذخیره‌ی عکس را نمی‌دهند.</p>
+  <ol>
+    <li>بالای صفحه روی علامت سه‌نقطه (⋮) بزنید.</li>
+    <li>گزینه‌ی «Open in Chrome» یا «باز کردن در مرورگر» را انتخاب کنید.</li>
+  </ol>
+  <a class="btn primary" id="gateChrome" href="#" hidden>باز کردن در Chrome</a>
+  <button class="btn ghost" id="gateCopy" type="button">کپی آدرس صفحه</button>
+  <p class="tiny" id="gateCopied" hidden>آدرس کپی شد. مرورگر Chrome را باز کنید، روی نوار آدرس بزنید و «چسباندن» (Paste) را انتخاب کنید.</p>
+  <button class="helplink" id="gateContinue" type="button">با همین مرورگر ادامه می‌دهم (ممکن است ذخیره نشود)</button>
+</div>
+
+<!-- این بخش عمداً با جاوااسکریپت ساده و قدیمی (ES5) نوشته شده تا حتی در مرورگرهای قدیمی هم کار کند -->
+<script>
+(function () {
+  var ua = navigator.userAgent || '';
+  var inApp = /FBAN|FBAV|Instagram|Telegram|Line\/|MicroMessenger|Twitter|Snapchat|; wv\)|WebView|Bale|Eitaa|Rubika|iGap|Soroush/i.test(ua) ||
+              !!(window.TelegramWebviewProxy || window.TelegramWebview || window.Telegram);
+  window.__sabaInApp = inApp;
+  window.__sabaVersion = '2026.11.17-5';
+  var gate = document.getElementById('gate');
+  function addGated() { if (document.body.className.indexOf('gated') < 0) document.body.className += ' gated'; }
+  function showGate(why) {
+    if (!gate) return;
+    var w = document.getElementById('gateWhy');
+    if (why && w) w.textContent = why;
+    gate.hidden = false; addGated();
+  }
+  function hideGate() {
+    gate.hidden = true;
+    document.body.className = document.body.className.replace(/\bgated\b/g, '');
+    window.__sabaForce = true;
+  }
+  if (!gate) return;
+
+  var chrome = document.getElementById('gateChrome');
+  if (/Android/i.test(ua) && chrome) {
+    chrome.href = 'intent://' + location.host + location.pathname + location.search +
+      '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(location.href) + ';end';
+    chrome.hidden = false;
+  }
+  document.getElementById('gateContinue').onclick = hideGate;
+  document.getElementById('gateCopy').onclick = function () {
+    var done = function () { document.getElementById('gateCopied').hidden = false; };
+    function fallback() {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = location.href; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      } catch (e) {}
+      done();
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.href).then(done, fallback);
+        return;
+      }
+    } catch (e) {}
+    fallback();
+  };
+
+  if (inApp) showGate();
+  // اگر برنامه‌ی اصلی صفحه (اسکریپت بعدی) به هر دلیل اجرا نشد، راهنمای باز کردن در مرورگر نشان داده می‌شود
+  setTimeout(function () {
+    if (!window.__sabaOk && !window.__sabaForce) {
+      showGate('این مرورگر قدیمی است یا صفحه کامل بارگذاری نشد، برای همین ساخت عکس کار نمی‌کند. بهتر است صفحه را در Chrome یا Safari باز کنید.');
+    }
+  }, 4000);
+})();
+</script>
 
 <header class="top"><h1>عکس‌نوشته‌ساز صبارسانه</h1></header>
 <div class="layout">
@@ -620,6 +693,7 @@
       </button>
       <button class="btn ghost" id="saveAgain" type="button">ذخیره عکس</button>
     </div>
+    <button class="helplink" id="viewBtn" type="button">ذخیره نشد؟ عکس را بزرگ ببینید</button>
   </div>
 
   <div class="errbox" id="errBox" role="alert" hidden>
@@ -633,7 +707,17 @@
   </div>
 
   <button class="helplink" id="helpBtn" type="button">راهنمای استفاده</button>
+  <span class="ver" id="ver"></span>
 </div>
+</div>
+
+<div class="overlay" id="viewWrap" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <h3>عکس شما</h3>
+    <img id="bigImg" alt="عکس ساخته‌شده">
+    <p>اگر ذخیره‌ی خودکار کار نکرد، از صفحه‌ی گوشی «عکس صفحه» (اسکرین‌شات) بگیرید؛ معمولاً با فشردن هم‌زمان دکمه‌ی روشن/خاموش و دکمه‌ی پایین‌بردن صدا.</p>
+    <div class="ovbtns"><button class="btn ghost" id="viewClose" type="button">بستن</button></div>
+  </div>
 </div>
 
 <div class="overlay" id="helpWrap" role="dialog" aria-modal="true">
@@ -1418,33 +1502,9 @@
     } catch (e) { toast('کپی انجام نشد'); }
   }
 
-  // مرورگر داخل برنامه‌ها (تلگرام، اینستاگرام، ...) محدودیت دارد؛ کاربر را به Chrome هدایت می‌کنیم
-  (function detectInApp() {
-    const ua = navigator.userAgent || '';
-    const inApp = /FBAN|FBAV|Instagram|Telegram|Line\/|MicroMessenger|Twitter|Snapchat|; wv\)|WebView/i.test(ua);
-    dlog('inApp=' + inApp);
-    if (!inApp) return;
-    document.getElementById('inapp').hidden = false;
-    const link = document.getElementById('openChrome');
-    if (/Android/i.test(ua)) {
-      const u = location.host + location.pathname + location.search;
-      link.href = 'intent://' + u + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
-                  encodeURIComponent(location.href) + ';end';
-      link.hidden = false;
-    }
-    document.getElementById('copyLink').addEventListener('click', async () => {
-      let ok = false;
-      try { await navigator.clipboard.writeText(location.href); ok = true; } catch (e) {}
-      if (!ok) {
-        try {
-          const ta = document.createElement('textarea'); ta.value = location.href; ta.style.position = 'fixed'; ta.style.opacity = '0';
-          document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove();
-        } catch (e) {}
-      }
-      document.getElementById('copyHint').hidden = false;
-      toast(ok ? 'آدرس کپی شد' : 'کپی نشد؛ آدرس را از نوار بالا بردارید');
-    });
-  })();
+  const VERSION = window.__sabaVersion || 'dev';
+  document.getElementById('ver').textContent = 'v ' + VERSION;
+  dlog('version ' + VERSION + ' inApp=' + !!window.__sabaInApp);
 
   /* ---------- ساخت، ذخیره و اشتراک‌گذاری ---------- */
   const makeBtn = document.getElementById('make');
@@ -1742,6 +1802,17 @@
     new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { setCq(); update(); }); }).observe(stageEl);
   }
   update();
+
+  // نمایش بزرگ عکس (برای اسکرین‌شات وقتی ذخیره‌ی خودکار ممکن نیست)
+  const viewWrap = document.getElementById('viewWrap');
+  document.getElementById('viewBtn').addEventListener('click', () => {
+    document.getElementById('bigImg').src = document.getElementById('preview').src || '';
+    viewWrap.classList.add('show');
+  });
+  document.getElementById('viewClose').addEventListener('click', () => viewWrap.classList.remove('show'));
+  viewWrap.addEventListener('click', e => { if (e.target === viewWrap) viewWrap.classList.remove('show'); });
+
+  window.__sabaOk = true;   // یعنی برنامه‌ی اصلی کامل بالا آمد (در غیر این صورت راهنمای مرورگر نشان داده می‌شود)
 </script>
 </body>
 </html>
