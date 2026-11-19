@@ -552,7 +552,7 @@
 
     .layout{width:100%;flex:1;min-height:0;gap:0;align-items:stretch;justify-content:flex-start}
     .viewer{
-      position:relative;top:auto;width:100%;flex:1;min-height:0;padding:10px 12px;
+      position:relative;top:auto;width:100%;flex:1;min-height:0;padding:8px 6px;
       align-items:center;justify-content:center;overflow:hidden;border:0;
       background:radial-gradient(ellipse at 50% 38%,#f9f4e9 0%,#e7dec9 100%);
       -webkit-backdrop-filter:none;backdrop-filter:none;
@@ -802,7 +802,7 @@
 
     <section class="pane" id="pane-more" role="tabpanel" aria-labelledby="tab-more" hidden>
       <div class="mrow">
-        <label class="switch"><span>عنوان بالای عکس</span><input type="checkbox" id="kwon" checked></label>
+        <label class="switch"><span>عنوان بالای عکس</span><input type="checkbox" id="kwon"></label>
         <input id="kwinput" type="text" maxlength="28" dir="rtl" autocomplete="off" placeholder="خودکار انتخاب می‌شود" aria-label="عنوان بالای عکس" enterkeyhint="done">
         <button class="donebtn" type="button" aria-label="پایان نوشتن">✓ تمام</button>
       </div>
@@ -965,7 +965,18 @@
       const cs = getComputedStyle(viewerEl);
       const aw = r.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       const ah = r.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-      const w = Math.max(96, Math.floor(Math.min(aw, ah * 0.8)));
+      // ارتفاع پنل ابزار طوری تنظیم می‌شود که عکس تمام عرض صفحه را بگیرد (حداقل ۱۷۰ و حداکثر ۳۰۰ پیکسل)
+      const root = document.documentElement;
+      const appH = parseFloat(getComputedStyle(root).getPropertyValue('--app-h')) || window.innerHeight;
+      const paneNow = document.querySelector('.pane:not([hidden])');
+      const paneH = paneNow && !panelEl.classList.contains('collapsed') ? paneNow.getBoundingClientRect().height : 0;
+      const total = r.height + paneH;          // فضای مشترک عکس + پنل
+      const wantW = aw, wantH = aw * 1.25 + (r.height - ah);
+      if (!document.body.classList.contains('typing') && paneH > 0) {
+        const pane = Math.round(Math.max(170, Math.min(360, total - wantH)));
+        if (Math.abs(pane - paneH) > 2) { root.style.setProperty('--paneH', pane + 'px'); }
+      }
+      let w = Math.max(96, Math.floor(Math.min(aw, ah * 0.8)));
       stageEl.style.width = w + 'px';
       stageEl.style.height = Math.round(w * 1.25) + 'px';
     } catch (e) {}
@@ -1160,7 +1171,7 @@
   /* ---------- انتخاب‌های کاربر (ذخیره در مرورگر) ---------- */
   function lsGet(k, d) { try { const v = localStorage.getItem('saba.' + k); return v === null ? d : v; } catch (e) { return d; } }
   function lsSet(k, v) { try { localStorage.setItem('saba.' + k, v); } catch (e) {} }
-  kwOn.checked = lsGet('kw', '1') === '1';
+  kwOn.checked = lsGet('kw2', '0') === '1';
   iconOnEl.checked = lsGet('icon', '1') === '1';
   brandOnEl.checked = lsGet('brand', '1') === '1';
   let iconOverride = null;
@@ -1968,7 +1979,7 @@
 
   input.addEventListener('input', update);
   kwInput.addEventListener('input', update);
-  kwOn.addEventListener('change', () => { lsSet('kw', kwOn.checked ? '1' : '0'); update(); });
+  kwOn.addEventListener('change', () => { lsSet('kw2', kwOn.checked ? '1' : '0'); update(); });
   iconOnEl.addEventListener('change', () => { lsSet('icon', iconOnEl.checked ? '1' : '0'); update(); });
   brandOnEl.addEventListener('change', () => { lsSet('brand', brandOnEl.checked ? '1' : '0'); update(); });
   function setZoom(v) {
